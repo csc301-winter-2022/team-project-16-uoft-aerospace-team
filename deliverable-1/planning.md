@@ -110,6 +110,12 @@ We will prevent unmet deadlines by managing our time effectively and scheduling 
 ----
 ## Highlights
 
+Initially, we were deciding between a custom project proposal and the aerospace team’s proposal. We liked our own proposal because it contained more interesting features and is an educational app that is relatable to us. However, we eventually went with the aerospace team’s proposal as it is a specialized product and we feel like it is a beneficial experience to work with actual clients.
+
+The aerospace team and us decided to go with a desktop application instead of the traditional website or mobile application options. The aerospace team wanted security for their information so we could not use a cloud hosted database, and storing everything locally on a desktop app is a good solution to that. Additionally, the aerospace team asked for the application to be an one instance app for the whole team, so the desktop app on a team laptop is preferable to mobile apps on everyone’s personal phone.
+
+Based on our strengths and the components of the app that we were willing to work on, a key decision we made was that the team will split into two teams: backend and frontend. Each subteam will be dedicated to their component, and at least one member from each subteam needs to be present in the biweekly meetings with the partner. Additionally, members from each team can collaborate as features will need to communicate between the backend and the frontend, to ensure a supportive and collaborative working environment.
+
 Another key decision made by our group was the tech stack (languages / frameworks) to use when building the application. In our first meeting with the client, we were told that using some python libraries might lead to conflicts with their existing software. Due to this our group began leaning towards java, because many of us were already familiar with the language. Then some of our team members brought up the argument that this could be a great opportunity to learn a new language and build out our technical repertoire in a group setting. Most of us have very little knowledge of javascript or react (as shown in the weaknesses), but our group decided to take a leap of faith and learn on the job. And we are very excited to do so!
 
 ## Mockup
