@@ -113,6 +113,11 @@ List/describe the artifacts you will produce in order to organize your team.
    * How do tasks get assigned to team members?
    * How do you determine the status of work from inception to completion?
 
+We keep track of what needs to be done with a to-do list (general, to see what classes are done/missing) and scheduled task boards (so that we see the code timeline). Tasks are prioritized depending on the necessity of the task. For example, we will divide each class in 2 parts: “main functionalities” and “details” and make sure the main functionalities of all classes are implemented (and tested) before moving to the details (optimisation of code, etc.). This is to ensure the validation of the MVP. 
+Tasks are assigned to members depending such that the work is approximately equally spread among the team. We will also take into account workload of team members each week to be most efficient (this is to avoid unnecessary pressure on a team member and also waiting on this same team member to move forward). 
+We use 5 states for ou work: 1. To be done, 2. In progress (API and structure done), 3. Main functionalities complete, 4. Main functionalities complete and tested, 5. Class complete and tested to help us track the status of our work. A class is considered done once state 4 is reached. 
+
+
 #### Q9: What are the rules regarding how your team works?
 
 Describe your team's working culture.
