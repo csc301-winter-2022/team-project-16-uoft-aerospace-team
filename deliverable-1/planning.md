@@ -52,6 +52,9 @@ Today, our users plan drone flights manually. Flight surveys are written with a 
  * User stories must contain acceptance criteria. Examples of user stories with different formats can be found here: https://www.justinmind.com/blog/user-story-examples/. **It is important that you provide a link to an artifact containing your user stories**.
  * If you have a partner, these must be reviewed and accepted by them
 
+![This is an image](user_stories_table.png)
+
+
 ----
 ## Intellectual Property Confidentiality Agreement 
 > Note this section is **not marked** but must be completed briefly if you have a partner. If you have any questions, please contact David and Adam.
@@ -78,6 +81,9 @@ Describe the different roles on the team and the responsibilities associated wit
 List each team member and:
  * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
  * 3 technical strengths and weaknesses each (e.g. languages, frameworks, libraries, development methodologies, etc.)
+
+![This is an image](roles_table.png)
+
 
 #### Q7: What operational events will you have as a team?
 
