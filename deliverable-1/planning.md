@@ -9,6 +9,7 @@ We are planning to build a Windows desktop application used by the UofT Aerospac
 
 A site survey looks like that:
 
+![This is an image](Site_Survey_Sample.png)
 
 Features:
     * Drag across a visual map and drop a pin on specific locations to view the site survey information (airspace classes, nearby aerodromes, weather conditions)
