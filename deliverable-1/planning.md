@@ -41,8 +41,13 @@ Today, our users plan drone flights manually. Flight surveys are written with a 
     |               | ICAO API         |                 |
     |               | AVWX API         |                 |
 
-    Google Maps API requires to embed a web browser in the application. ICAO API is used to retrieve airspace class, aerodrome information and weather condition. AVWX API is used for weather conditions only.
+Google Maps API requires to embed a web browser in the application. ICAO API is used to retrieve airspace class, aerodrome information and weather condition. AVWX API is used for weather conditions only.
 
+Deploy: We will package our program using electron-packager and then build a single setup EXE file using InnoSetup, then possibly build a Windows installer for Electron using Squirrel.
+
+Testing strategy: We need to determine features that need to be tested (producing a site survey, storing flight logs, importing / exporting site coordinates, surveys or logs, etc.), and pass or fail criterias (whether or not site survey is accurate, logs are stored indefinitely, etc.). We will document what features we are testing, the testing process (unit test, integration tests), and bugs that we find if any.
+
+Architecture: We will begin with a clean architecture approach and build from there. This will allow us to keep track of dependencies as we lay down the backend of the application. Some of the entities in mind include “user”, “coordinate”, “flight area”, “geofence”, “drone”, “aerodrome”. We will ensure entities are not allowed to directly interact with each other. The use case classes will make use of the entities allowing for various methods that our application will require. Moving outwards, we plan on creating a controller layer that handles all the features of the application by calling appropriate use case methods. Finally we will have a GUI layer that handles all graphical output of the program. The method used to bridge the GUI and the controller layer is still being decided.
 
 
 #### Q5: What are the user stories that make up the MVP?
