@@ -13,10 +13,11 @@ A site survey looks like that:
 
 
 Features:
-    * drag across a visual map and click on specific locations to view the aerospace data
-    * UI to enter the drone information for that specific flight
-    * UI to input the flight log
-    * save drone/flight information in the map on local files
+    * Drag across a visual map and drop a pin on specific locations to view the site survey information (airspace classes, nearby aerodromes, weather conditions)
+    * Draw a boundary around flight area, and a safety margin around the boundary
+    * Sidebar for drone specifications
+    * Prompt to remind team to take pictures for logs and fill logs by hand
+    * Save drone/flight information in the map on local files
 
 
 #### Q2: Who are your target users?
@@ -64,6 +65,8 @@ Today, our users plan drone flights manually. Flight surveys are written with a 
 
 **Briefly describe which option you have agreed to. Your partner cannot ask you to sign any legally binding agreements or documents pertaining to non-disclosure, confidentiality, IP ownership, etc.**
 
+We are free to publish source code, design and software on Github.
+
 ----
 
 ## Process Details
@@ -88,6 +91,16 @@ Describe meetings (and other events) you are planning to have.
    * What were the outcomes of each meeting?
    * You must provide meeting minutes.
    * You must have a regular meeting schedule established by the second meeting.  
+
+We have 2 separate teams: one dedicated to backend and backend testing, the other one to frontend and frontend testing. We will make sure that at least one member of each team will participate to the bi-weekly scheduled meeting with the partner. There is a meeting set up weekly for the whole team during the tutorial (Tuesday, 9pm) so that we can discuss further objectives for both backend and frontend and communicate new APIs if necessary. This meeting will be online for now. Members of the same team will do at least one quick meeting to review/synchronize the parts they are developing concurrently. We plan to fully separate the coding tasks so that we can work independently. If we feel that we lack motivation, we will plan coding sessions. More generally, we use our discord channel to discuss our decisions, if necessary.
+ 
+ 
+1st meeting description: 
+The first meeting consisted of introducing ourselves to the UofT Aerospace Team member in charge of the project, Katrina, and another team member Henry. Katrina briefly explained to us how the Aerospace Team currently works before each drone flight (they have to make a whole site survey and check manually that everything is correct according to the Canadian Aviation Regulations) and presented her expectations for the software. In approximately half an hour, we could get an overview of the main functionalities for the windows desktop application: the user should be able to pin a location on a map and get relevant information about surrounding areas (nearby airports/aerodromes for example), store data about flights and drones. A flight survey should be automatically generated and accurate (this is the key point of the project – users don’t want to do the tedious administrative work). We talked a little bit about tech stack requirements, confidentiality of the data (their drone designs must be kept private for example), and availability for meetings. At the end of the meeting, the goal was for us to process the information we were given in order to produce an overview of what we understand, determine what we might or might not be able to do, and produce a draft of the MVP. 
+
+2nd meeting description:
+The second meeting consisted of our team giving Katrina and Ernest - another member of the Aerospace team - a rundown of the feature list that we came up with. The features matched with the required functionalities that they wanted - including producing a site survey according to a pinned location on a map, drawing flight boundaries around the pin, exporting the collected info in a PDF format, storing drone specifications and drone logs. We clarified about the APIs that we could potentially use and the information they wanted in the site survey. We also set a biweekly meeting time of Wednesday 7pm, and agreed on a confidentiality agreement: we are free to publish our source code, software and design on Github. After that, we went through some Figma planning to decide on the flow of the application, fonts, color scheme and other small details.
+
   
 #### Q8: What artifacts will you use to self-organize?
 
@@ -114,8 +127,17 @@ Describe your team's working culture.
 **Conflict Resolution:**
  * List at least three team scenarios/conflicts you discussed in lecture and how you decided you will resolve them. Indecisions? Non-responsive team members? Any other scenarios you can think of?
 
+The methods of communication within the team are a group voice channel and a group text channel, as well as an announcement channel for important information from the course staff/our partner. So far all the group members have been responsive, communicating on a daily basis.
 
+We will communicate with the partner using email and biweekly in a Zoom meeting where progress and feedback will be discussed. 
 
+The group members are motivated toward upholding integrity with our client, therefore we do not feel it is necessary to have a moderation system in place as of yet. Evidently, if a team member is not acting responsibly or there is a clear difference in effort, that will show in the reflections at the end of the project. Of course, everyone is expected to speak in the group chat and attend meetings regularly.
+
+Indecisions will be resolved by a group discussion and in general a majority decision. We do not believe there will be any strong enough disagreements such that we will not be able to move forward after one meeting.
+ 
+Non-responsive team members will be resolved through communication and if, as a base guideline, this lasts for up to 2 weeks, the rest of the group will contact course staff to help motivate them or reduce their contribution to the project.
+
+We will prevent unmet deadlines by managing our time effectively and scheduling regular meetings to work on the project with a timeline in mind. We will try to progress with the project such that we can meet our deadlines a few days early, so that testing time is available and we are able to present a confident product to our partner.
 
 ----
 ## Highlights
