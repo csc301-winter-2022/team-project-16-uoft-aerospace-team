@@ -52,23 +52,11 @@ Architecture: We will begin with a clean architecture approach and build from th
 
 #### Q5: What are the user stories that make up the MVP?
 
- * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) ```As a <user of the app>, I want to <do something in the app> in order to <accomplish some goal>```
- * User stories must contain acceptance criteria. Examples of user stories with different formats can be found here: https://www.justinmind.com/blog/user-story-examples/. **It is important that you provide a link to an artifact containing your user stories**.
- * If you have a partner, these must be reviewed and accepted by them
-
 ![This is an image](user_stories_table.png)
 
 
 ----
 ## Intellectual Property Confidentiality Agreement 
-> Note this section is **not marked** but must be completed briefly if you have a partner. If you have any questions, please contact David and Adam.
->  
-**By default, you own any work that you do as part of your coursework.** However, some partners may want you to keep the project confidential after the course is complete. As part of your first deliverable, you should discuss and agree upon an option with your partner. Examples include:
-1. You can share the software and the code freely with anyone with or without a license, regardless of domain, for any use.
-2. You can upload the code to GitHub or other similar publicly available domains.
-3. You will only share the code under an open-source license with the partner but agree to not distribute it in any way to any other entity or individual. 
-4. You will share the code under an open-source license and distribute it as you wish but only the partner can access the system deployed during the course.
 
 **Briefly describe which option you have agreed to. Your partner cannot ask you to sign any legally binding agreements or documents pertaining to non-disclosure, confidentiality, IP ownership, etc.**
 
@@ -80,27 +68,10 @@ We are free to publish source code, design and software on Github.
 
 #### Q6: What are the roles & responsibilities on the team?
 
-Describe the different roles on the team and the responsibilities associated with each role. 
- * Roles should reflect the structure of your team and be appropriate for your project. Not necessarily one role to one team member.
-
-List each team member and:
- * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
- * 3 technical strengths and weaknesses each (e.g. languages, frameworks, libraries, development methodologies, etc.)
-
 ![This is an image](roles_table.png)
 
 
 #### Q7: What operational events will you have as a team?
-
-Describe meetings (and other events) you are planning to have. 
- * When and where? Recurring or ad hoc? In-person or online?
- * What's the purpose of each meeting?
- * Other events could be coding sessions, code reviews, quick weekly sync meeting online, etc.
- * You must have at least 2 meetings with your project partner (if you have one) before D1 is due. Describe them here:
-   * What did you discuss during the meetings?
-   * What were the outcomes of each meeting?
-   * You must provide meeting minutes.
-   * You must have a regular meeting schedule established by the second meeting.  
 
 We have 2 separate teams: one dedicated to backend and backend testing, the other one to frontend and frontend testing. We will make sure that at least one member of each team will participate to the bi-weekly scheduled meeting with the partner. There is a meeting set up weekly for the whole team during the tutorial (Tuesday, 9pm) so that we can discuss further objectives for both backend and frontend and communicate new APIs if necessary. This meeting will be online for now. Members of the same team will do at least one quick meeting to review/synchronize the parts they are developing concurrently. We plan to fully separate the coding tasks so that we can work independently. If we feel that we lack motivation, we will plan coding sessions. More generally, we use our discord channel to discuss our decisions, if necessary.
  
@@ -114,15 +85,6 @@ The second meeting consisted of our team giving Katrina and Ernest - another mem
   
 #### Q8: What artifacts will you use to self-organize?
 
-List/describe the artifacts you will produce in order to organize your team.       
-
- * Artifacts can be To-Do lists, Task boards, schedule(s), meeting minutes, etc.
- * We want to understand:
-   * How do you keep track of what needs to get done?
-   * **How do you prioritize tasks?**
-   * How do tasks get assigned to team members?
-   * How do you determine the status of work from inception to completion?
-
 We keep track of what needs to be done with a to-do list (general, to see what classes are done/missing) and scheduled task boards (so that we see the code timeline). Tasks are prioritized depending on the necessity of the task. For example, we will divide each class in 2 parts: “main functionalities” and “details” and make sure the main functionalities of all classes are implemented (and tested) before moving to the details (optimisation of code, etc.). This is to ensure the validation of the MVP. 
 Tasks are assigned to members depending such that the work is approximately equally spread among the team. We will also take into account workload of team members each week to be most efficient (this is to avoid unnecessary pressure on a team member and also waiting on this same team member to move forward). 
 We use 5 states for ou work: 1. To be done, 2. In progress (API and structure done), 3. Main functionalities complete, 4. Main functionalities complete and tested, 5. Class complete and tested to help us track the status of our work. A class is considered done once state 4 is reached. 
@@ -130,24 +92,15 @@ We use 5 states for ou work: 1. To be done, 2. In progress (API and structure do
 
 #### Q9: What are the rules regarding how your team works?
 
-Describe your team's working culture.
-
 **Communications:**
- * What is the expected frequency? What methods/channels are appropriate? 
- * If you have a partner project, what is your process (in detail) for communicating with your partner?
- 
-**Meetings:**
- * How are people held accountable for attending meetings, completing action items? Is there a moderator or process?
- 
-**Conflict Resolution:**
- * List at least three team scenarios/conflicts you discussed in lecture and how you decided you will resolve them. Indecisions? Non-responsive team members? Any other scenarios you can think of?
-
 The methods of communication within the team are a group voice channel and a group text channel, as well as an announcement channel for important information from the course staff/our partner. So far all the group members have been responsive, communicating on a daily basis.
 
 We will communicate with the partner using email and biweekly in a Zoom meeting where progress and feedback will be discussed. 
 
+**Meetings:**
 The group members are motivated toward upholding integrity with our client, therefore we do not feel it is necessary to have a moderation system in place as of yet. Evidently, if a team member is not acting responsibly or there is a clear difference in effort, that will show in the reflections at the end of the project. Of course, everyone is expected to speak in the group chat and attend meetings regularly.
 
+**Conflict Resolution:**
 Indecisions will be resolved by a group discussion and in general a majority decision. We do not believe there will be any strong enough disagreements such that we will not be able to move forward after one meeting.
  
 Non-responsive team members will be resolved through communication and if, as a base guideline, this lasts for up to 2 weeks, the rest of the group will contact course staff to help motivate them or reduce their contribution to the project.
