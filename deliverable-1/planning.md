@@ -110,13 +110,4 @@ We will prevent unmet deadlines by managing our time effectively and scheduling 
 ----
 ## Highlights
 
-Specify 3 - 5 key decisions and/or insights that came up during your meetings
-and/or collaborative process.
-
- * Short (5 min' read max)
- * Decisions can be related to the product and/or the team process.
-    * Mention which alternatives you were considering.
-    * Present the arguments for each alternative.
-    * Explain why the option you decided on makes the most sense for your team/product/users.
- * Essentially, we want to understand how (and why) you ended up with your current product and process plan.
- * This section is useful for important information regarding your decision making process that may not necessarily fit in other sections. 
+Another key decision made by our group was the tech stack (languages / frameworks) to use when building the application. In our first meeting with the client, we were told that using some python libraries might lead to conflicts with their existing software. Due to this our group began leaning towards java, because many of us were already familiar with the language. Then some of our team members brought up the argument that this could be a great opportunity to learn a new language and build out our technical repertoire in a group setting. Most of us have very little knowledge of javascript or react (as shown in the weaknesses), but our group decided to take a leap of faith and learn on the job. And we are very excited to do so!
