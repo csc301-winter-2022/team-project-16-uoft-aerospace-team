@@ -6,44 +6,44 @@
  
 #### Q1: What are you planning to build?
 
- > Short (1 - 2 min' read)
- * Start with a single sentence, high-level description of the product.
- * Be clear - Describe the problem you are solving in simple terms.
- * Be concrete. For example:
-    * What are you planning to build? Is it a website, mobile app,
-   browser extension, command-line app, etc.?      
-    * When describing the problem/need, give concrete examples of common use cases.
-    * Assume your the reader knows nothing about the problem domain and provide the necessary context. 
- * Focus on *what* your product does, and avoid discussing *how* you're going to implement it.      
-   For example: This is not the time or the place to talk about which programming language and/or framework you are planning to use.
- * **Feel free (and very much encouraged) to include useful diagrams, mock-ups and/or links**.
+> In June 2019, Transport Canada introduced new aviation laws around drone flight, treating drones similar to conventional aircrafts and as a result outlines several different forms of documentation required to plan drone flights.
+> We are planning to build a Windows desktop application used by the UofT Aerospace Team to plan/schedule drone flights. The main functionality of the app is to provide the user a way to find sites that, according to the Canadian Aviation Regulations, allow drone flights. The user is provided a map feature that, given a pinned location, gathers information about related or sensitive surrounding areas (such as airports, hospitals), class of airspace, and weather conditions combined with the given drone specifications to check whether or not a drone flight can be operated at this given location. In case of “success”, a site survey can be exported in a PDF format for the drone pilot’s use. The user can store information about its drones and flight logs (pictures taken by the drone). The application only interacts with the drone pilot and not with the drone itself. Attached is an example site survey, with displayed info manually sought out by the Aerospace team. The app will provide a shortcut into gathering these resources and quickly produce an accurate site survey.
+
+> A site survey looks like that:
+
+
+> Features:
+    * drag across a visual map and click on specific locations to view the aerospace data
+    * UI to enter the drone information for that specific flight
+    * UI to input the flight log
+    * save drone/flight information in the map on local files
 
 
 #### Q2: Who are your target users?
 
-  > Short (1 - 2 min' read max)
- * Be specific (e.g. a 'a third-year university student studying Computer Science' and not 'a student')
- * **Feel free to use personas. You can create your personas as part of this Markdown file, or add a link to an external site (for example, [Xtensio](https://xtensio.com/user-persona/)).**
+  > The target users are members of the UofT Aerospace Team (mainly Mechanical Engineering students).
 
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
-> Short (1 - 2 min' read max)
- * We want you to "connect the dots" for us - Why does your product (as described in your answer to Q1) fits the needs of your users (as described in your answer to Q2)?
- * Explain the benefits of your product explicitly & clearly. For example:
-    * Save users time (how much?)
-    * Allow users to discover new information (which information? And, why couldn't they discover it before?)
-    * Provide users with more accurate and/or informative data (what kind of data? Why is it useful to them?)
-    * Does this application exist in another form? If so, how does your differ and provide value to the users?
-    * How does this align with your partner's organization's values/mission/mandate?
+> Today, our users plan drone flights manually. Flight surveys are written with a text editor and the graphical representation of the site area is made with screenshots and image editors. The drone pilot has to scrupulously study the site’s surroundings to get information about nearby airports/aerodromes and then, for each of these, get contact information. This is a tedious (and time-consuming) procedure that pilots have to do before each flight. We aim to automate the process (given coordinates on the map and drone data) so that the user can save (a lot of) time (once the site location is known, the site survey is made instantaneously). Additionally, it avoids missing crucial information (a human eye can easily miss a nearby aerodrome) and ensures accurate data (contact information for a given airport is going to be accurate). This application is unique because it serves the purpose of the Uoft Aerospace Team only. Because of its tailor-made nature, the app will undoubtedly align with the partner’s expectations.
+
 
 #### Q4: How will you build it?
 
-> Short (1-2 min' read max)
- * What is the technology stack? Specify any and all languages, frameworks, libraries, PaaS products or tools. 
- * How will you deploy the application?
- * Describe the architecture - what are the high level components or patterns you will use? Diagrams are useful here. 
- * Will you be using third party applications or APIs? If so, what are they?
- * What is your testing strategy?
+    |               |     Frontend     |     Backend     |
+    |---------------|------------------|-----------------|
+    |   Language    |   JavaScript     |    JavaScript   |   
+    |---------------|------------------|-----------------| 
+    | Libraries,    |     React        |   Node.js (for  |
+    | Frameworks    |                  |     database)   | 
+    |---------------|------------------|-----------------|
+    | External APis | Google Maps API  |                 |
+    |               | ICAO API         |                 |
+    |               | AVWX API         |                 |
+
+    Google Maps API requires to embed a web browser in the application. ICAO API is used to retrieve airspace class, aerodrome information and weather condition. AVWX API is used for weather conditions only.
+
+    
 
 #### Q5: What are the user stories that make up the MVP?
 
