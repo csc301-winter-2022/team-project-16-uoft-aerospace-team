@@ -111,3 +111,7 @@ We will prevent unmet deadlines by managing our time effectively and scheduling 
 ## Highlights
 
 Another key decision made by our group was the tech stack (languages / frameworks) to use when building the application. In our first meeting with the client, we were told that using some python libraries might lead to conflicts with their existing software. Due to this our group began leaning towards java, because many of us were already familiar with the language. Then some of our team members brought up the argument that this could be a great opportunity to learn a new language and build out our technical repertoire in a group setting. Most of us have very little knowledge of javascript or react (as shown in the weaknesses), but our group decided to take a leap of faith and learn on the job. And we are very excited to do so!
+
+## Mockup
+
+Link to figma prototype: https://www.figma.com/file/xJVF6etpbOxCu2rVatLrEh/aeromap?node-id=0%3A1
