@@ -1,4 +1,4 @@
-# b00lean b0ys - Aeromap
+# b00lean b0yz - Aeromap
 
 ## Product Details
  
