@@ -29,7 +29,11 @@ const inactiveNavLinkStyle = {
 
 const activeNavLinkStyle = {
     ...navLinkStyle,
-    color: 'orange',
+    filter: 'brightness(0) saturate(100%) invert(80%) sepia(36%) saturate(6958%) hue-rotate(1deg) brightness(104%) contrast(103%)',
 }
 
 export { navBarStyle ,inactiveNavLinkStyle, activeNavLinkStyle };
+
+export { default as dashboardImg} from './Images/house.png';
+export { default as plannerImg } from './Images/pin.png';
+export { default as flightLogImg } from './Images/file.png';
