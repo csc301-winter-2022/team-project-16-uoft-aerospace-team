@@ -35,5 +35,6 @@ const activeNavLinkStyle = {
 export { navBarStyle ,inactiveNavLinkStyle, activeNavLinkStyle };
 
 export { default as dashboardImg} from './Images/house.png';
-export { default as plannerImg } from './Images/pin.png';
-export { default as flightLogImg } from './Images/file.png';
+export { default as SiteImg } from './Images/pin.png';
+export { default as FlightImg } from './Images/plane.png' 
+export { default as LogImg } from './Images/file.png';

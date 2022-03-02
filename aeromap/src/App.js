@@ -4,6 +4,7 @@ import { Routes, Route,} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import PlannerPage from './components/PlannerPage';
 import FlightLogPage from './components/FlightLogPage';
+import AddFlight from './components/AddFlight';
 
 import appStyle from './styles/appStyle';
 
@@ -14,8 +15,9 @@ const App = () => {
 
         <Routes> 
           <Route path="/" exact element={<Dashboard />}/>
-          <Route path="/PlannerPage" exact element={<PlannerPage />}/>
-          <Route path="/FlightLogPage" exact element={<FlightLogPage />} />
+          <Route path="/add-site" exact element={<PlannerPage />}/>
+          <Route path="/add-flight" exact element={<AddFlight />}/>
+          <Route path="/log" exact element={<FlightLogPage />} />
         </Routes>
       </div>
   );
