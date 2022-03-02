@@ -4,7 +4,18 @@ const AddFlight = () => {
     // Make get request for flight data
 
     return(
-        <div> Add Flight </div>
+        <div> 
+            <h1>Add Flight</h1>
+
+            <label for="flight-time">Choose a time for your appointment:</label> <br/>
+
+            <input type="datetime-local" id="flight-time" name="flight-time"></input>
+
+            <div class="scrollable">
+                
+            </div>
+
+        </div>
     );
 }
 
