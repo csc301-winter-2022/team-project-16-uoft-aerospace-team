@@ -2,7 +2,7 @@ import pageStyle from "../styles/pageStyle";
 import { 
     dashFlightsContainerStyle as containerStyle, 
     dashFlightsHeaderStyle as headerStyle,
-    dashFlightContentStyle as contentStyle } from "../styles/dashFlightsStyle";
+    dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
 
 const Dashboard = () => {
 
