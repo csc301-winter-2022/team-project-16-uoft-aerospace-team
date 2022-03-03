@@ -1,9 +1,10 @@
 // Message to backend team: import backend files necessary for the following function implementations
 
+import Flight from './Flight/flight'
+
 // Login
 
 const User = require("./User/UserUseCase.js");
-
 // let user = null;
 
 function login(username, password) {
@@ -62,9 +63,13 @@ function get_flight_schedule(username) {
 //     return 'cloudy with a chance of balls';
 // }
 
-// function create_flight(date, sitename, pilot) {
-//     // make the flight
-// }
+function create_flight(date, sitename, pilot) {
+    const flight = new Flight(date, sitename, pilot)
+    return JSON.stringify(flight)
+}
+
+// console.log(create_flight(new Date(), sitename, User))
+
 
 // // Logs
 
