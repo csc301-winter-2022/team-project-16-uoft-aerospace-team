@@ -2,31 +2,29 @@
 
 // Login
 
-const UserUseCase = require("./User/UserUseCase.js");
-const userLogin = UserUseCase.login;
-const userSignup = UserUseCase.signup;
+const User = require("./User/UserUseCase.js");
 
 // let user = null;
 
 function login(username, password) {
     // check if username and password are correct
-    return userLogin(username, password);
+    return User.login(username, password);
 }
 
 function signup(username, password) {
     // make a new user and then log in
-    userSignup(username, password);
-    userLogin(username, password);
+    User.signup(username, password);
+    return User.login(username, password);
 }
 
-signup("peter", "dang");
+console.log(signup("peter", "dang"));
 console.log(login("peter", "dang"));
 
 // // Dashboard
 
-// function get_flight_schedule(username) {
-//     return JSON.stringify([]);
-// }
+function get_flight_schedule(username) {
+    return JSON.stringify();
+}
 
 // // Add Site
 

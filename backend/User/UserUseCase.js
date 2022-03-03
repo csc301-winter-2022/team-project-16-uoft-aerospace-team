@@ -3,16 +3,30 @@ const User = require("./UserEntity.js");
 let users = [];
 
 function login(username, password) {
-    // check if username and password are correct
-    let login = false;
-    users.map((user) => { if (username == user.getUsername()) { login = user.authenticate(password) }});
-    return login;
+    const user = findUser(username);
+    if (user) { return user.authenticate(password) };
+    return user;
 }
 
 function signup(username, password) {
-    // make a new user and then
     const new_user = new User(username, password);
     users.push(new_user);
 }
+
+function findUser(username) {
+    let user;
+    users.map((u) => { if (username == u.getUsername()) { user = u }});
+    return user;
+}
+
+// function addFlight(username, flight) {
+//     let user = findUser(username);
+//     if (user) { 
+//         user.addFlight(flight);
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 module.exports = { login, signup };
