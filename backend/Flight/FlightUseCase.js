@@ -1,14 +1,14 @@
-const Flight = require("./FlightEntity.js");
+const Flight = require("./Flight.js");
 
 let flights = []
 
 
-function addFlight(flight) {
-    if (flight) {
-        flights.append(flight)
-        return true;
-    }
-    else {
-        return false;
-    }
+function create_flight(date, sitename, pilot) {
+    const flight = new Flight(date, sitename, pilot)
+    flights.push(flight)
 }
+
+function getFlights() {
+    return flights
+}
+
