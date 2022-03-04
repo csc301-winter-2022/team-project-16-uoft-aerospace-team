@@ -6,7 +6,7 @@ class Log {
     }
 
     addPilot() {
-
+        
     }
 
     removePilot() {
