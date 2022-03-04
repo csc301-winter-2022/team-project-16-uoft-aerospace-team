@@ -27,9 +27,8 @@ function signup(username, password) {
 
 function findUser(username) {
     const users = getUsers();
-    let user;
-    users.map((u) => { if (username == u.getUsername()) { user = u }});
-    return user;
+    const user = users.filter(u => username === u.getUsername());
+    return user[0];
 }
 
 // function addFlight(username, flight) {

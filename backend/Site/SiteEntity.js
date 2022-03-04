@@ -5,8 +5,20 @@ class Site {
         this.margin = margin;
     }
 
+    getName() {
+        return this.name;
+    }
+
+    getPins() {
+        return this.pins;
+    }
+
+    getMargin() {
+        return this.margin;
+    }
+
     setName(newName) {
-        this.name = name;
+        this.name = newName;
     }
 
     setMargin(newMargin) {
@@ -14,7 +26,7 @@ class Site {
     }
 
     setPins(newPins) {
-        this.pins = pins;
+        this.pins = newPins;
     }
 }
 
