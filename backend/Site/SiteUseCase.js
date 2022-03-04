@@ -3,7 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 function getSites() {
-    return ((JSON.parse(fs.readFileSync(path.resolve(__dirname, "./Site.json")))).sites).map((site) => { return new Site(site.name, site.pins, site.margin) });
+    const pathName = path.resolve(__dirname, "./Site.json");
+    if (!fs.existsSync(pathName)) {
+        fs.writeFileSync(pathName, JSON.stringify({ "users": [] }));
+    } 
+    return ((JSON.parse(fs.readFileSync(pathName))).sites).map((site) => { return new Site(site.name, site.pins, site.margin) });
 }
 
 function writeSites(sites) {

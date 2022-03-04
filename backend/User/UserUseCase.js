@@ -3,7 +3,11 @@ const fs = require('fs');
 const path = require('path');
 
 function getUsers() {
-    return ((JSON.parse(fs.readFileSync(path.resolve(__dirname, "./User.json")))).users).map((user) => { return new User(user.username, user.password) });
+    const pathName = path.resolve(__dirname, "./User.json")
+    if (!fs.existsSync(pathName)) {
+        fs.writeFileSync(pathName, JSON.stringify({ "users": [] }));
+    }
+    return ((JSON.parse(fs.readFileSync(pathName))).users).map((user) => { return new User(user.username, user.password) });
 }
 
 function writeUsers(users) {
