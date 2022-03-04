@@ -25,7 +25,7 @@ function createSite(name, pins, margin) {
 
 function findSite(name) {
     const sites = getSites();
-    const site = sites.filter(s => s.name === s.getName());
+    const site = sites.filter(s => name === s.getName());
     return site[0];
 }
 
