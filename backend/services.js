@@ -1,6 +1,6 @@
 // Message to backend team: import backend files necessary for the following function implementations
 
-import Flight from './Flight/flight'
+// import Flight from './Flight/flight'
 
 // Login
 
@@ -18,8 +18,8 @@ function signup(username, password) {
     return User.login(username, password);
 }
 
-console.log(signup("peter", "dang"));
-console.log(login("peter", "dang"));
+// console.log(signup("peter", "dang"));
+// console.log(login("peter", "dang"));
 
 // // Dashboard
 
@@ -29,12 +29,16 @@ function get_flight_schedule(username) {
 
 // // Add Site
 
-// function get_airspace(pins) {
-//     // pins is a list of coordinates
-//     // loop through the pins and choose the most restrictive airspace
+const Airspace = require("./Airspace/AirspaceUseCase.js");
+const Coordinates = require("./Coordinate/CoordinateUseCase.js");
 
-//     return 'G';
-// }
+function get_airspace(pins) {
+    // pins is a list of coordinates
+    // loop through the pins and choose the most restrictive airspace
+    const airspaces = pins.map(pin => Airspace.checkAirspace(pin));
+    console.log(airspaces);
+    return airspaces;
+}
 
 // function get_nearby_aerodromes(pins) {
 //     return JSON.stringify([]);
