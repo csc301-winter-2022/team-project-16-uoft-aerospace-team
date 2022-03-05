@@ -1,3 +1,4 @@
+import * as services from './backend-2/controllers/services'
 import NavBar from './components/NavBar';
 import { Routes, Route,} from 'react-router-dom';
 
@@ -9,6 +10,9 @@ import AddFlight from './components/AddFlight';
 import appStyle from './styles/appStyle';
 
 const App = () => {
+
+  services.login('max', 'sucks');
+
   return(
       <div style={appStyle}>
         <NavBar />
