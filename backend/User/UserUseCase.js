@@ -1,17 +1,14 @@
 const User = require("./UserEntity.js");
-const fs = require('fs');
-const path = require('path');
+const DBHelper = require("../Database/DBHelper.js");
+
 
 function getUsers() {
-    const pathName = path.resolve(__dirname, "./User.json")
-    if (!fs.existsSync(pathName)) {
-        fs.writeFileSync(pathName, JSON.stringify({ "users": [] }));
-    }
-    return ((JSON.parse(fs.readFileSync(pathName))).users).map((user) => { return new User(user.username, user.password) });
+    const usersString = DBHelper.read("User.json");
+    return usersString.map((user) => { return new User(user.username, user.password) });
 }
 
-function writeUsers(users) {
-    fs.writeFileSync(path.resolve(__dirname, "./User.json"), users);
+function saveUsers(users) {
+    DBHelper.write("User.json", users);
 }
 
 function login(username, password) {
@@ -25,7 +22,7 @@ function signup(username, password) {
     if (!findUser(username)) {
         const new_user = new User(username, password);
         users.push(new_user);
-        writeUsers(JSON.stringify({ users }));
+        saveUsers(users);
     }
 }
 
@@ -44,5 +41,6 @@ function findUser(username) {
 //         return false;
 //     }
 // }
+
 
 module.exports = { login, signup };
