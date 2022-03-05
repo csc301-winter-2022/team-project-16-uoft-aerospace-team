@@ -9,6 +9,7 @@ const FlightLogPage = () => {
     // Make get request for past flight data
 
     const logs = JSON.parse(services.get_logs());
+    console.log(logs);
 
     return (
       <div style={pageStyle}>

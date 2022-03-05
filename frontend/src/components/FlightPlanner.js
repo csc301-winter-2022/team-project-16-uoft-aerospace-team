@@ -9,7 +9,7 @@ const FlightPlanner = ({create_flight}) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        create_flight(siteName, pilotName, droneInfo, notes);
+        create_flight(time, siteName, pilotName, droneInfo, notes);
         setTime('');
         setSiteName('');
         setPilotName('');

@@ -73,7 +73,7 @@ function create_flight(date, sitename, pilot, drone, notes) {
 // // Logs
 
 function get_logs() {
-    return flightManager.get_past();
+    return JSON.stringify(flightManager.get_past());
 }
 
 export { 
