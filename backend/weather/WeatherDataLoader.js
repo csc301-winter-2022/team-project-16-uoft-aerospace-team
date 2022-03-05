@@ -8,13 +8,13 @@ const Coordinates = require('../Coordinate/CoordinateEntity');
  * Example of use:
  * 
  * const loader = new WeatherDataLoader(my_api_key, {lat: 34.3, lon: 67.8});
- * loader.getDailyWeather();
+ * loader.getDailyWeather(json => console.log(json));
  * 
  * The function calls return a JSON object whose properties are detailled at
  * https://openweathermap.org/api/one-call-api
  * 
  */
-class WeatherDataLoader {
+ class WeatherDataLoader {
     static API_KEY_DEFAULT = 'd73b10b1b7de8a768d8a1dd9e426e5dd';
     #_url;
     /**
@@ -56,8 +56,10 @@ class WeatherDataLoader {
      * Can eventually add a callback before returning
      * 
      * NB: Use new Date(dt) to get a Date from a Unix timestamp.
+     * 
+     * @param {JSON => *} callback: callback to execute on the JSON fetched
      */
-    #fetchData() {
+    #fetchData(callback) {
         https.get(this.#_url, res => {
             this.#checkCode(res.statusCode);
             res.setEncoding('utf8');
@@ -70,32 +72,41 @@ class WeatherDataLoader {
                 const parsed = JSON.parse(data);
                 //console.log(parsed);
                 // Decomment if you want to display the JSON in console
-                return parsed;
+                callback(parsed);
             });
         });   
     }
 
 
     /**
-     * Get current weather information (see)
+     * Get current weather information 
+     * See fetchData for more information.
+     * 
+     * @param {JSON => *} callback
      */
-    getCurrentWeather() {
+    getCurrentWeather(callback) {
         this.#urlAppend('exclude', 'minutely,hourly,daily,alerts');
-        return this.#fetchData();
+        this.#fetchData(callback);
     }
 
     /**
-     * 
-     * @returns Daily weather data
+     * Get data about daily weather for the next 8 days.
+     * See FetchData for more information
+     * @param {JSON => *} callback 
      */
-    getDailyWeather() {
+    getDailyWeather(callback) {
         this.#urlAppend('exclude', 'current,minutely,hourly,alerts');
-        return this.#fetchData();
+        this.#fetchData(callback);
     }
 
-    getHourlyWeather() {
+    /**
+     * Get data about hourly weather for the next 2 days.
+     * See FetchData for more information
+     * @param {JSON => *} callback 
+     */
+    getHourlyWeather(callback) {
         this.#urlAppend('exclude', 'current,minutely,daily,alerts');
-        return this.#fetchData();
+        this.#fetchData(callback);
     }
 
 }
@@ -104,6 +115,6 @@ class WeatherDataLoader {
     {lat: 43.6532,lon: -79.3832});
 
 
-loader.getCurrentWeather();*/
+loader.getCurrentWeather(x => console.log(x));*/
 
 module.exports = WeatherDataLoader;
