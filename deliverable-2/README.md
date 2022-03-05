@@ -7,7 +7,7 @@
  * What is the problem you're trying to solve?
  * Is there any context required to understand **why** the application solves this problem?
 
-Aeromap is a specialized flight planner that will help the UofT Aerospace Team in testing their custom competition drones. This is achieved through utilizing an interactive map to create flight locations called sites. Aeromap also extracts various relevant details for each site such as class of airspace, nearby Aerodromes, emergency contacts, and weather at a specified time. Scheduled flights are saved locally so that users can access their flight details when traveling to remote locations.
+Aeromap is a specialized flight planner that will help the UofT Aerospace Team in testing their custom competition drones. Currently, the UofT Aerospace team has to do a lot of searching and logging by hand to before flying their drones to ensure that they are following Canadian flight regulations. The goal of Aeromap is to make this process simpler and faster, so that the Aerospace Team can spend less time planning and more time actually flying their drones. Aeromap achieves this by providing an interactive map allowing for users to create flight locations and seemlessly view relevant details for each site such as class of airspace, nearby Aerodromes, emergency contacts, and weather at a specified time. Scheduled flights are saved locally so that users can access their flight plans when traveling to remote locations with no wifi.
 
 ## Key Features
  * Described the key features in the application that the user can access
