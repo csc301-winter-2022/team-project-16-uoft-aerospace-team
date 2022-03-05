@@ -14,7 +14,7 @@ Aeromap is a specialized flight planner that will help the UofT Aerospace Team i
  * Provide a breakdown or detail for each feature that is most appropriate for your application
  * This section will be used to assess the value of the features built
 
-After creating an account and logging in, a user has 4 main pages. The first is a dashboard that shows a list of upcoming scheduled flights. Further information of each flight can be displayed by clicking on an entry. The next page allows the user to utilize an interactive map to create a polygon-shaped on which flights can be conducted. Information such as class of airspace, nearby Aerodromes, emergency contacts throughout the site creation process. The third page allows the user to schedule a flight on a saved site. The user can input the datetime, drone specifications, and pilot. The last page is a flight log of all past flights.
+After creating an account and logging in, a user has 4 main pages. The first is a dashboard that shows a list of upcoming scheduled flights. Further information of each flight can be displayed by clicking on an entry. The next page allows the user to utilize an interactive map to create a polygon-shaped sites on which flights can be conducted. Information such as class of airspace, nearby Aerodromes, emergency contacts throughout the site creation process. The third page allows the user to schedule a flight on a saved site. The user can input the datetime, drone specifications, and pilot. The fourth page is a flight log of all past flights. There will also be a counter keeps track of the total number of flights that the Aerospace team has conducted.
 
 ## Instructions
  * Clear instructions for how to use the application from the end-user's perspective
@@ -56,6 +56,10 @@ Describe your Git / GitHub workflow. Essentially, we want to understand how your
  * What deployment tool(s) are you using and how
  * Don't forget to **briefly explain why** you chose this workflow or particular aspects of it!
 
+For the earlier stages of development we decided to use a very simple github workflow. We have one branch for the frontend team and one branch for the backend team. This allowed each team to experiment with the tech stack before we worked on combining the two pieces. Then we decided to make a new branch that will hold both the frontend and backend code for easier development. We called this branch dev and made two pull requests: from frontend to dev and from backend to dev. This allowed us to further develop our code to create a deployable version. We made a final pull request from dev to main for our ready to use prototype. 
+
+Deploying our application is quite simple. We navigate to the frontend folder and run the following command: 'npm run electron:build'. This script does two things: first it builds the react application, and then it uses electron-builder to package everything into an installer and exe application.
+
  ## Licenses 
 
  Keep this section as brief as possible. You may read this [Github article](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository) for a start.
@@ -63,3 +67,5 @@ Describe your Git / GitHub workflow. Essentially, we want to understand how your
  * What type of license will you apply to your codebase?
  * What affect does it have on the development and use of your codebase?
  * Why did you or your partner make this choice?
+
+At the moment the project is under no license and will be kept private for the UofT Aerospace Team, but this may change during the term.
