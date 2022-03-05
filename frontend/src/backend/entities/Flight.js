@@ -9,4 +9,4 @@ class Flight {
     }
 }
 
-module.exports = Flight;
+export { Flight };

@@ -1,6 +1,6 @@
 import pageStyle from "../styles/pageStyle";
 import {dividerStyle, flightLogsTitleStyle} from "../styles/flightLogStyle";
-import * as services from '../backend/controllers/services'
+import * as services from '../backend/test/services'
 import { nanoid } from 'nanoid';
 
 const FlightLogPage = () => {
@@ -8,7 +8,7 @@ const FlightLogPage = () => {
     // Log will show past flights
     // Make get request for past flight data
 
-    const logs = services.get_logs();
+    const logs = JSON.parse(services.get_logs());
 
     return (
       <div style={pageStyle}>

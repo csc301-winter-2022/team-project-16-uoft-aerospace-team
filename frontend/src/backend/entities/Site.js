@@ -9,4 +9,4 @@ class Site {
     }
 }
 
-module.exports = Site;
+export { Site };

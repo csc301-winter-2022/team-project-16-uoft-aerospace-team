@@ -10,11 +10,14 @@ const createWindow = () => {
     resizable: false,
   });
 
-  win.loadURL(
-      isDev
-        ? 'http://localhost:3000'
-        : `file://${path.join(__dirname, '../build/index.html')}`
-  );
+  // win.loadURL(
+  //     isDev
+  //       ? 'http://localhost:3000'
+  //       : `file://${path.join(__dirname, '../build/index.html')}`
+  // );
+
+  win.loadURL(isDev ? 'http://localhost:3000' : `file://${__dirname}/../build/index.html`);
+
   //win.webContents.openDevTools()
 
   // build menu from template

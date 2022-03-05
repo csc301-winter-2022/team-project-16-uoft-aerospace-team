@@ -1,4 +1,4 @@
-const Site = require("../entities/Site");
+import { Site } from "../entities/Site";
 
 class SiteManager {
     constructor() {
@@ -28,4 +28,4 @@ class SiteManager {
 
 }
 
-module.exports = SiteManager;
+export { SiteManager };

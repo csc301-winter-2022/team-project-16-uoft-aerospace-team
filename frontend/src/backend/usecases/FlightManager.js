@@ -1,4 +1,4 @@
-const Flight = require("../entities/Flight");
+import { Flight } from "../entities/Flight";
 
 class FlightManager {
     constructor() {
@@ -21,4 +21,4 @@ class FlightManager {
     
 }
 
-module.exports = FlightManager;
+export { FlightManager };

@@ -1,4 +1,4 @@
-import * as services from '../backend/controllers/services'
+import * as services from '../backend/test/services'
 import pageStyle from "../styles/pageStyle";
 import { 
     dashFlightsContainerStyle as containerStyle, 
@@ -12,6 +12,7 @@ const Dashboard = () => {
     // Make get request for flight data
 
     var schedule = JSON.parse(services.get_flight_schedule());
+
     console.log(schedule);
 
     return(

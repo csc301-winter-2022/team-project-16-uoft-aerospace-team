@@ -1,5 +1,5 @@
-const FlightManager = require('../usecases/FlightManager');
-const SiteManager = require('../usecases/SiteManager');
+import { FlightManager } from "../usecases/FlightManager";
+import { SiteManager } from "../usecases/SiteManager";
 
 var FM;
 var SM;
@@ -73,5 +73,5 @@ function create_flight(date, sitename, pilot, drone, id, notes) {
 // // Logs
 
 export function get_logs() {
-    return FM.get_past();
+    return JSON.stringify(FM.get_past());
 }
