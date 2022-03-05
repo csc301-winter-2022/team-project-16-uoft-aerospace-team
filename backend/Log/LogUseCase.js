@@ -23,3 +23,5 @@ function findLog(logID) {
     const log = logs.filter(l => logID === l.getID());
     return log[0];
 }
+
+module.exports = { getLogs };
