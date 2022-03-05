@@ -10,15 +10,11 @@ class SiteManager {
     }
 
     get_site(sitename) {
-        for (let i = 0; i < this.sites.length; i++) {
-            if (this.sites[i] === sitename) {
-                return this.sites[i];
-            }
-        }
+        return this.sites.find(site => site.name === sitename);
     }
 
     get_site_center(sitename) {
-        var site = this.get_site();
+        let site = this.get_site();
         return site.get_center();
     }
 

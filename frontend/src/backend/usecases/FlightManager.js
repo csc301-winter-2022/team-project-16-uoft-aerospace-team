@@ -15,8 +15,9 @@ class FlightManager {
         return this.flights;
     }
 
-    add_flight(date, sitename, pilot, drone, id, notes) {
-        this.flights.push(new Flight(date, sitename, pilot, drone, id, notes))
+    add_flight(date, sitename, pilot, drone, notes) {
+        // add ID to flights
+        this.flights.push(new Flight(date, sitename, pilot, drone, notes))
     }
     
 }
