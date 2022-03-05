@@ -7,8 +7,8 @@
 
 ## Iteration XX - Review & Retrospect
 
- * When: FILL IN THE DATE WHEN YOU ACTUALLY HAD YOUR REVIEW MEETING
- * Where: PHYSICAL LOCATION AND/OR ONLINE
+ * When: March 4th, 7:00pm
+ * Where: Online via Discord
 
 ## Process - Reflection
 
@@ -22,6 +22,8 @@ List **process-related** (i.e. team organization and how you work) decisions tha
  * Ordered from most to least important.
  * Explain why (i.e. give a supporting argument) you consider a decision to be successful.
  * Feel free to refer/link to process artifact(s).
+
+
 
 #### Q2. Decisions that did not turn out as well as we hoped
 
