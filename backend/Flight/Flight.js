@@ -2,51 +2,55 @@
 // // Add Flight
 
 class Flight {
-    constructor(date, sitename, pilot) {
-        this.date = date;
-        this.sitename = sitename
-        this.pilot = pilot;
-        this.drone = null;
-        this.pin = null;
+    constructor(date, sitename, pilot, drone = null, pin = null) {
+        this._date = date;
+        this._sitename = sitename
+        this._pilot = pilot;
+        this._drone = drone;
+        this._pin = pin;
+        this._id += 1
     }
 
     // getters
 
     getDate() {
-        return this.date;
+        return this._date;
     }
 
     getPin() {
-        return this.pin;
+        return this._pin;
     }
 
     getDrone() {
-        return this.drone;
+        return this._drone;
     }
 
     getPilot() {
-        return this.pilot;
+        return this._pilot;
     }
 
     getSitename() {
-        return this.sitename;
+        return this._sitename;
+    }
+    getID() {
+        return this._id;
     }
 
     // setters
     setPin(pin) {
-        this.pin = pin;
+        this._pin = pin;
     }
 
     setDrone(drone) {
-        this.drone = drone;
+        this._drone = drone;
     }
 
     setSitename(sitename) {
-        this.sitename = sitename;
+        this._sitename = sitename;
     }
 
     setPilot(pilot) {
-        this.pilot = pilot
+        this._pilot = pilot
     }
 }
 
