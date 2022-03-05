@@ -1,22 +1,22 @@
-import { FlightManager } from "../usecases/FlightManager";
-import { SiteManager } from "../usecases/SiteManager";
+const FlightManager = require('../usecases/FlightManager');
+const SiteManager = require('../usecases/SiteManager');
 
-var FM;
-var SM;
+let flightManager;
+let siteManager;
 
 // Login
 
-export function login(username, password) {
+function login(username, password) {
     // this part is gonna retrieve user info from database if login successful
     // for now, just using blank data
-    FM = new FlightManager();
-    SM = new SiteManager();
+    flightManager = new FlightManager();
+    siteManager = new SiteManager();
 }
 
 // // Dashboard
 
-export function get_flight_schedule() {
-    return JSON.stringify(FM.get_upcoming());
+function get_flight_schedule() {
+    return JSON.stringify(flightManager.get_upcoming());
 }
 
 // // Add Site
@@ -45,33 +45,38 @@ function get_geofence(pins) {
 }
 
 function create_site(sitename, pins, margin) {
-    SM.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
 }
 
 // Add Flight
 
 function get_sites(username) {
-    return SM.get_sites();
+    return siteManager.get_sites();
 }
 
 function get_site(sitename) {
-    return SM.get_site(sitename);
+    return siteManager.get_site(sitename);
 }
 
 function get_weather(date, sitename) {
-    var location = SM.get_site_center(sitename);
+    var location = siteManager.get_site_center(sitename);
 
     // use weather api with location and date
     
     return '{"temp": "14", "windspeed": "30"}';
 }
 
-function create_flight(date, sitename, pilot, drone, id, notes) {
-    FM.add_flight(date, sitename, pilot, drone, id, notes);
+function create_flight(date, sitename, pilot, drone, notes) {
+    flightManager.add_flight(date, sitename, pilot, drone, notes);
 }
 
 // // Logs
 
-export function get_logs() {
-    return JSON.stringify(FM.get_past());
+function get_logs() {
+    return flightManager.get_past();
+}
+
+export { 
+    login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, get_geofence,
+    create_site, get_sites, get_site, get_weather, create_flight, get_logs,
 }
