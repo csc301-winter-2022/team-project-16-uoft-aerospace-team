@@ -53,11 +53,21 @@ function get_airspace(pins) {
 //     // create the site
 // }
 
+const Site = require("./Site/SiteUseCase.js");
+
+function create_site(name, pins, margin) {
+    Site.createSite(name, pins, margin);
+}
+
 // // Add Flight
 
 // function get_sites(username) {
 //     return JSON.stringify([]);
 // }
+
+function get_sites() {
+    return Site.getSites();
+}
 
 // function get_site_aerodromes(sitename) {
 //     return JSON.stringify([]);
@@ -77,6 +87,8 @@ function create_flight(date, sitename, pilot) {
 
 // // Logs
 
-// function get_logs() {
-//     return JSON.stringify([]);
-// }
+const Log = require("./Log/LogUseCase.js");
+
+function get_logs() {
+    return Log.getLogs();
+}
