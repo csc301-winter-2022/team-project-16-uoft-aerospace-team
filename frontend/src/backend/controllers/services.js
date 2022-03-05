@@ -72,6 +72,6 @@ function create_flight(date, sitename, pilot, drone, id, notes) {
 
 // // Logs
 
-function get_logs() {
+export function get_logs() {
     return FM.get_past();
 }

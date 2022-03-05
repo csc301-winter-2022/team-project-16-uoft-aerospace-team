@@ -1,10 +1,14 @@
 import pageStyle from "../styles/pageStyle";
 import {dividerStyle, flightLogsTitleStyle} from "../styles/flightLogStyle";
+import * as services from '../backend/controllers/services'
+import { nanoid } from 'nanoid';
 
 const FlightLogPage = () => {
 
     // Log will show past flights
     // Make get request for past flight data
+
+    const logs = services.get_logs();
 
     return (
       <div style={pageStyle}>
@@ -22,20 +26,18 @@ const FlightLogPage = () => {
                 <th>Date</th>
                 <th>Time</th>
                 <th>Drone ID</th>
-                <th>Location</th>
+                <th>Site</th>
               </tr>
-              <tr>
-                <td>04/02/2022</td>
-                <td>3:00</td>
-                <td>2948323</td>
-                <td>2555 Dundas St</td>
-              </tr>
-              <tr>
-                <td>don't</td>
-                <td>judge</td>
-                <td>formatting</td>
-                <td>I got lazy</td>
-              </tr>
+              {logs.map(flight => {
+                return (
+                  <tr key={nanoid()}>
+                    <td>{flight.date}</td>
+                    <td>{flight.date}</td>
+                    <td>{flight.drone}</td>
+                    <td>{flight.sitename}</td>
+                  </tr>                        
+                )
+              })}
             </tbody>
           </table>
         </div>
