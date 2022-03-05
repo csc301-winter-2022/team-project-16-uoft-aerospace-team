@@ -11,7 +11,7 @@ class SiteManager {
 
     get_site(sitename) {
         for (let i = 0; i < this.sites.length; i++) {
-            if (this.sites[i] == sitename) {
+            if (this.sites[i] === sitename) {
                 return this.sites[i];
             }
         }

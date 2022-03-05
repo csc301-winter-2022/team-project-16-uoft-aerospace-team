@@ -1,11 +1,11 @@
-import * as services from './backend-2/controllers/services'
+import * as services from './backend/controllers/services'
 import NavBar from './components/NavBar';
 import { Routes, Route,} from 'react-router-dom';
 
 import Dashboard from './components/Dashboard';
-import PlannerPage from './components/PlannerPage';
+import PlannerPage from './components/SitePlanner';
 import FlightLogPage from './components/FlightLogPage';
-import AddFlight from './components/AddFlight';
+import AddFlight from './components/FlightPlanner';
 
 import appStyle from './styles/appStyle';
 

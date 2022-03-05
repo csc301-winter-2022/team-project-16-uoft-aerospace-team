@@ -1,4 +1,4 @@
-import * as services from '../backend-2/controllers/services'
+import * as services from '../backend/controllers/services'
 import pageStyle from "../styles/pageStyle";
 import { 
     dashFlightsContainerStyle as containerStyle, 
