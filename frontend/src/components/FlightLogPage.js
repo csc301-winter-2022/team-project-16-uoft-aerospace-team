@@ -1,6 +1,6 @@
 import pageStyle from "../styles/pageStyle";
 import {dividerStyle, flightLogsTitleStyle} from "../styles/flightLogStyle";
-import * as services from '../backend/test/services'
+import * as services from '../backend/controllers/services'
 import { nanoid } from 'nanoid';
 
 const FlightLogPage = () => {

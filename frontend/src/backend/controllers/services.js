@@ -1,5 +1,5 @@
-const FlightManager = require('../usecases/FlightManager');
-const SiteManager = require('../usecases/SiteManager');
+import { FlightManager } from '../usecases/FlightManager';
+import { SiteManager } from '../usecases/SiteManager';
 
 let flightManager;
 let siteManager;
