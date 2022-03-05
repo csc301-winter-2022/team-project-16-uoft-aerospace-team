@@ -10,7 +10,7 @@ class User {
     }
 
     authenticate(password) {
-        return password == this.password;
+        return password === this.password;
     }
 
     // addFlight(flight) {

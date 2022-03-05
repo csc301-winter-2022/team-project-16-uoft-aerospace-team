@@ -1,20 +1,32 @@
 class Site {
-    constructor(name, pins, margin) {
+    constructor(name, polygon, margin) {
         this.name = name;
-        this.pins = pins;
+        this.polygon = polygon;
         this.margin = margin;
     }
 
+    getName() {
+        return this.name;
+    }
+
+    getPolygon() {
+        return this.pins;
+    }
+
+    getMargin() {
+        return this.margin;
+    }
+
     setName(newName) {
-        this.name = name;
+        this.name = newName;
+    }
+
+    setPolygon(newPolygon) {
+        this.polygon = newPolygon;
     }
 
     setMargin(newMargin) {
         this.margin = newMargin;
-    }
-
-    setPins(newPins) {
-        this.pins = pins;
     }
 }
 
