@@ -39,7 +39,7 @@ For now, we are only creating this application for windows OS.
 
 For the earlier stages of development we decided to use a very simple github workflow. We have one branch for the frontend team and one branch for the backend team. This allowed each team to experiment with the tech stack before we worked on combining the two pieces. Once we had a solid understand of the application structure, we added the pushed the backend code into the frontend folder branch and renamed the frontend branch to "development". This allowed us to further develop and test our entire application so far. We then made a pull request from development to main for our deliverable 2 prototype. The reason we chose this type of workflow is that it allowed us to stay organized and avoid over populating our repo while learning the tech stack.
 
-To deploy our application is equally simple. We navigate to the frontend folder and run the following command: "npm run electron:build". This script does two things: first it builds the react application, and then it uses electron-builder to package everything into an installer and exe application which is located in the dist folder. 
+To deploy our application is equally simple. We navigate to the aeromap folder and run the following command: "npm run electron:build". This script does two things: first it builds the react application, and then it uses electron-builder to package everything into an installer and exe application which is located in the dist folder. 
 
 Accessing the release can be done through github. Currently, there is only a release for windows. Simply download "windows-release.zip" from the repository releases page (under assets). Then extract the folder and run the exe file within.
 
