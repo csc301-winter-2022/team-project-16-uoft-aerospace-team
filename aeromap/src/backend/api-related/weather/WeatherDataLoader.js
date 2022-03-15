@@ -2,13 +2,14 @@ const https = require('https');
 const url = require('url');
 const Coordinates = require('../Coordinate/CoordinateEntity');
 const axios = require('axios');
+const Preconditions = require('../util/Preconditions');
 /**
  * Used to fetched data from 'https://api.openweathermap.org' API.
  *
  * Example of use:
  * 
  * const loader = new WeatherDataLoader(my_api_key, {lat: 34.3, lon: 67.8});
- * loader.getDailyWeather(json => console.log(json));
+ * loader.getDailyWeather().then(data => console.log(data));
  * 
  * The function calls return a JSON object whose properties are detailled at
  * https://openweathermap.org/api/one-call-api
@@ -49,7 +50,6 @@ const axios = require('axios');
      * A list of the properties can be found on 
      * https://openweathermap.org/api/one-call-api
      * 
-     * Can eventually add a callback before returning
      * 
      * NB: Use new Date(dt) to get a Date from a Unix timestamp.
      * 
@@ -94,34 +94,11 @@ const axios = require('axios');
         return this.#fetchData();
     }
 
-
     /**
-     * Compute the maximal temperature over a given time window.
-     * The temperature is computed given the closest "o'clock" window, 
-     * meaning that is the window specified is (January 19, 03:45 ; January 19, 07:38)
-     * then the function returns the maximal temperature over the window 
-     * [January 19, 04:00 ; January 19, 08:00] where interval limits are inclusive.
-     * 
-     * This method is meant to be use to know the maximal temperature over a time window
-     * that is coming soon in time - day scale - (eg. in the upcoming 2 days).
-     * 
-     * Some restrcitions applied due to API availability: 
-     *  • Only a future time window can be specified 
-     *  • The window has to end in the 2 upcoming days (< now + 2days)
-     * 
-     * Example of usage: 
-     *      const timeWindow = {
-     *          start: new Date(...),
-     *          end: new Date(...)
-     *      };
-     *      const loader = new WeatherDataLoader(...);
-     *      const res = loader.maxTempOverHours(timeWindow)
-     *          .then(maxTemp => console.log(maxTemp));
-     *            
      * @param {{start: Date, end: Date}} timeWindow 
-     * @returns A promise whose return value is the maximal temperature
+     * @returns cleaned up start and end time
      */
-    maxTempOverHours(timeWindow) {
+    #setupTimeWindow(timeWindow) {
         const now = Date.now();
 
         if (timeWindow.end.getTime() - now > 2 * WeatherDataLoader.#_DAY_IN_SECONDS * 1000) {
@@ -138,28 +115,113 @@ const axios = require('axios');
         const end = new Date(timeWindow.end);
         // Used to take the closest o'clock hour into account
         end.setMinutes(end.getMinutes() + 30);
-        const dtEnd = end.getTime();
-        const dtStart = start.getTime();
+        const res = {
+                dtStart: start.getTime(),
+                dtEnd: end.getTime()
+            };
+        return res;
+    }
+
+    /**
+     * Compute the maximal temperature and wind speed over a given time window.
+     * The result is computed given the closest "o'clock" window, 
+     * meaning that is the window specified is (January 19, 03:45 ; January 19, 07:38)
+     * then the function returns the maximal temperature/wind speed over the window 
+     * [January 19, 04:00 ; January 19, 08:00] where interval limits are inclusive.
+     * 
+     * This method is meant to be use to know the maximal temperature and wind speed over a time window
+     * that is coming soon in time - day scale - (eg. in the upcoming 2 days).
+     * 
+     * Some restrcitions applied due to API availability: 
+     *  • Only a future time window can be specified 
+     *  • The window has to end in the 2 upcoming days (< now + 2days)
+     * 
+     * Example of usage: 
+     *      const timeWindow = {
+     *          start: new Date(...),
+     *          end: new Date(...)
+     *      };
+     *      const loader = new WeatherDataLoader(...);
+     *      const res = loader.maxTempOverHours(timeWindow)
+     *          .then(max => console.log(max.maxTemp + ", " + max.maxWind));
+     *            
+     * @param {{start: Date, end: Date}} timeWindow 
+     * @returns A promise whose return value {maxTemp, maxWindSpeed}
+     */
+    maxTempWindOverHours(timeWindow) {
+        const tmp = this.#setupTimeWindow(timeWindow);
+        const dtEnd = tmp.dtEnd;
+        const dtStart = tmp.dtStart;
 
         const data = this.getHourlyWeather()
             .then(data => {
                 const arr = data.hourly.map(weather => new Object(
                     {
                         dt: weather.dt,
-                        temp: weather.temp
+                        temp: weather.temp,
+                        wind: weather.wind_speed
                     })
                 );
                 const filtered = arr.filter(elem => dtStart <= elem.dt * 1000 &&
                     elem.dt * 1000 <= dtEnd);
-                return filtered.reduce((previous, weather) => 
+                
+                const maxTemp = filtered.reduce((previous, weather) => 
                     Math.max(previous, weather.temp), WeatherDataLoader.#_MIN_TEMP);
+                const maxWind = filtered.reduce((previous, weather) => 
+                    Math.max(previous, weather.wind), 0);
+                return {
+                    maxTemp: maxTemp,
+                    maxWindSpeed: maxWind
+                };
             });
 
         return data;
     }
 
+
+    #daysToMs(days) {
+        return days * WeatherDataLoader.#_DAY_IN_SECONDS * 1000;
+    }
+
+    #msToDays(dt) {
+        return Math.floor(dt / (WeatherDataLoader.#_DAY_IN_SECONDS * 1000));
+    }
     /**
-     * Return the maximal temperature for the given day.
+     * Return the maximal temperature and wind speed for the given date
+     * Note that the given date has to be included in the upcoming
+     * 8 days.
+     * No weather history is available (cannot read yesterday's weather
+     * for example).
+     * @param {Date} date at which we want to know the temperature/ws
+     */
+    maxTempWind(date) {
+        /*const now = Date.now();
+        const limit = new Date(Date.now() + this.#daysToMs(2));
+        const limit2 = new Date(now + this.#daysToMs(8));
+        const diff = date.getTime() - limit.getTime();
+        const diff2 = date.getTime() - limit2.getTime();
+        if (diff2 > 0) {
+            throw new Error("Cannot get weather information for a date that is in more than 8 days");
+        } else if (date.getTime() - now < 0) {
+            throw new Error("Cannot get weather history (only future time is allowed)");
+        } else if (0 < diff && diff2 < 0) { // in this case, the given date exceeds 2 days
+            return this.maxTempWindForDay(this.#msToDays(date.getTime() - now));
+        } else {
+            const startDate = new Date(date);
+            startDate.setHours(0);
+            return 0;
+        }*/
+
+        const today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        const diff = date.getTime() - today.getTime();
+        return this.maxTempWindForDay(this.#msToDays(diff));
+    }
+
+    /**
+     * Return the maximal temperature and wind speed for the given day.
      * 
      * This method is meant to be used for a week scale 
      * - ie. in more than 2 days. For a day scale, use 
@@ -170,12 +232,16 @@ const axios = require('axios');
      * we want to know the maximal temperature for Tuesday, January 8
      * then we should call maxTempForDay(1)
      */
-    maxTempForDay(distance) {
+    maxTempWindForDay(distance) {
+        Preconditions.check(0 <= distance && distance <= 8);
         return this.getDailyWeather().then(data => {
             //console.log(data);
-            return data.daily[distance].temp.max}
-            );
-        }
+            return {
+                maxTemp: data.daily[distance].temp.max,
+                windSpeed: data.daily[distance].wind_speed
+            }
+        });
+    }
 }
 
 module.exports = WeatherDataLoader;

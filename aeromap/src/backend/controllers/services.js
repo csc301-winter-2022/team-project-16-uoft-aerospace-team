@@ -1,9 +1,9 @@
 import { FlightManager } from '../usecases/FlightManager';
 import { SiteManager } from '../usecases/SiteManager';
-
 let flightManager;
 let siteManager;
 
+import WeatherDataLoader from '../api-related/weather/WeatherDataLoader';
 // Login
 
 function login(username, password) {
@@ -58,12 +58,17 @@ function get_site(sitename) {
     return siteManager.get_site(sitename);
 }
 
+/**
+ * 
+ * @param {*} date 
+ * @param {*} sitename 
+ * @returns 
+ */
 function get_weather(date, sitename) {
-    var location = siteManager.get_site_center(sitename);
-
+    const location = siteManager.get_site_center(sitename);
     // use weather api with location and date
-    
-    return '{"temp": "14", "windspeed": "30"}';
+    const loader = WeatherDataLoader.withDefaultAppid(location);
+    return loader.maxTempWind(date);
 }
 
 function create_flight(date, sitename, pilot, drone, notes) {
