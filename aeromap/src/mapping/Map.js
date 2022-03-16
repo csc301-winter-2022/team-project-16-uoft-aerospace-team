@@ -107,7 +107,7 @@ function MyComponent() {
           />
         ))}
 
-        {paths.map((path) => (
+        {paths.map(() => (
           <Polygon
             onLoad={onLoad}
             paths={paths}

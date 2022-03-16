@@ -20,6 +20,7 @@
   },
   "main": "public/main.js",
   "homepage": ".",
+  "type": "module",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
