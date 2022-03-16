@@ -1,5 +1,5 @@
-const https = require('https');
-const url = require('url');
+//const https = require('https');
+//const url = require('url');
 const Coordinates = require('../Coordinate/CoordinateEntity');
 const axios = require('axios');
 const Preconditions = require('../util/Preconditions');
@@ -20,6 +20,7 @@ const Preconditions = require('../util/Preconditions');
     static #_DAY_IN_SECONDS = 24 * 60 * 60;
     static #_MIN_TEMP = -100;
     #_url;
+    #_baseUrl;
     /**
      * 
      * @param {string} api_key 
@@ -27,23 +28,38 @@ const Preconditions = require('../util/Preconditions');
      */
     constructor(api_key, coordinates) {
         const hostname = 'https://api.openweathermap.org';
-        var url = new URL(hostname);
+        /*var url = new URL(hostname);
         url.pathname = '/data/2.5/onecall';
         url.searchParams.append('lat', coordinates.lat.toString());
         url.searchParams.append('lon', coordinates.lon.toString());
         url.searchParams.append('appid', api_key);
-        url.searchParams.append('units', 'metric');
+        url.searchParams.append('units', 'metric');*/
+        var url = `https://api.openweathermap.org/data/2.5/onecall?appid=${api_key}&units=metric\
+            &lat=${coordinates.lat.toString()}&lon=${coordinates.lon.toString()}`;
         this.#_url = url;
+        this.#_baseUrl = new String(url);
     }
 
     static withDefaultAppid(coordinates) {
         return new WeatherDataLoader(this.API_KEY_DEFAULT, coordinates);
     }
 
-    #urlAppend(key, value) {
+    /**
+     * 
+     * @param {string} key 
+     * @param {string} value 
+     */
+    #urlAppendParameter(key, value) {
+        this.#_url = this.#_url.concat('&' + key + '=' + value);
+    }
+
+    #resetUrl() {
+        this.#_url = new String(this.#_baseUrl);
+    }
+    /*#urlAppend(key, value) {
         this.#_url.searchParams.delete(key);
         this.#_url.searchParams.append(key, value);
-    }
+    }*/
 
     /**
      * Return a promise of a weather JSON object following from the API call
@@ -72,7 +88,9 @@ const Preconditions = require('../util/Preconditions');
      * 
      */
     async getCurrentWeather() {
-        this.#urlAppend('exclude', 'minutely,hourly,daily,alerts');
+        this.#resetUrl();
+        //this.#urlAppend('exclude', 'minutely,hourly,daily,alerts');
+        this.#urlAppendParameter('exclude', 'minutely,hourly,daily,alerts');
         return this.#fetchData();
     }
 
@@ -81,7 +99,8 @@ const Preconditions = require('../util/Preconditions');
      * See FetchData for more information
      */
     async getDailyWeather() {
-        this.#urlAppend('exclude', 'current,minutely,hourly,alerts');
+        this.#resetUrl();
+        this.#urlAppendParameter('exclude', 'current,minutely,hourly,alerts');
         return this.#fetchData();
     }
 
@@ -90,7 +109,8 @@ const Preconditions = require('../util/Preconditions');
      * See FetchData for more information
      */
     getHourlyWeather() {
-        this.#urlAppend('exclude', 'current,minutely,daily,alerts');
+        this.#resetUrl();
+        this.#urlAppendParameter('exclude', 'current,minutely,daily,alerts');
         return this.#fetchData();
     }
 
