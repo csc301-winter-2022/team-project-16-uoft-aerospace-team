@@ -1,4 +1,5 @@
 const Preconditions = require("../util/Preconditions");
+const Util = require("../util/Util");
 // TO BE TESTED
 /**
  * Represents the geographic coordinates system (latitude and longitude)

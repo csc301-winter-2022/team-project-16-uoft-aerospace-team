@@ -3,7 +3,7 @@ import { SiteManager } from '../usecases/SiteManager';
 let flightManager;
 let siteManager;
 
-import WeatherDataLoader from '../api-related/weather/WeatherDataLoader';
+const WeatherDataLoader = require('../api-related/weather/WeatherDataLoader');
 // Login
 
 function login(username, password) {
