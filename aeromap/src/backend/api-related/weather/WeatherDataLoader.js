@@ -19,7 +19,7 @@ const Preconditions = require('../util/Preconditions');
     static API_KEY_DEFAULT = 'd73b10b1b7de8a768d8a1dd9e426e5dd';
     static #_DAY_IN_SECONDS = 24 * 60 * 60;
     static #_MIN_TEMP = -100;
-    #_url;
+    //#_url;
     #_baseUrl;
     /**
      * 
@@ -28,38 +28,21 @@ const Preconditions = require('../util/Preconditions');
      */
     constructor(api_key, coordinates) {
         const hostname = 'https://api.openweathermap.org';
-        /*var url = new URL(hostname);
+        const url = new URL(hostname);
         url.pathname = '/data/2.5/onecall';
         url.searchParams.append('lat', coordinates.lat.toString());
         url.searchParams.append('lon', coordinates.lon.toString());
         url.searchParams.append('appid', api_key);
-        url.searchParams.append('units', 'metric');*/
-        var url = `https://api.openweathermap.org/data/2.5/onecall?appid=${api_key}&units=metric\
-            &lat=${coordinates.lat.toString()}&lon=${coordinates.lon.toString()}`;
-        this.#_url = url;
-        this.#_baseUrl = new String(url);
+        url.searchParams.append('units', 'metric');
+        //var url = `https://api.openweathermap.org/data/2.5/onecall?appid=${api_key}&units=metric\
+          //  &lat=${coordinates.lat.toString()}&lon=${coordinates.lon.toString()}`;
+        //this.#_url = url;
+        this.#_baseUrl = url;
     }
 
     static withDefaultAppid(coordinates) {
         return new WeatherDataLoader(this.API_KEY_DEFAULT, coordinates);
     }
-
-    /**
-     * 
-     * @param {string} key 
-     * @param {string} value 
-     */
-    #urlAppendParameter(key, value) {
-        this.#_url = this.#_url.concat('&' + key + '=' + value);
-    }
-
-    #resetUrl() {
-        this.#_url = new String(this.#_baseUrl);
-    }
-    /*#urlAppend(key, value) {
-        this.#_url.searchParams.delete(key);
-        this.#_url.searchParams.append(key, value);
-    }*/
 
     /**
      * Return a promise of a weather JSON object following from the API call
@@ -68,11 +51,11 @@ const Preconditions = require('../util/Preconditions');
      * 
      * 
      * NB: Use new Date(dt) to get a Date from a Unix timestamp.
-     * 
+     * @param {URL} url
      * @returns A Promise "containing" the data (JSON) fetched
      */
-    #fetchData() {
-        return axios.get(this.#_url.toString())
+    #fetchData(url) {
+        return axios.get(url.toString())
             .then(response => response.data)
             .catch(error => this.#handleRequestError(error));
     }
@@ -88,10 +71,9 @@ const Preconditions = require('../util/Preconditions');
      * 
      */
     async getCurrentWeather() {
-        this.#resetUrl();
-        //this.#urlAppend('exclude', 'minutely,hourly,daily,alerts');
-        this.#urlAppendParameter('exclude', 'minutely,hourly,daily,alerts');
-        return this.#fetchData();
+        const url = new URL(this.#_baseUrl);
+        url.searchParams.append('exclude', 'minutely,hourly,daily,alerts');
+        return this.#fetchData(url);
     }
 
     /**
@@ -99,9 +81,9 @@ const Preconditions = require('../util/Preconditions');
      * See FetchData for more information
      */
     async getDailyWeather() {
-        this.#resetUrl();
-        this.#urlAppendParameter('exclude', 'current,minutely,hourly,alerts');
-        return this.#fetchData();
+        const url = new URL(this.#_baseUrl);
+        url.searchParams.append('exclude', 'current,minutely,hourly,alerts');
+        return this.#fetchData(url);
     }
 
     /**
@@ -109,9 +91,9 @@ const Preconditions = require('../util/Preconditions');
      * See FetchData for more information
      */
     getHourlyWeather() {
-        this.#resetUrl();
-        this.#urlAppendParameter('exclude', 'current,minutely,daily,alerts');
-        return this.#fetchData();
+        const url = new URL(this.#_baseUrl);
+        url.searchParams.append('exclude', 'current,minutely,daily,alerts');
+        return this.#fetchData(url);
     }
 
     /**
