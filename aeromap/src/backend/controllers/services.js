@@ -69,7 +69,7 @@ function get_weather(date, sitename) {
     // use weather api with location and date
     //const loader = WeatherDataLoader.withDefaultAppid(location);
     //return loader.maxTempWind(date);
-    return {maxTemp:0, maxWind:0};
+    return {"temp": "14", "windspeed": "30"};
 }
 
 function create_flight(date, sitename, pilot, drone, notes) {
