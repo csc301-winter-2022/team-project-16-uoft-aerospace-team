@@ -69,11 +69,15 @@ function MyComponent() {
 
   function clearMarkers(e) {
     e.preventDefault();
-    setMarkers(current => []);
-    setPaths(current => []);
+    setMarkers([]);
+    setPaths([]);
   }
 
-
+  function clearLastMarker(e) {
+    e.preventDefault();
+    setMarkers(markers.slice(0, -1));
+    setPaths(paths.slice(0, -1));
+  }
 
   if (loadError) return "Error loading map";
   if (!isLoaded) return "loading maps";
@@ -83,6 +87,10 @@ function MyComponent() {
       <form onSubmit={clearMarkers}>
         <button type="submit">Clear Markers</button>
       </form>
+      <form onSubmit={clearLastMarker}>
+        <button type="submit">Clear Last Marker</button>
+      </form>
+
       <GoogleMap
         mapContainerStyle={containerStyle}
         defaultCenter={center}
@@ -99,7 +107,7 @@ function MyComponent() {
               url: "/marker.png",
               scaledSize: new window.google.maps.Size(30, 45),
               origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(15, 15)
+              anchor: new window.google.maps.Point(15, 45)
             }}
             onCLick={() => {
               setSelected(marker);
@@ -107,7 +115,7 @@ function MyComponent() {
           />
         ))}
 
-        {paths.map((path) => (
+        {paths.map(() => (
           <Polygon
             onLoad={onLoad}
             paths={paths}
