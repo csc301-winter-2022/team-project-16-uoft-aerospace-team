@@ -1,15 +1,24 @@
 import pageStyle from "../styles/pageStyle";
 import {dividerStyle, flightLogsTitleStyle} from "../styles/flightLogStyle";
-import * as services from '../backend/controllers/services'
 import { nanoid } from 'nanoid';
+import React, {useState} from 'react';
 
-const FlightLogPage = () => {
+const FlightLogPage = (props) => {
+  
+    const path = props.path
+
+    const [logs, setLogs] = useState([]);
 
     // Log will show past flights
     // Make get request for past flight data
 
-    const logs = JSON.parse(services.get_logs());
-    console.log(logs);
+    const get_logs = async () => {
+      await fetch(`${path}get-logs`)
+      .then(res => res.json())
+      .then(data => {
+        setLogs(JSON.parse(data));
+      })
+    }
 
     return (
       <div style={pageStyle}>

@@ -1,19 +1,31 @@
-import * as services from '../backend/controllers/services'
+// import * as services from '../backend/controllers/services'
 import pageStyle from "../styles/pageStyle";
 import { 
     dashFlightsContainerStyle as containerStyle, 
     dashFlightsHeaderStyle as headerStyle,
     dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
 import { nanoid } from 'nanoid';
+import React, {useState} from 'react';
 
-const Dashboard = () => {
+
+const Dashboard = (props) => {
+
+    const path = props.path
+
+    const [schedule, setSchedule] = useState([]);
 
     // Dashboard will show upcoming flights
     // Make get request for flight data
 
-    var schedule = JSON.parse(services.get_flight_schedule());
+    const get_flight_schedule = async () => {
+        await fetch(`${path}get-flight-schedule`)
+        .then(res => res.json())
+        .then(data => {
+            setSchedule(JSON.parse(data));
+        })
+    }
 
-    console.log(schedule);
+    get_flight_schedule();
 
     return(
         <div style={pageStyle}>

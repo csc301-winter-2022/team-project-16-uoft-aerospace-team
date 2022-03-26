@@ -1,7 +1,4 @@
 import { Routes, Route,} from 'react-router-dom';
-
-import * as services from './backend/controllers/services';
-
 import NavBar from './components/NavBar';
 import Dashboard from './components/Dashboard';
 import SitePlanner from './components/SitePlanner';
@@ -10,18 +7,24 @@ import FlightPlanner from './components/FlightPlanner';
 
 import appStyle from './styles/appStyle';
 
+const create_site = () => [];
+
+const create_flight = () => [];
+
 const App = () => {
 
-  services.login('max', 'sucks');
+  const path = 'http://localhost:3001/api/'
+
+  fetch(`${path}login`)
 
   return(
       <div style={appStyle}>
         <NavBar />
 
         <Routes> 
-          <Route path="/" exact element={<Dashboard />}/>
-          <Route path="/add-site" exact element={<SitePlanner create_site={services.create_site} />}/>
-          <Route path="/add-flight" exact element={<FlightPlanner create_flight={services.create_flight}/>}/>
+          <Route path="/" exact element={<Dashboard path={path}/> }/>
+          <Route path="/add-site" exact element={<SitePlanner create_site={create_site} path={path}/>}/>
+          <Route path="/add-flight" exact element={<FlightPlanner create_flight={create_flight} path={path}/>}/>
           <Route path="/log" exact element={<FlightLogPage />} />
         </Routes>
       </div>
