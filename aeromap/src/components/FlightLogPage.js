@@ -20,6 +20,8 @@ const FlightLogPage = (props) => {
       })
     }
 
+    get_logs();
+
     return (
       <div style={pageStyle}>
         <div style={flightLogsTitleStyle}>
