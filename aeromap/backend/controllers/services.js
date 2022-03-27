@@ -56,18 +56,13 @@ function get_emergency_contacts(pins) {
     return '[{"name": "Ronald", "number": "613-828-0011"}, {"name": "Donald", "number": "613-333-4521"}]';
 }
 
-// ignore for now
-function get_geofence(pins) {
-    return JSON.stringify([]);
-}
-
 function create_site(sitename, pins, margin) {
     siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
 }
 
 // Add Flight
 
-function get_sites(username) {
+function get_sites() {
     return siteManager.get_sites();
 }
 
@@ -93,9 +88,5 @@ function get_logs() {
     return JSON.stringify(flightManager.get_past());
 }
 
-// export { 
-//     login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, get_geofence,
-//     create_site, get_sites, get_site, get_weather, create_flight, get_logs,
-// }
-
-module.exports = { login, get_flight_schedule, get_logs };
+module.exports = { login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, 
+    create_site, get_sites, get_site, get_weather, create_flight, get_logs };

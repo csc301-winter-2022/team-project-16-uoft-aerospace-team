@@ -1,4 +1,6 @@
 import { useState } from "react";
+import {flightPlannerTitleStyle, dividerStyle} from "../styles/flightPlannerStyle";
+import pageStyle from "../styles/pageStyle";
 
 const FlightPlanner = ({create_flight}) => {
     const [time, setTime] = useState('');
@@ -20,8 +22,14 @@ const FlightPlanner = ({create_flight}) => {
     const handleChange = setInput => ({target}) => setInput(target.value);
 
     return(
-        <div> 
-            <h1>Add Flight</h1>
+        <div style={pageStyle}> 
+            <div style={flightPlannerTitleStyle}>
+                <strong>
+                    <em>Add Flight</em>
+                </strong>
+            </div>
+
+            <hr style={dividerStyle} />
 
             <form onSubmit={handleSubmit}>
                 <input type="datetime-local" value={time} onChange={handleChange(setTime)}/>
