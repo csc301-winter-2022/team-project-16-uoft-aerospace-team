@@ -44,7 +44,7 @@ class Server {
     run() {
         const router = express.Router();
 
-        router.get('/get-flight-schedule', (req, res) => {
+        /*router.get('/get-flight-schedule', (req, res) => {
             res.send(JSON.stringify(services.get_flight_schedule()));
         });
 
@@ -55,7 +55,7 @@ class Server {
 
         router.get('/get-logs', (req, res) => {
             res.send(services.get_logs());
-        });
+        });*/
 
         router.get('/weather', (req, res) => {
             const date = new Date(Date.parse(req.query.date));
