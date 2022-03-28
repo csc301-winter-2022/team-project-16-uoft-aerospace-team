@@ -7,13 +7,23 @@ import FlightPlanner from './components/FlightPlanner';
 
 import appStyle from './styles/appStyle';
 
+const path = 'http://localhost:3001/api/'
+
 const create_site = () => [];
 
-const create_flight = () => [];
+const create_flight = async (date, siteName, pilotName, droneInfo, notes) => {
+  const res = await fetch (`${path}create-flight`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({date: date, sitename: siteName, pilot: pilotName, drone: droneInfo, notes: notes})
+  })
+  return res;
+};
 
 const App = () => {
-
-  const path = 'http://localhost:3001/api/'
 
   fetch(`${path}login`)
 
