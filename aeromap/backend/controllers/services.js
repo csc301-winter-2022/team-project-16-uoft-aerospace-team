@@ -1,8 +1,6 @@
 const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require('../usecases/SiteManager.js');
 const { read, write } =  require('../gateways/gateway.js');
-const fs = require('fs');
-const path = require("path");
 const aerodrome_helper = require('./aerodrome-helper');
 
 let flightManager = new FlightManager();
@@ -61,6 +59,7 @@ function get_emergency_contacts(pins) {
 
 function create_site(sitename, pins, margin) {
     siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    write('siteManager.json', { 'siteManager': siteManager });
 }
 
 // Add Flight
@@ -83,6 +82,7 @@ function get_weather(date, sitename) {
 
 function create_flight(date, sitename, pilot, drone, notes) {
     flightManager.add_flight(date, sitename, pilot, drone, notes);
+    write('flightManager.json', { 'flightManager': flightManager });
 }
 
 // // Logs
