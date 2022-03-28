@@ -13,7 +13,7 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/get-logs', (req, res) => {
-    res.send(services.get_logs());
+    res.send(JSON.stringify(services.get_logs()));
 })
 
 router.get('/get-sites', (req, res) => {

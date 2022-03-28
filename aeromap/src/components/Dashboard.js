@@ -12,6 +12,8 @@ const Dashboard = (props) => {
 
     const path = props.path
 
+    console.log(`${path}get-flight-schedule`)
+
     const [schedule, setSchedule] = useState([]);
 
     // Dashboard will show upcoming flights
