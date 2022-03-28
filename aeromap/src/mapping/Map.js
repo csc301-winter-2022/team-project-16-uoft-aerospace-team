@@ -32,7 +32,7 @@ function MyComponent() {
     googleMapsApiKey: "AIzaSyCj4HxBE7pnCqgYM_t4F7OnrThS8w_4hUc"
   })
 
-
+  const [inputPos, setPos] = React.useState();
 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
@@ -79,11 +79,47 @@ function MyComponent() {
     setPaths(paths.slice(0, -1));
   }
 
+  const coordinateForm = (e) => {
+    setPos(e.target.value);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const inputLat = parseFloat(inputPos.split(',')[0]);
+    const inputLong = parseFloat(inputPos.split(',')[1]);
+    setMarkers(
+      [...markers,
+      {
+        lat: inputLat,
+        lng: inputLong,
+        time: new Date()
+      },
+      ]);
+    setPaths(
+      [...paths,
+      {
+        lat: inputLat,
+        lng: inputLong
+      }]
+    )
+  }
+
   if (loadError) return "Error loading map";
   if (!isLoaded) return "loading maps";
 
   return (
     <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <input
+            type="text"
+            placeholder='Coordinates'
+            value={inputPos}
+            onChange={coordinateForm}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       <form onSubmit={clearMarkers}>
         <button type="submit">Clear Markers</button>
       </form>
