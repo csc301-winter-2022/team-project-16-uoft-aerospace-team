@@ -66,7 +66,7 @@ const url = require('url');
      * See fetchData for more information.
      * 
      */
-    async getCurrentWeather() {
+    getCurrentWeather() {
         const url = new URL(this.#_baseUrl);
         url.searchParams.append('exclude', 'minutely,hourly,daily,alerts');
         return this.#fetchData(url);
@@ -76,7 +76,7 @@ const url = require('url');
      * Get data about daily weather for the next 8 days.
      * See FetchData for more information
      */
-    async getDailyWeather() {
+    getDailyWeather() {
         const url = new URL(this.#_baseUrl);
         url.searchParams.append('exclude', 'current,minutely,hourly,alerts');
         return this.#fetchData(url);
@@ -195,23 +195,6 @@ const url = require('url');
      * @param {Date} date at which we want to know the temperature/ws
      */
     maxTempWind(date) {
-        /*const now = Date.now();
-        const limit = new Date(Date.now() + this.#daysToMs(2));
-        const limit2 = new Date(now + this.#daysToMs(8));
-        const diff = date.getTime() - limit.getTime();
-        const diff2 = date.getTime() - limit2.getTime();
-        if (diff2 > 0) {
-            throw new Error("Cannot get weather information for a date that is in more than 8 days");
-        } else if (date.getTime() - now < 0) {
-            throw new Error("Cannot get weather history (only future time is allowed)");
-        } else if (0 < diff && diff2 < 0) { // in this case, the given date exceeds 2 days
-            return this.maxTempWindForDay(this.#msToDays(date.getTime() - now));
-        } else {
-            const startDate = new Date(date);
-            startDate.setHours(0);
-            return 0;
-        }*/
-
         const today = new Date();
         today.setHours(0);
         today.setMinutes(0);

@@ -84,9 +84,9 @@ class AirspaceLoader {
                         circleBuilder.radius = firstVertex.distanceTo(circleCenter);       // Compute distance and set circle radius
                         circleBuilder.startPoint = firstVertex;
                         circleBuilder.endPoint = secondVertex;
+
                         const circle = circleBuilder.buildAndReset();                                // Build circle and reset the builder   
                         airspaceBuilder.appendShape(circle);                               // Circle built so we append to the airspace builder
-                        
                         polygonBuilder.append(firstVertex);
                         polygonBuilder.append(secondVertex);
                         break;
@@ -102,13 +102,13 @@ class AirspaceLoader {
                         polygonBuilder.append(vertex);
                         break;
                     case 'V':
-                        if (splitted[1] == 'X=') {
+                        if (splitted[1] === 'X=') {
                             const lat = this.parseDMS(splitted[2]);
                             const lon = this.parseDMS(splitted[3]);
                             circleBuilder.center = Coordinates.ofDeg(lat, lon);
-                        } else if (splitted[2] === 'D=+') {
+                        } else if (splitted[1] === 'D=+') {
                             circleBuilder.rotation = Circle.CLOCKWISE;
-                        } else if (splitted[2] === 'D=-') {
+                        } else if (splitted[1] === 'D=-') {
                             circleBuilder.rotation = Circle.ANTI_CLOCKWISE;
                         }
                         break;
@@ -156,6 +156,7 @@ class AirspaceLoader {
 
         stream.on('end', () => {
             appendIfReadyToBuild();
+            stream.close();
             return callback(airspaces);
         });
     }

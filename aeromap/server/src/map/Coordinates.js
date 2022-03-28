@@ -1,6 +1,7 @@
 // TO BE TESTED
 const Angle = require("../geometry/Angle");
-const { immutable } = require("../util/Util");
+const Preconditions = require("../util/Preconditions");
+const Util = require("../util/Util");
 
 /**
  * Represents the geographic coordinates system (latitude and longitude)
@@ -10,15 +11,11 @@ const { immutable } = require("../util/Util");
  *  negatitive longitude)
  */ 
  class Coordinates {
-    static MEAN_EARTH_RADIUS = 6.317;
-    static MIN_LAT_DEG = -180.0;
-    static MAX_LAT_DEG = 180.0;
-    static MIN_LON_DEG = -90.0;
-    static MAX_LON_DEG = 90.0;
-    static MIN_LAT_RAD = - Math.PI;
-    static MAX_LAT_RAD = Math.PI;
-    static MIN_LON_RAD = - Math.PI / 2;
-    static MAX_LON_RAD = Math.PI / 2;
+    static MEAN_EARTH_RADIUS = 6317;
+    static MIN_LAT = -90.0;
+    static MAX_LAT = 90.0;
+    static MIN_LON = -180.0;
+    static MAX_LON = 180.0;
 
     lat;
     lon;
@@ -28,8 +25,8 @@ const { immutable } = require("../util/Util");
      * @param {Number} lon 
      */
     constructor(lat, lon) {
-       // Preconditions.check(Coordinates.MIN_LON <= lon && lon <= Coordinates.MAX_LON);
-       // Preconditions.check(Coordinates.MIN_LAT <= lat && lat < Coordinates.MAX_LAT);
+        Preconditions.check(Coordinates.MIN_LON <= lon && lon <= Coordinates.MAX_LON);
+        Preconditions.check(Coordinates.MIN_LAT <= lat && lat < Coordinates.MAX_LAT);
         this.lat = lat;
         this.lon = lon;
     }
@@ -56,30 +53,20 @@ const { immutable } = require("../util/Util");
         return this.lon;
     }
     /**
-     * 
+     * Return the distance (in metres) between this and other
      * @param {Coordinates} other 
-     * @returns 
+     * @returns {Number}
      */
     distanceTo(other) {
-        const phi1 = Coordinates.#degToRad(this.lat);
-        const phi2 = Coordinates.#degToRad(other.getLat());
+        const phi1 = Angle.degToRad(this.lat);
+        const phi2 = Angle.degToRad(other.getLat());
 
-        const clip = (value, min, max) => {
-            const range = max - min;
-            if (min <= value && value <= max) {
-                return value;
-            } else {
-                return value < min 
-                    ? clip(value + range, min, max)
-                    : clip(value - range, min, max);
-            }
-        }
 
-        const delta_lat = Coordinates.#degToRad(clip(
-            this.getLat() - other.getLat(), Coordinates.MIN_LAT_DEG, Coordinates.MAX_LAT_DEG)
+        const delta_lat = Angle.degToRad(Util.clip(
+            this.getLat() - other.getLat(), Coordinates.MIN_LAT, Coordinates.MAX_LAT)
         );
-        const delta_lon = Coordinates.#degToRad(clip(
-            this.getLon() - other.getLon(), Coordinates.MIN_LON_DEG, Coordinates.MAX_LON_DEG
+        const delta_lon = Angle.degToRad(Util.clip(
+            this.getLon() - other.getLon(), Coordinates.MIN_LON, Coordinates.MAX_LON
         ));
 
         const square = (x) => x*x;
@@ -92,20 +79,7 @@ const { immutable } = require("../util/Util");
         return Coordinates.MEAN_EARTH_RADIUS * c;
     }
 
-    static #degToRad(value) {
-        return value * Math.PI / 180;
-    }
 
-    /**
-     * 
-     * @param {Number} degrees 
-     * @param {Number} minutes 
-     * @param {Number} seconds 
-     * @returns 
-     */
-    static #DMStoDegree = (degrees, minutes, seconds) => 
-        degrees + minutes / 60.0 + seconds / 3600.0;
-    
     equals(other) {
         return this.lat === other.getLat() &&
             this.lon === other.getLon();

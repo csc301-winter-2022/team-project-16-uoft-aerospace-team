@@ -1,8 +1,11 @@
 const { Coordinates } = require("../map/Coordinates");
-const { interfaceCheck } = require("../util/Util");
+const Util = require("../util/Util");
+
 
 /**
- * Represents a 2D shape at the surface of the globe
+ * Represents a 2D shape at the surface of the globe.
+ * Such a shape is defined by a set of geographical coordinates,
+ * representing location at the surface of the globe.
  */
  class Geographical2DShape {
     /**
@@ -10,7 +13,7 @@ const { interfaceCheck } = require("../util/Util");
      * @param {Coordinates} location 
      */
     contains(location) {
-        interfaceCheck();
+        Util.interfaceCheck();
     }
 
     /**
@@ -18,7 +21,7 @@ const { interfaceCheck } = require("../util/Util");
      * @param {Geographical2DShape} other 
      */
     equals(other) {
-        interfaceCheck();
+        Util.interfaceCheck();
     }
 }
 

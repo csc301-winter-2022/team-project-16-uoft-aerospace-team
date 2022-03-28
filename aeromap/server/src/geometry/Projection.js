@@ -1,4 +1,5 @@
 const { Coordinates } = require("../map/Coordinates");
+const Angle = require("./Angle");
 const CartesianCoordinates2D = require("./CartesianCoordinates");
 
 /**

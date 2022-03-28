@@ -5,4 +5,9 @@ const filePath = path.resolve(__dirname, '../..', 'resources', 'airspace',
 'canadian_airspace.txt');
 
 const al = new AirspaceLoader(filePath, 'utf-8');
-al.getAllAirspacesAsynchronous(res => console.log(res));
+var airspaces;
+//al.getAllAirspacesAsynchronous(res => airspaces = res).then();
+
+test('dummy test', () => {
+    expect(10).toBe(10);
+}); 

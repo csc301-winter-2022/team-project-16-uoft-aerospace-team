@@ -1,3 +1,5 @@
+const Util = require("../util/Util");
+
 class CartesianCoordinates2D {
 
     constructor(x, y) {
@@ -52,7 +54,7 @@ class CartesianCoordinates2D {
         const edge = edgeEnd.substract(edgeStart);
         const locationVect = this.substract(edgeStart);
 
-        return almostZero(edge.crossProduct(locationVect)) && 
+        return Util.closeToZero(edge.crossProduct(locationVect), 12) && 
             Math.min(edgeStart.x, edgeEnd.x) <= this.x &&
                 this.x <= Math.max(edgeStart.x, edgeEnd.x) &&
                     Math.min(edgeStart.y, edgeEnd.y) <= this.y &&

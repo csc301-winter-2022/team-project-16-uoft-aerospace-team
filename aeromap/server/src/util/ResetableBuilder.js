@@ -1,15 +1,17 @@
+const Util = require("./Util");
+
 class ResetableBuilder {
 
     build() {
-        interfaceCheck();
+        Util.interfaceCheck();
     }
 
     reset() {
-        interfaceCheck();
+        Util.interfaceCheck();
     }
 
     readyToBuild() {
-        interfaceCheck();
+        Util.interfaceCheck();
     }
 
     buildAndReset() {

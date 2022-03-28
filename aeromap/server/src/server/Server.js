@@ -32,9 +32,9 @@ class Server {
      * @returns {Promise<Server>}
      */
     static createServer(port) {
-        const airspaceLoader = new AirspaceLoader(airspaceFilePath, 'utf-8');
+        const airspaceLoader = new AirspaceLoader(Server.airspaceFilePath, 'utf-8');
         const loadAirspaces = airspaceLoader.getAllAirspaces().then(airspaces => {
-            this.airspaces = airspaces.filter(airspace => 
+            return airspaces.filter(airspace => 
                 airspace.lowAltitude <= Server.maxAltitude);
         });
         return loadAirspaces.then(airspaces => new Server(port, airspaces));
@@ -57,20 +57,25 @@ class Server {
             res.send(services.get_logs());
         });
 
-        router.get('/get-weather', (req, res) => {
-            const date = new Date(Date.parse(req.params.date));
-            const location = Coordinates.ofDeg(req.params.lat, req.params.lon);
+        router.get('/weather', (req, res) => {
+            const date = new Date(Date.parse(req.query.date));
+            const lat = parseFloat(req.query.lat);
+            const lon = parseFloat(req.query.lon);
+
+            const location = Coordinates.ofDeg(lat, lon);
             this.requestHandler.getWeather(date, location)
                 .then(weather => res.status(200).send(JSON.stringify(weather)))
                 .catch(err => console.log(err));
         });
 
-        router.get('/get-airspace', (req, res) => {
-            const location = Coordinates.ofDeg(req.params.lat, req.params.lon);
-            const airspaceClass = this.getAirspaceClass(location);
-            res.status(200).send(JSON.stringify(airspaceClass));
+        router.get('/airspace-class', (req, res) => {
+            const lat = parseFloat(req.query.lat);
+            const lon = parseFloat(req.query.lon);
+            const location = Coordinates.ofDeg(lat, lon);
+            const airspaceClass = this.getAirspaceClass(location)
+            res.status(200).send(airspaceClass);
         });
-
+        
         const app = express();
         
         app.use(cors());
@@ -79,14 +84,14 @@ class Server {
         app.use('/api', router);
 
         app.listen(this.port, () => {
-            console.log(`Server listening on ${PORT}`);
+            console.log(`Server listening on ${this.port}`);
         });
     }
 
 
     getAirspaceClass(location) {
         AirspaceClass.values().forEach(airspaceClass => {
-            this.airspaces.get(airspaceClass).forEach(airspace => {
+            this.airspaces.get(airspaceClass, List()).forEach(airspace => {
                 if (airspace.contains(location)) {
                     return airspaceClass;
                 } 

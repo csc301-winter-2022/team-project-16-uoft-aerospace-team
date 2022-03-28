@@ -1,3 +1,9 @@
+const Util = require("../../../backend/api-related/util/Util");
+
+/**
+ * Represents an Angle. The value of the angle is storred both
+ * in radians and in degrees.
+ */
 class Angle {
     degrees;
     radians;
@@ -7,7 +13,13 @@ class Angle {
         this.radians = radians;
     }
 
+    /**
+     * Create 
+     * @param {Number} degrees 
+     * @returns 
+     */
     static ofDeg(degrees) {
+        
         return new Angle(degrees, Angle.degToRad(degrees));
     }
 
@@ -32,19 +44,15 @@ class Angle {
     }
 
     set degrees(value) {
-        immutable();
+        Util.immutable();
     }
 
     set radians(value) {
-        immutable();
+        Util.immutable();
     }
 
     static degToRad = (degrees) => degrees * Math.PI / 180;
     static radToDeg = (radians) => radians * 180 / Math.PI;
-
-    /*toString() {
-        return JSON.stringify(this);
-    }*/
 
 }
 

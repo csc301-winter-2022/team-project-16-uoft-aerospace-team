@@ -27,7 +27,7 @@ class Airspace {
      * @returns 
      */
     contains(location) {
-        return this.figures.reduce((previous, current) => 
+        return this.shapes.reduce((previous, current) => 
             previous || current.contains(location), false);
     }
 

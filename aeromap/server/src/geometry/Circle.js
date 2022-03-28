@@ -41,7 +41,7 @@ class Circle extends Geographical2DShape {
         return new Circle(center, radius, 0, null, null);
     }
 
-    contains(location) {    
+    contains(location) {   
         // If complete circle
         if (this.startPoint === null || this.endPoint === null) {
             return this.center.distanceTo(location) <= this.radius;
@@ -61,28 +61,8 @@ class Circle extends Geographical2DShape {
             const crossProd = boundary.crossProduct(cartesianLoc
                 .substract(cartesianStart));
             
-            console.log(crossProd);
-            console.log(crossProd * this.rotation);
-            console.log("distance " + this.center.distanceTo(location) + ' (radius='+this.radius+')');
             return this.center.distanceTo(location) <= this.radius && 
                 crossProd * this.rotation >= 0;
-
-            /*const centerCartesian = MercatorProjection.project(
-                this.center);
-            const boundaryStartVect = MercatorProjection.project(
-                this.startPoint).substract(centerCartesian);
-            const boundaryEndVect = MercatorProjection.project(
-                this.endPoint).substract(centerCartesian);
-            const locationVect = MercatorProjection.project(
-                location).substract(centerCartesian);
-            
-            const isAfterBoundaryStart = boundaryStartVect.crossProduct(
-                locationVect) * this.rotation >= 0;
-            const isBeforeBoundaryEnd = boundaryEndVect.crossProduct(
-                locationVect) * this.rotation <= 0;
-
-            return this.center.distanceTo(location) <= this.radius &&
-                isAfterBoundaryStart && isBeforeBoundaryEnd;*/
         }
     }
 
@@ -111,7 +91,7 @@ class CircleBuilder extends ResetableBuilder {
         super();
         this.radius = 0;
         this.center = null;
-        this.rotation = undefined;
+        this.rotation = 0;
         this.startPoint = null;
         this.endPoint = 0;
     }
@@ -130,10 +110,10 @@ class CircleBuilder extends ResetableBuilder {
     }
 
     /**
-     * @param {Boolean} value
+     * @param {*} value
      */
     set rotation(value) {
-        this.value = value;
+        this.rotation = value;
     }
 
     /**
