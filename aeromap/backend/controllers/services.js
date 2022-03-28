@@ -1,6 +1,7 @@
 const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require('../usecases/SiteManager.js');
 const { read, write } =  require('../gateways/gateway.js');
+const aerodrome_helper = require('./aerodrome-helper');
 
 let flightManager = new FlightManager();
 let siteManager = new SiteManager();
@@ -48,26 +49,23 @@ function get_airspace(pins) {
 
 function get_nearby_aerodromes(pins) {
     // use api on pins[0] or ideally geographic center of pins
-    return '[{"name": "cool airport", "distance": "5"}, {"name": "not cool airport", "distance": "1"}]';
+    return aerodrome_helper.get_nearby_aerodromes(pins);
 }
 
 function get_emergency_contacts(pins) {
     // use api on pins[0] or ideally geographic center of pins
-    return '[{"name": "Ronald", "number": "613-828-0011"}, {"name": "Donald", "number": "613-333-4521"}]';
-}
-
-// ignore for now
-function get_geofence(pins) {
-    return JSON.stringify([]);
+    return [{name: "Ronald", number: "613-828-0011"}, {name: "Donald", number: "613-333-4521"}];
 }
 
 function create_site(sitename, pins, margin) {
-    siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    //siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    siteManager.add_site(sitename, pins, margin, get_airspace(pins), [], get_emergency_contacts(pins));
+    write('siteManager.json', { 'siteManager': siteManager });
 }
 
 // Add Flight
 
-function get_sites(username) {
+function get_sites() {
     return siteManager.get_sites();
 }
 
@@ -80,11 +78,12 @@ function get_weather(date, sitename) {
 
     // use weather api with location and date
     
-    return '{"temp": "14", "windspeed": "30"}';
+    return {temp: "14", windspeed: "30"};
 }
 
 function create_flight(date, sitename, pilot, drone, notes) {
     flightManager.add_flight(date, sitename, pilot, drone, notes);
+    write('flightManager.json', { 'flightManager': flightManager });
 }
 
 // // Logs
@@ -93,9 +92,5 @@ function get_logs() {
     return JSON.stringify(flightManager.get_past());
 }
 
-// export { 
-//     login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, get_geofence,
-//     create_site, get_sites, get_site, get_weather, create_flight, get_logs,
-// }
-
-module.exports = { login, get_flight_schedule, get_logs };
+module.exports = { login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, 
+    create_site, get_sites, get_site, get_weather, create_flight, get_logs };

@@ -24,7 +24,7 @@ const Dashboard = (props) => {
             setSchedule(JSON.parse(data));
         })
     }
-
+    
     get_flight_schedule();
 
     return(

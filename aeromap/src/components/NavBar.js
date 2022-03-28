@@ -15,7 +15,7 @@ const NavBar = () => {
             <NavLink to="/" style={navLinkStyle}> <img src={dashboardImg} style={DashboardImgStyle} alt='Dashboard Icon'/> </NavLink>
             <NavLink to="/add-site" style={navLinkStyle}> <img src={siteImg} style={siteImgStyle} alt='Site Icon'/> </NavLink>
             <NavLink to="/add-flight" style={navLinkStyle}> <img src={flightImg} style={flightImgStyle} alt='Flight Icon'/> </NavLink>
-            <NavLink to="/log" style={navLinkStyle}> <img src={logImg} style={logImgStyle} alt='Logs Icon'/>  </NavLink>
+            <NavLink to="/info" style={navLinkStyle}> <img src={logImg} style={logImgStyle} alt='Logs Icon'/>  </NavLink>
         </div>
     );
 }
