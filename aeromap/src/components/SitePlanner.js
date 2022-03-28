@@ -5,14 +5,38 @@ import Map from "../mapping/Map";
 import pageStyle from "../styles/pageStyle";
 
 
-const SitePlanner = ({create_site}) => {
+const SitePlanner = (props) => {
+
+    const path = props.path;
+
     const [siteName, setSiteName] = useState('');
     const [coordinates, setCoordinates] = useState('');
     const [margin, setMargin] = useState('');
+    const [status, setStatus] = useState('');
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault()
-        create_site(siteName, coordinates, margin);
+
+        await fetch (`${path}create-site`, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({sitename: siteName, pins: coordinates, margin: margin})
+        }).then(response=>response.text())
+        .then(data=>{ 
+            if (data === 'success') {
+                setSiteName('');
+                setCoordinates('');
+                setMargin('');
+                setStatus('Successfully added');
+            }
+            else {
+                setStatus('Error adding flight');
+            }
+        })
+
         setSiteName('');
         setCoordinates('');
         setMargin('');
@@ -27,6 +51,7 @@ const SitePlanner = ({create_site}) => {
                 <button>submit</button>
             </form>
             <Map />
+            <div>{status}</div>
         </div>
     )
 }
