@@ -56,11 +56,12 @@ function get_nearby_aerodromes(pins) {
 
 function get_emergency_contacts(pins) {
     // use api on pins[0] or ideally geographic center of pins
-    return '[{"name": "Ronald", "number": "613-828-0011"}, {"name": "Donald", "number": "613-333-4521"}]';
+    return [{name: "Ronald", number: "613-828-0011"}, {name: "Donald", number: "613-333-4521"}];
 }
 
 function create_site(sitename, pins, margin) {
-    siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    //siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    siteManager.add_site(sitename, pins, margin, get_airspace(pins), [], get_emergency_contacts(pins));
 }
 
 // Add Flight
@@ -78,7 +79,7 @@ function get_weather(date, sitename) {
 
     // use weather api with location and date
     
-    return '{"temp": "14", "windspeed": "30"}';
+    return {temp: "14", windspeed: "30"};
 }
 
 function create_flight(date, sitename, pilot, drone, notes) {

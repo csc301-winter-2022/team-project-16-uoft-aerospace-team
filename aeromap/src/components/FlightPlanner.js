@@ -12,6 +12,19 @@ const FlightPlanner = (props) => {
     const [droneInfo, setDroneInfo] = useState('');
     const [notes, setNotes] = useState('');
     const [status, setStatus] = useState('');
+    const [savedSites, setSavedSites] = useState([]);
+
+    const get_saved_sites = async () => {
+        await fetch(`${path}get-sites`)
+        .then(res => res.json())
+        .then(data => {
+            setSavedSites(data); 
+        })
+    }
+
+    get_saved_sites()
+
+    
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -53,7 +66,16 @@ const FlightPlanner = (props) => {
 
             <form onSubmit={handleSubmit}>
                 <input type="datetime-local" value={time} onChange={handleChange(setTime)}/>
-                <input value={siteName} placeholder='Site Name' onChange={handleChange(setSiteName)}/>
+                <select name="site-select" onChange={handleChange(setSiteName)}>
+                    <option selected value="">Site Name</option>
+                    {savedSites.map(site => {
+                        return (
+                            <option value={site.name}>
+                                {site.name}
+                            </option>
+                        )
+                    })}
+                </select>
                 <input value={pilotName} placeholder='Pilot Name' onChange={handleChange(setPilotName)}/>
                 <input value={droneInfo} placeholder='Drone Info' onChange={handleChange(setDroneInfo)}/>
                 <input value={notes} placeholder='Notes' onChange={handleChange(setNotes)}/>

@@ -17,7 +17,7 @@ router.get('/get-logs', (req, res) => {
 })
 
 router.get('/get-sites', (req, res) => {
-    res.send(services.get_sites());
+    res.send(JSON.stringify(services.get_sites()));
 })
 
 router.get('/get-site:sitename', (req, res) => {

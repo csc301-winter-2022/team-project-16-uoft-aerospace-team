@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import SitePlanner from './components/SitePlanner';
 import InfoPage from './components/InfoPage';
 import FlightPlanner from './components/FlightPlanner';
+import AddSite from './components/AddSite';
 
 import appStyle from './styles/appStyle';
 
@@ -33,7 +34,7 @@ const App = () => {
 
         <Routes> 
           <Route path="/" exact element={<Dashboard path={path}/> }/>
-          <Route path="/add-site" exact element={<SitePlanner create_site={create_site} path={path}/>}/>
+          <Route path="/add-site" exact element={<AddSite create_site={create_site} path={path}/>}/>
           <Route path="/add-flight" exact element={<FlightPlanner create_flight={create_flight} path={path}/>}/>
           <Route path="/info" exact element={<InfoPage />} />
         </Routes>
