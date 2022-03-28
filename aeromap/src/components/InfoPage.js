@@ -4,7 +4,6 @@ import SelectCheckBoxes from "./SelectCheckBoxes";
 import InfoTable from "./InfoTable";
 import pageStyle from "../styles/pageStyle";
 import { dividerStyle, titleStyle } from "../styles/InfoPageStyle";
-import * as services from '../backend/controllers/services';
 
 const fakeFlights = [
   {
