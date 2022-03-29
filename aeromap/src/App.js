@@ -35,7 +35,7 @@ const App = () => {
           <Route path="/" exact element={<Dashboard path={path}/> }/>
           <Route path="/add-site" exact element={<SitePlanner create_site={create_site} path={path}/>}/>
           <Route path="/add-flight" exact element={<FlightPlanner create_flight={create_flight} path={path}/>}/>
-          <Route path="/info" exact element={<InfoPage />} />
+          <Route path="/info" exact element={<InfoPage path={path}/>} />
         </Routes>
       </div>
   );

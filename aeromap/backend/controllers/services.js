@@ -131,7 +131,7 @@ function create_flight(date, sitename, pilot, drone, notes) {
 // // Logs
 
 function get_logs() {
-    return JSON.stringify(flightManager.get_past());
+    return flightManager.get_past();
 }
 
 module.exports = { login, get_flight_schedule, get_airspace, get_nearby_aerodromes, get_emergency_contacts, 

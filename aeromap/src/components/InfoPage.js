@@ -1,316 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import SelectCheckBoxes from "./SelectCheckBoxes";
 import InfoTable from "./InfoTable";
 import pageStyle from "../styles/pageStyle";
 import { dividerStyle, titleStyle } from "../styles/InfoPageStyle";
 
-const fakeFlights = [
-  {
-    name: 'mommy',
-    time: new Date(),
-    site: 'your house',
-    pilots: 'me, you',
-    drone: 'a drone',
-    note: 'sick flight',
-    duration: 'long',
-    weather: 'nice',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
 
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-  {
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },{
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },{
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },{
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },{
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },{
-    name: 'daddy',
-    time: new Date(),
-    site: 'tprpmto',
-    pilots: 'Luna',
-    drone: 'prototype',
-    note: 'yoooo',
-    duration: 'short',
-    weather: 'bad',
-    
-  },
-];
 
-const InfoPage = () => {
+const InfoPage = ({path}) => {
 
+    const [logs, setLogs] = useState([]);
     const [page, setPage] = useState('flight');
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [sortFunction, setSortFunction] = useState();
+    const [allCategories, setAllCategories] = useState([]);
 
-    const allCategories = Object.keys(fakeFlights[0]).map( key => {
-      const label = key.charAt(0).toUpperCase() + key.slice(1);
-      return { value: key, label: label };
-    });
+    useEffect(() => {
+      fetch(`${path}get-logs`)
+        .then(res => res.json())
+        .then(initialLogs => {console.log('initialLogs', initialLogs);
+         setLogs(initialLogs)
+      })
+        .then(() => {
+          if(logs.length > 0)
+            setAllCategories(Object.keys(logs[0]).map( key => {
+              const label = key.charAt(0).toUpperCase() + key.slice(1);
+              return { value: key, label: label }
+              })
+          )   
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+
 
     return (
       <div style={pageStyle}>
@@ -327,7 +48,7 @@ const InfoPage = () => {
 
         <InfoTable 
           headers={selectedCategories} 
-          data={fakeFlights}
+          data={logs}
           />
 
       </div>

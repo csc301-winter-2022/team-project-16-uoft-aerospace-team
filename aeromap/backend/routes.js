@@ -4,16 +4,16 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/get-flight-schedule', (req, res) => {
-    res.send(JSON.stringify(services.get_flight_schedule()));
+    res.json(services.get_flight_schedule());
 })
 
 router.get('/login', (req, res) => {
     services.login('peter', 'dang');
-    res.send(JSON.stringify('success'));
+    res.json('success');
 })
 
 router.get('/get-logs', (req, res) => {
-    res.send(JSON.stringify(services.get_logs()));
+    res.json(services.get_logs());
 })
 
 router.get('/get-sites', (req, res) => {
