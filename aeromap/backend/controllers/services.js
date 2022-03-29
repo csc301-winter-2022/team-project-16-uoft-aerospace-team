@@ -58,8 +58,8 @@ function get_emergency_contacts(pins) {
 }
 
 function create_site(sitename, pins, margin) {
-    //siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
-    siteManager.add_site(sitename, pins, margin, get_airspace(pins), [], get_emergency_contacts(pins));
+    siteManager.add_site(sitename, pins, margin, get_airspace(pins), get_nearby_aerodromes(pins), get_emergency_contacts(pins));
+    // siteManager.add_site(sitename, pins, margin, get_airspace(pins), [], get_emergency_contacts(pins));
     write('siteManager.json', { 'siteManager': siteManager });
 }
 

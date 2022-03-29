@@ -25,10 +25,10 @@ function deg2rad(deg) {
 
 function get_nearest_aerodrome(airports, pin, avoid=[]) {
     let aerodrome;
-    let shortest_dist = getDistanceFromLatLonInKm(pin.lat, pin.long, airports[0][4], airports[0][5]);
+    let shortest_dist = getDistanceFromLatLonInKm(pin.lat, pin.lng, airports[0][4], airports[0][5]);
     for (let i in airports) {
         if (!avoid.includes(airports[i])) {
-            const dist = getDistanceFromLatLonInKm(pin.lat, pin.long, airports[i][4], airports[i][5]);
+            const dist = getDistanceFromLatLonInKm(pin.lat, pin.lng, airports[i][4], airports[i][5]);
             if (dist < shortest_dist) {
                 shortest_dist = dist;
                 aerodrome = airports[i];
@@ -57,7 +57,7 @@ function get_nearby_aerodromes(pins) {
         }
     })
     return JSON.stringify(nearest_aerodromes.map((a, index) => {
-        return { name: a[3], distance: getDistanceFromLatLonInKm(pins[0].lat, pins[0].long, a[4], a[5]), comm: nearest_frequencies[index] }
+        return { name: a[3], distance: getDistanceFromLatLonInKm(pins[0].lat, pins[0].lng, a[4], a[5]), comm: nearest_frequencies[index] }
     }));
     // return '[{"name": "cool airport", "distance": "5"}, {"name": "not cool airport", "distance": "1"}]';
 }
