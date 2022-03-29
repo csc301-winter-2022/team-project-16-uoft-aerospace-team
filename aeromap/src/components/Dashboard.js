@@ -12,10 +12,7 @@ const Dashboard = (props) => {
 
     const path = props.path
 
-    console.log(`${path}get-flight-schedule`)
-
     const [schedule, setSchedule] = useState([]);
-    const [savedSites, setSavedSites] = useState([]);
 
     // Dashboard will show upcoming flights
     // Make get request for flight data
@@ -27,16 +24,8 @@ const Dashboard = (props) => {
             setSchedule(JSON.parse(data));
         })
     }
-    const get_saved_sites = async () => {
-        await fetch(`${path}get-sites`)
-        .then(res => res.json())
-        .then(data => {
-            setSavedSites(JSON.parse(data));
-        })
-    }
-
+    
     get_flight_schedule();
-    get_saved_sites();
 
     return(
         <div style={pageStyle}>
