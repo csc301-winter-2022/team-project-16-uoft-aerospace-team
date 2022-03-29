@@ -47,7 +47,7 @@ class Airspace {
      * @param {Number} altitude
      * @returns 
      */
-    contains(location, altitude) {
+    contains(location, altitude = 0) {
         const fitsAltitudeRange = this.lowAltitude <= altitude && 
             altitude <= this.highAltitude;
         return this.shapes.reduce((previous, current) => 

@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 test('Can get airspace class', async () => {
 
-    const location = Coordinates.ofDeg(-43.651070, -79.347015);
+    const location = Coordinates.ofDeg(43.651070, -79.347015);
     const url = new URL('http://localhost:' + port);
     url.pathname = '/api/airspace-class';
     url.searchParams.append('lat', location.lat.toString());
@@ -27,14 +27,14 @@ test('Can get airspace class', async () => {
             return res.data;
         }).then(data => {
             const received = AirspaceClass.parse(data.letter);
-            expect(acceptedValues.includes(received)).toBeTruthy();
+            expect(received).toEqual(AirspaceClass.C);
         }).catch(err => console.log(err));
     return;
 });
 
 
-/*test('Can get weather', async () => {
-    const location = Coordinates.ofDeg(-43.651070, -79.347015);
+test('Can get weather', async () => {
+    const location = Coordinates.ofDeg(43.651070, -79.347015);
     const url = new URL('http://localhost:' + port);
     url.pathname = '/api/weather';
     const date = new Date();
@@ -53,7 +53,7 @@ test('Can get airspace class', async () => {
         expect(weather.maxTemp).toBeLessThan(50);
     }).catch(err => console.log(err));
     return;
-});*/
+});
 
 
 

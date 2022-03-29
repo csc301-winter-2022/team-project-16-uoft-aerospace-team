@@ -94,7 +94,7 @@ class Server {
             const lon = parseFloat(req.query.lon);
 
             const location = Coordinates.ofDeg(lat, lon);
-            this.requestHandler.getWeather(date, location)
+            this.getWeather(date, location)
                 .then(weather => res.status(200).send(JSON.stringify(weather)))
                 .catch(err => console.log(err));
         });
@@ -127,17 +127,19 @@ class Server {
      * @returns 
      */
     getAirspaceClass(location) {
-        AirspaceClass.values().forEach(airspaceClass => {
-            this.airspaces.get(airspaceClass, List()).forEach(airspace => {
+        for (let i = 0; i < AirspaceClass.values().length; i++) {
+            const airspaceClass = AirspaceClass.values()[i];
+            const airspaces = this.airspaces.get(airspaceClass, List());
+            for (let j = 0; j < airspaces.size; j++) {
+                const airspace = airspaces.get(j);
                 if (airspace.contains(location)) {
                     // We return th first hit
                     // It will be the most restricted airspace class
                     // since we iter over AirspaceClass.values()
                     return airspaceClass;           
-
                 } 
-            })
-        });
+            }
+        }
         return AirspaceClass.G;
     }
 
