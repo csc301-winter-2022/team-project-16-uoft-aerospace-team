@@ -156,7 +156,6 @@ class AirspaceLoader {
 
         stream.on('end', () => {
             appendIfReadyToBuild();
-            stream.close();
             return callback(airspaces);
         });
     }

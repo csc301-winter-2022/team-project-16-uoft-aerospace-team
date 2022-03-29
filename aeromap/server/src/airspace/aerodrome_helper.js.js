@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require("path");
 
 function parse_csv(filename) {
+    const filePath = path.resolve(__dirname, '../..', 'resources', 'airspace', 
+        filename);
     return fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n').slice(1).map(line => line.trim().replaceAll(/\"(.*?)\"/g, m => m.replaceAll(',', 'COMMA')).split(',').map(x => x.replaceAll(/COMMA/g, ',')));
 }
 

@@ -1,5 +1,4 @@
 const Server = require('../../src/server/Server');
 
 Server.createServer(3988)
-    .then(server => server.run())
-    .then(() => console.log("Hello"));
+    .then(server => server.run());

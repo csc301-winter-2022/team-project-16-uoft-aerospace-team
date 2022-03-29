@@ -33,7 +33,7 @@ test('Can get airspace class', async () => {
 });
 
 
-test('Can get weather', async () => {
+/*test('Can get weather', async () => {
     const location = Coordinates.ofDeg(-43.651070, -79.347015);
     const url = new URL('http://localhost:' + port);
     url.pathname = '/api/weather';
@@ -53,7 +53,7 @@ test('Can get weather', async () => {
         expect(weather.maxTemp).toBeLessThan(50);
     }).catch(err => console.log(err));
     return;
-});
+});*/
 
 
 

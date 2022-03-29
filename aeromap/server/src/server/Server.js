@@ -6,7 +6,8 @@ const { AirspaceLoader } = require('../Airspace/AirspaceLoader');
 const {List} = require('immutable');
 const { Airspace, AirspaceClass } = require('../Airspace/Airspace');
 const { Coordinates } = require('../map/Coordinates');
-const RequestHandler = require('./RequestHandler');
+const WeatherDataLoader = require('../weather/WeatherDataLoader');
+const services = require('./services');
 
 class Server {
     static airspaceFilePath = path.resolve(__dirname, '../..', 'resources', 'airspace', 
@@ -23,11 +24,11 @@ class Server {
     constructor(port, airspaces) {
         this.port = port;
         this.airspaces = List(airspaces).groupBy(airspace => airspace.airspaceClass);
-        this.requestHandler = new RequestHandler();
     }
 
     /**
-     * 
+     * Asynchronously create a server listening to the provided port.
+     * The result is a Promise<Server>.
      * @param {*} port 
      * @returns {Promise<Server>}
      */
@@ -41,21 +42,51 @@ class Server {
     }
 
 
+    /**
+     * Run the server
+     */
     run() {
         const router = express.Router();
 
-        /*router.get('/get-flight-schedule', (req, res) => {
+        router.get('/get-flight-schedule', (req, res) => {
             res.send(JSON.stringify(services.get_flight_schedule()));
         });
-
+        
         router.get('/login', (req, res) => {
             services.login('peter', 'dang');
             res.send(JSON.stringify('success'));
         });
-
+        
         router.get('/get-logs', (req, res) => {
-            res.send(services.get_logs());
-        });*/
+            res.send(JSON.stringify(services.get_logs()));
+        });
+        
+        router.get('/get-sites', (req, res) => {
+            res.send(JSON.stringify(services.get_sites()));
+        });
+        
+        router.get('/get-site:sitename', (req, res) => {
+            res.send(services.get_site(req.params.sitename));
+        });
+        
+        router.post('/create-site', (req, res) => {
+            let sitename = req.body.sitename;
+            let pins = req.body.pins;
+            let margin = req.body.margin;
+            services.create_site(sitename, pins, margin);
+            res.send('success');
+        });
+        
+        router.post('/create-flight', (req, res) => {
+            let date = req.body.date;
+            let sitename = req.body.sitename;
+            let pilot = req.body.pilot;
+            let drone = req.body.drone;
+            let notes = req.body.notes;
+            services.create_flight(date, sitename, pilot, drone, notes);
+            res.send('success');
+        });
+
 
         router.get('/weather', (req, res) => {
             const date = new Date(Date.parse(req.query.date));
@@ -89,16 +120,32 @@ class Server {
     }
 
 
+    /**
+     * Return the airspace class of the area in which the provided
+     * location lies
+     * @param {*} location 
+     * @returns 
+     */
     getAirspaceClass(location) {
         AirspaceClass.values().forEach(airspaceClass => {
             this.airspaces.get(airspaceClass, List()).forEach(airspace => {
                 if (airspace.contains(location)) {
-                    return airspaceClass;
+                    // We return th first hit
+                    // It will be the most restricted airspace class
+                    // since we iter over AirspaceClass.values()
+                    return airspaceClass;           
+
                 } 
             })
         });
         return AirspaceClass.G;
     }
+
+    getWeather(date, location) {
+        const loader = WeatherDataLoader.withDefaultAppid(location);
+        return loader.maxTempWind(date);
+    }
+
 }
 
 module.exports = Server;

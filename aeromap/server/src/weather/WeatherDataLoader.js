@@ -2,6 +2,7 @@ const axios = require('axios');
 const { Coordinates } = require('../map/Coordinates');
 const Preconditions = require('../util/Preconditions');
 const url = require('url');
+
 /**
  * Used to fetched data from 'https://api.openweathermap.org' API.
  *

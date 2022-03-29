@@ -8,6 +8,12 @@ class Preconditions {
             throw new Error('Illegal argument');
         }
     }
+
+    static checkWithMessage(condition, message) {
+        if (!condition) {
+            throw new Error('Illegal argument (' + message + ')');
+        }
+    }
 }
 
 module.exports = Preconditions;

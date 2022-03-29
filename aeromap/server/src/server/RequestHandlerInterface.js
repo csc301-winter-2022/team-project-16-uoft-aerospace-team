@@ -14,6 +14,14 @@ class RequestHandlerInterface {
     getNearbyAerodromes(location) {
         Util.interfaceCheck();
     }
+
+    login(username, password) {
+        Util.interfaceCheck();
+    }
+
+    getAirspaceClass(location) {
+        Util.interfaceCheck();
+    }
     
 }
 

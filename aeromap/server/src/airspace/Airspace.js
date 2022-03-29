@@ -1,12 +1,29 @@
 const Geographical2DShape = require("../geometry/Geographical2DShape");
 const ResetableBuilder = require("../util/ResetableBuilder");
 const { List } = require("immutable");
+const Preconditions = require("../util/Preconditions");
 
+/**
+ * Represents an airspace. An airpsace is essentially a 3-dimensional zone 
+ * defined by the following:
+ *  - An altitude range: the zone has a low altitude and a high altitude
+ *  - A "plane" area (ie. an area that could be drawn at the surface of the
+ *      globe)
+ *  - An airspace class that summarizes the regulations applied to this airspace
+ * 
+ * Our implementation is strictly defined with the following features:
+ *  - name: an airspace has a unique name
+ *  - airspaceClass: class of airspace for this airspace
+ *  - shapes: set of geographical shapes (if drawn at the surface of the globe, 
+ *      the airspace is defined by the union of the area of the shapes provided)
+ *  - lowAltitude: lower bound for the altitude range (in feet)
+ *  - highAltitude: higher bound for the altitude range (in feet)
+ */
 class Airspace {
     static TRANSITION_ALTITUDE = 18000; // Set transition altitude to 18,000 feet. Any airspace 
     static MAX_ALTITUDE = Number.MAX_SAFE_INTEGER; 
+
     /**
-     * 
      * @param {String} name 
      * @param {AirspaceClass} airspaceClass
      * @param {Geographical2DShape[]} shapes
@@ -14,6 +31,8 @@ class Airspace {
      * @param {Number} highAltitude
      */
     constructor(name, airspaceClass, shapes, lowAltitude, highAltitude) {
+        Preconditions.checkWithMessage(lowAltitude <= highAltitude, "Altitudes are not correct, low: " + lowAltitude + ', high: ' + highAltitude);
+        Preconditions.checkWithMessage(shapes.length > 0, "No shapes");
         this.name = name;
         this.airspaceClass = airspaceClass;
         this.shapes = List(shapes);
@@ -22,11 +41,15 @@ class Airspace {
     }
 
     /**
+     * Determine if the provided location is enclosed by the airspace. 
      * 
      * @param {Coordinates} location 
+     * @param {Number} altitude
      * @returns 
      */
-    contains(location) {
+    contains(location, altitude) {
+        const fitsAltitudeRange = this.lowAltitude <= altitude && 
+            altitude <= this.highAltitude;
         return this.shapes.reduce((previous, current) => 
             previous || current.contains(location), false);
     }
