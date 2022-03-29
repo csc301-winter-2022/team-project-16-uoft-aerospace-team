@@ -15,22 +15,24 @@ const InfoPage = ({path}) => {
     const [sortFunction, setSortFunction] = useState();
     const [allCategories, setAllCategories] = useState([]);
 
+    const declareAllCategories = () => {
+      if (logs.length > 0)
+        setAllCategories(
+          Object.keys(logs[0]).map((key) => {
+            const label = key.charAt(0).toUpperCase() + key.slice(1);
+            return { value: key, label: label };
+          })
+        )
+      console.log('logs', logs)
+    }
+          
     useEffect(() => {
       fetch(`${path}get-logs`)
         .then(res => res.json())
-        .then(initialLogs => {console.log('initialLogs', initialLogs);
-         setLogs(initialLogs)
-      })
-        .then(() => {
-          if(logs.length > 0)
-            setAllCategories(Object.keys(logs[0]).map( key => {
-              const label = key.charAt(0).toUpperCase() + key.slice(1);
-              return { value: key, label: label }
-              })
-          )   
-        })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
+        .then(initialLogs => setLogs(initialLogs));
+    }, []);
+
+    useEffect(declareAllCategories, [logs])
 
 
     return (
