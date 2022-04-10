@@ -42,7 +42,7 @@ class AerodromeHelper {
         airports = airports.map(line => line.slice(0, 6));
         const nearest_aerodromes = []
         for (let i = 0; i < 4; i++) {
-            aerodrome = AerodromeHelper.get_nearest_aerodrome(airports, pins[0], nearest_aerodromes);
+            const aerodrome = AerodromeHelper.get_nearest_aerodrome(airports, pins[0], nearest_aerodromes);
             nearest_aerodromes.push(aerodrome);
         }
         const nearest_frequencies = nearest_aerodromes.map(a => {

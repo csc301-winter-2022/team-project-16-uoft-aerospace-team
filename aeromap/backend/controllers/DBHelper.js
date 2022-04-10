@@ -45,10 +45,10 @@ class DBHelper {
 
     static read_site_manager() {
         let siteManager;
-        const siteData = read('siteManager.json');
+        const siteData = DBHelper.read('siteManager.json');
         if (Object.keys(siteData).length === 0) {
             siteManager = new SiteManager();
-            this.write_site_manager(siteManager);
+            DBHelper.write_site_manager(siteManager);
         } else {
             siteManager = new SiteManager(siteData.siteManager.sites);
         }
@@ -56,7 +56,7 @@ class DBHelper {
     }
 
     static write_site_manager(siteManager) {
-        this.write('siteManager.json', { 'siteManager': siteManager });
+        DBHelper.write('siteManager.json', { 'siteManager': siteManager });
     }
 
     static parse_csv(filename) {
