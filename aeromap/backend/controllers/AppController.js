@@ -19,7 +19,7 @@ class AppController {
     }
 
     get_flight_schedule() {
-        return JSON.stringify(this.flightManager.get_upcoming());
+        return this.flightManager.get_upcoming();
     }
 
     get_logs() {
@@ -27,7 +27,7 @@ class AppController {
     }
 
     get_flight(fid) {
-        return JSON.stringify(this.flightManager.get_flight(fid));
+        return this.flightManager.get_flight(fid);
     }
 
     get_sites() {
@@ -35,7 +35,7 @@ class AppController {
     }
     
     get_site(sitename) {
-        return JSON.stringify(this.siteManager.get_site(sitename));
+        return this.siteManager.get_site(sitename);
     }
 
     get_airspace(pins) {

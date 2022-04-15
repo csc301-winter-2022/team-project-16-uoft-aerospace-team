@@ -22,7 +22,7 @@ const Dashboard = (props) => {
         await fetch(`${path}get-flight-schedule`)
         .then(res => res.json())
         .then(data => {
-            setSchedule(JSON.parse(data));
+            setSchedule(data);
         })
     }
     

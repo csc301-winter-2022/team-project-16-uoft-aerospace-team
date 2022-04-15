@@ -53,7 +53,7 @@ class AerodromeHelper {
                 return comm[0][5]
             }
         })
-        return JSON.stringify(nearest_aerodromes.map((a, index) => {
+        return (nearest_aerodromes.map((a, index) => {
             return { name: a[3], distance: getDistanceFromLatLonInKm(pins[0].lat, pins[0].lng, a[4], a[5]), comm: nearest_frequencies[index] }
         }));
         // return '[{"name": "cool airport", "distance": "5"}, {"name": "not cool airport", "distance": "1"}]';

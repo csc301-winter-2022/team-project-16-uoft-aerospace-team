@@ -22,11 +22,11 @@ router.get('/get-logs', (req, res) => {
 })
 
 router.get('/get-sites', (req, res) => {
-    res.send(JSON.stringify(appController.get_sites()));
+    res.json(appController.get_sites());
 })
 
 router.get('/get-site/:sitename', (req, res) => {
-    res.send(appController.get_site(req.params.sitename));
+    res.json(appController.get_site(req.params.sitename));
 })
 
 router.post('/create-site', (req, res) => {
