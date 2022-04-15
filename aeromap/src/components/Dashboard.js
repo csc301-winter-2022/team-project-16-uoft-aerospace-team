@@ -6,6 +6,7 @@ import {
     dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
 import { nanoid } from 'nanoid';
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Dashboard = (props) => {
@@ -36,11 +37,10 @@ const Dashboard = (props) => {
                 <div className="scrollable" style={contentStyle}>
                     {schedule.map(flight => {
                         return (
-                            <div key={nanoid()}>
-                                <button id="flight_button" type="button">
-                                <p>{flight.date} {flight.sitename}</p>
-                                </button>
-                            </div>
+                            <div>
+                                <div>{flight.date} {flight.sitename}</div>
+                                <Link to={`/view-flight/${flight.fid}`}> View Details </Link>
+                            </div>                         
                         )
                     })}
                 </div>

@@ -8,6 +8,10 @@ router.get('/get-flight-schedule', (req, res) => {
     res.json(appController.get_flight_schedule());
 })
 
+router.get('/get-flight/:fid', (req, res) => {
+    res.json(appController.get_flight(req.params.fid));
+})
+
 router.get('/login', (req, res) => {
     appController.login('peter', 'dang');
     res.json('success');
@@ -21,7 +25,7 @@ router.get('/get-sites', (req, res) => {
     res.send(JSON.stringify(appController.get_sites()));
 })
 
-router.get('/get-site:sitename', (req, res) => {
+router.get('/get-site/:sitename', (req, res) => {
     res.send(appController.get_site(req.params.sitename));
 })
 

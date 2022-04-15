@@ -7,6 +7,7 @@ import FlightPlanner from './components/FlightPlanner';
 import AddSite from './components/AddSite';
 
 import appStyle from './styles/appStyle';
+import ViewFlight from './components/ViewFlight';
 
 const path = 'http://localhost:3001/api/'
 
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/add-site" exact element={<AddSite create_site={create_site} path={path}/>}/>
           <Route path="/add-flight" exact element={<FlightPlanner create_flight={create_flight} path={path}/>}/>
           <Route path="/info" exact element={<InfoPage path={path}/>} />
+          <Route path="/view-flight/:fid" exact element={<ViewFlight path={path}/>} />
         </Routes>
       </div>
   );
