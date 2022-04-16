@@ -16,6 +16,10 @@ class FlightManager {
         return this.flights;
     }
 
+    get_flight_count() {
+        return this.flights.length;
+    }
+
     get_flight(fid) {
         return this.flights.find(flight => flight.fid === fid)
     }

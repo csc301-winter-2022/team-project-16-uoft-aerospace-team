@@ -33,6 +33,10 @@ router.get('/get-aerodromes/:lat/:lng', (req, res) => {
     res.json(appController.get_nearby_aerodromes([{lat:req.params.lat, lng:req.params.lng}]));
 })
 
+router.get('/get-count', (req, res) => {
+    res.json({count: appController.get_count()});
+})
+
 router.post('/create-site', (req, res) => {
     let sitename = req.body.sitename;
     let pins = req.body.pins;

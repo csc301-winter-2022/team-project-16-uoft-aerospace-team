@@ -51,6 +51,10 @@ class AppController {
         return AerodromeHelper.get_nearby_aerodromes(pins);
     }
 
+    get_count() {
+        return this.flightManager.get_flight_count();
+    }
+
     get_emergency_contacts(pins) {
         // use api on pins[0] or ideally geographic center of pins
         return [{name: "Ronald", number: "613-828-0011"}, {name: "Donald", number: "613-333-4521"}];
