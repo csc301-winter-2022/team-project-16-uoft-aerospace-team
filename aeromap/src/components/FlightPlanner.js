@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, forwardRef } from "react";
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
 import Select from 'react-select';
@@ -7,6 +7,8 @@ import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { styled } from "@mui/material/styles";
 import CustomButton from "./customButton";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import {
     flightPlannerTitleStyle, dividerStyle, inputStyle, 
@@ -45,6 +47,11 @@ const StyledTextField = styled(TextField)({
     }
 });
 
+const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  
+
 const FlightPlanner = (props) => {
     
     const path = props.path
@@ -55,6 +62,8 @@ const FlightPlanner = (props) => {
     const [drone, setDrone] = useState('');
     const [pilots, setPilots] = useState(['']);
     const [notes, setNotes] = useState('');
+    const [alert, setAlert] = useState(false);
+    const [alertType, setAlertType] = useState('');
 
     useEffect(() => {
         fetch(`${path}get-sites`)
@@ -67,6 +76,12 @@ const FlightPlanner = (props) => {
     
     const handleSubmit = event => {
         event.preventDefault();
+
+        if (!(time && site && drone) || pilots.find(name => name === '')) {
+            setAlertType('warning')
+            setAlert(true)
+            return
+        }
 
         fetch (`${path}create-flight`, {
             method: 'POST',
@@ -84,14 +99,12 @@ const FlightPlanner = (props) => {
                 setPilots([]);
                 setDrone('');
                 setNotes('');
-                let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
-                            width=600,height=300,left=100,top=100`;
-                window.open('http://localhost:3000/', undefined, params)
-                //TODO
+                setAlertType('success')
+                setAlert(true)
             }
             else {
-                console.log('oopsies');
-                //TODO
+                setAlertType('error')
+                setAlert(true)
             }
         })
     }
@@ -108,6 +121,12 @@ const FlightPlanner = (props) => {
     const handleNameChange = index => ({target}) => {
         const nameChangedPilotsList = pilots.slice(0, index).concat(target.value).concat(pilots.slice(index + 1))
         setPilots(nameChangedPilotsList)
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') return
+
+        setAlert(false);
     }
 
     const generatePilots = () => {
@@ -128,6 +147,43 @@ const FlightPlanner = (props) => {
                 </div>
             )
         })
+    }
+
+    const generateAlert = type => {
+        if (type === 'success') {
+            return (
+                <Snackbar 
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+                    open={alert} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Submission Successful, Flight Saved.
+                    </Alert>
+                </Snackbar>
+            )
+        } else if (type === 'warning') {
+            return (
+                <Snackbar 
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+                    open={alert} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+                    Missing field values, must input time, site, drone, and pilot names. 
+                    </Alert>
+                </Snackbar>
+            )
+        } else if (type === 'Error') {
+            return(
+                <Snackbar 
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+                    open={alert} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    Server Error, Flight Could Not Be Saved.
+                    </Alert>
+                </Snackbar>
+            )
+        } else {
+            return null
+        }
+
     }
 
     return(
@@ -198,6 +254,8 @@ const FlightPlanner = (props) => {
                     <CustomButton onClick={handleSubmit}>Submit</CustomButton>
                 </div>
             </div>
+
+            {generateAlert(alertType)}
 
         </div>
     );
