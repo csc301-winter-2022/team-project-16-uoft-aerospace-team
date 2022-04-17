@@ -140,23 +140,27 @@ const AddSite = (props) => {
 
   const handleAddMarker = (e) => {
     e.preventDefault();
-    const inputLat = parseFloat(inputPos.split(',')[0]);
-    const inputLong = parseFloat(inputPos.split(',')[1]);
-    setMarkers(
-      [...markers,
-      {
-        lat: inputLat,
-        lng: inputLong,
-        time: new Date()
-      },
-      ]);
-    setPaths(
-      [...paths,
-      {
-        lat: inputLat,
-        lng: inputLong
-      }]
-    )
+    const input = inputPos.split(',');
+    if (input.length === 2 && !isNaN(parseFloat(input[0])) && !isNaN(parseFloat(input[1]))) {
+      const inputLat = parseFloat(inputPos.split(',')[0]);
+      const inputLong = parseFloat(inputPos.split(',')[1]);
+      setMarkers(
+        [...markers,
+        {
+          lat: inputLat,
+          lng: inputLong,
+          time: new Date()
+        },
+        ]);
+      setPaths(
+        [...paths,
+        {
+          lat: inputLat,
+          lng: inputLong
+        }]
+      )
+    }
+
   }
 
   if (loadError) return "Error loading map";
@@ -175,7 +179,7 @@ const AddSite = (props) => {
           padding: "5px",
           backgroundColor: "white",
           width: "180px", // or you can use width: any_number
-          height: "400px" // or you can use height: any_number
+          height: "475px" // or you can use height: any_number
         }}
       >
       </div>
@@ -233,6 +237,37 @@ const AddSite = (props) => {
         {info.map((aerodrome) => (
           <div style={{ padding: "", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 14 }}><br></br>{aerodrome.name.replace(/['"]+/g, '')}<br></br>{aerodrome.distance.toFixed(2)}km</div>
         ))}
+
+      </div>
+
+      <div
+        style={{
+          zIndex: 1,
+          position: "absolute",
+          top: 560,
+          left: 188,
+          opacity: 1,
+          padding: "5px",
+          wordBreak: "break-word",
+          width: "180px", // or you can use width: any_number
+          height: "400px" // or you can use height: any_number
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <input style={{
+            width: "176px",
+            height: "20px",
+            border: "none",
+          }}
+            value={siteName} placeholder='Site Name' onChange={({ target }) => setSiteName(target.value)} />
+          <input style={{
+            width: "176px",
+            height: "20px",
+            border: "none",
+          }}
+            value={margin} placeholder='Margin' onChange={({ target }) => setMargin(target.value)} />
+          <button style={buttonStyle} >Submit</button>
+        </form>
       </div>
 
 
@@ -272,11 +307,7 @@ const AddSite = (props) => {
 
       </GoogleMap>
 
-      <form onSubmit={handleSubmit}>
-        <input value={siteName} placeholder='Site Name' onChange={({ target }) => setSiteName(target.value)} />
-        <input value={margin} placeholder='Margin' onChange={({ target }) => setMargin(target.value)} />
-        <button>submit</button>
-      </form>
+
       <div>{status}</div>
     </div>
   );

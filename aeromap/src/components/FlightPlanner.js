@@ -6,12 +6,12 @@ import TextField from '@mui/material/TextField';
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { styled } from "@mui/material/styles";
-import CustomButton from "./CustomButton";
+import CustomButton from "./customButton";
 import CustomAlert from "./CustomAlert";
 import Moment from "moment";
 
 import {
-    flightPlannerTitleStyle, dividerStyle, inputStyle, 
+    flightPlannerTitleStyle, dividerStyle, inputStyle,
     formStyle, containerStyle, textStyle, selectWrapperStyle,
     addImg, removeImg, imgStyle, pilotsContainerStyle, initialPilotContainerStyle, removeContainerStyle, textAreaStyle, buttonContainerStyle,
 } from "../styles/flightPlannerStyle";
@@ -19,39 +19,39 @@ import pageStyle from "../styles/pageStyle";
 
 const StyledTextField = styled(TextField)({
     [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
+        borderColor: "white"
     },
     [`&:hover .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
+        borderColor: "white"
     },
     [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
+        borderColor: "white"
     },
     [`& .${outlinedInputClasses.input}`]: {
-      color: "white"
+        color: "white"
     },
     [`&:hover .${outlinedInputClasses.input}`]: {
-      color: "white"
+        color: "white"
     },
     [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.input}`]: {
-      color: "white"
+        color: "white"
     },
     [`& .${inputLabelClasses.outlined}`]: {
-      color: "white"
+        color: "white"
     },
     [`&:hover .${inputLabelClasses.outlined}`]: {
-      color: "white"
+        color: "white"
     },
     [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
-      color: "white"
+        color: "white"
     }
 });
-  
+
 
 const FlightPlanner = (props) => {
-    
+
     const path = props.path
-    
+
     const [droneOptions, setDroneOptions] = useState([]);
     const [siteOptions, setSiteOptions] = useState([]);
     const [time, setTime] = useState(new Date());
@@ -70,59 +70,60 @@ const FlightPlanner = (props) => {
                 const options = sites.map(site => ({ value: site.name, label: site.name }))
                 setSiteOptions(options)
             })
-            
+
         fetch(`${path}get-drones`)
-        .then(res => res.json())
-        .then(drones => {
-            const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
-            setDroneOptions(options)
-        })
-      }, []);
-    
+            .then(res => res.json())
+            .then(drones => {
+                const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
+                setDroneOptions(options)
+            })
+    }, []);
+
     const handleSubmit = event => {
         event.preventDefault();
-        
-        if (!(time && site && drone) || pilots.includes('') ) {
+
+        if (!(time && site && drone) || pilots.includes('')) {
             setAlertType('warning')
             setAlertMessage('Missing field values, time, site, drone, and pilot names must be included.')
             setAlert(true)
             return
-        } else if ( !Moment(time).isValid() ) {
+        } else if (!Moment(time).isValid()) {
             setAlertType('warning')
             setAlertMessage('Malformatted time')
             setAlert(true)
             return
         }
 
-        fetch (`${path}create-flight`, {
+        fetch(`${path}create-flight`, {
             method: 'POST',
             mode: 'cors',
             headers: {
-              'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                date: Moment(time).format('YYYY-MM-DD ha'), 
-                sitename: site, 
-                pilot: pilots, 
-                drone: drone, 
-                notes: notes})
+                date: Moment(time).format('YYYY-MM-DD ha'),
+                sitename: site,
+                pilot: pilots,
+                drone: drone,
+                notes: notes
+            })
         })
-        .then(response=>response.text())
-        .then(data=>{ 
-            if (data === 'success') {
-                setAlertType('success')
-                setAlertMessage('Submission Successful, Flight Saved.')
-                setAlert(true)
-            }
-            else {
-                setAlertType('error')
-                setAlertMessage('Server Error, Flight Could Not Be Saved.')
-                setAlert(true)
-            }
-        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'success') {
+                    setAlertType('success')
+                    setAlertMessage('Submission Successful, Flight Saved.')
+                    setAlert(true)
+                }
+                else {
+                    setAlertType('error')
+                    setAlertMessage('Server Error, Flight Could Not Be Saved.')
+                    setAlert(true)
+                }
+            })
     }
 
-    const handleChange = setInput => ({target}) => setInput(target.value);
+    const handleChange = setInput => ({ target }) => setInput(target.value);
 
     const handleAddPilot = () => setPilots(pilots.concat(''))
 
@@ -131,7 +132,7 @@ const FlightPlanner = (props) => {
         setPilots(reducedPilotsList)
     }
 
-    const handleNameChange = index => ({target}) => {
+    const handleNameChange = index => ({ target }) => {
         const nameChangedPilotsList = pilots.slice(0, index).concat(target.value).concat(pilots.slice(index + 1))
         setPilots(nameChangedPilotsList)
     }
@@ -140,24 +141,24 @@ const FlightPlanner = (props) => {
         let index = 0
         return pilots.slice(1).map(() => {
             index++
-            return(
+            return (
                 <div style={pilotsContainerStyle} key={index}>
-                    <StyledTextField 
-                        label={`Pilot ${index + 1}`} 
+                    <StyledTextField
+                        label={`Pilot ${index + 1}`}
                         variant="outlined"
                         value={pilots[index]}
                         onChange={handleNameChange(index)}
-                        />
+                    />
                     <div style={removeContainerStyle} onClick={handleRemovePilot(index)}>
-                        <img src={removeImg} style={imgStyle} alt='Remove Pilot'/>
+                        <img src={removeImg} style={imgStyle} alt='Remove Pilot' />
                     </div>
                 </div>
             )
         })
     }
 
-    return(
-        <div style={pageStyle}> 
+    return (
+        <div style={pageStyle}>
             <div style={flightPlannerTitleStyle}>
                 <strong>
                     Schedule Flight
@@ -170,13 +171,13 @@ const FlightPlanner = (props) => {
 
                 <div style={containerStyle}>
                     <div style={textStyle}>Schedule Flight Time:</div>
-                    <Datetime 
-                        onChange={setTime} 
-                        value={time} 
-                        inputProps={{style: inputStyle}}
+                    <Datetime
+                        onChange={setTime}
+                        value={time}
+                        inputProps={{ style: inputStyle }}
                         dateFormat='YYYY-MM-DD'
                         timeFormat='ha'
-                        />
+                    />
                 </div>
 
                 <div style={containerStyle}>
@@ -203,29 +204,29 @@ const FlightPlanner = (props) => {
 
                 <div style={containerStyle}>
                     <div style={textStyle}>Pilots:</div>
-                    <div onClick={handleAddPilot}><img src={addImg} style={imgStyle} alt='Add Pilot'/></div>
+                    <div onClick={handleAddPilot}><img src={addImg} style={imgStyle} alt='Add Pilot' /></div>
                 </div>
 
                 <div style={initialPilotContainerStyle}>
-                    <StyledTextField 
-                        label='Pilot 1' 
+                    <StyledTextField
+                        label='Pilot 1'
                         variant="outlined"
                         value={pilots[0]}
-                        onChange={handleNameChange(0)}/>
+                        onChange={handleNameChange(0)} />
                 </div>
 
                 {generatePilots()}
-            
+
                 <div style={containerStyle}>
                     <div style={textStyle}>Notes:</div>
                 </div>
 
                 <div style={containerStyle}>
-                <textarea
+                    <textarea
                         style={textAreaStyle}
                         value={notes}
                         onChange={handleChange(setNotes)}
-                        />
+                    />
                 </div>
 
                 <div style={buttonContainerStyle} >
