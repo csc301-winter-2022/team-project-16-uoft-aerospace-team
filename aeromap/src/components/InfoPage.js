@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
+import Select from 'react-select';
 
 import SelectCheckBoxes from "./SelectCheckBoxes";
 import InfoTable from "./InfoTable";
 import pageStyle from "../styles/pageStyle";
-import { dividerStyle, titleStyle } from "../styles/InfoPageStyle";
+import { dividerStyle, optionsContainerStyle, sortSelectStyle, titleStyle } from "../styles/InfoPageStyle";
 
 
 
@@ -42,16 +43,18 @@ const InfoPage = ({path}) => {
 
         <hr style={dividerStyle} />
 
-        <div >
-        <SelectCheckBoxes
+        <div style={optionsContainerStyle}>
+          <SelectCheckBoxes
             options={allCategories}
             setOptions={setSelectedCategories}
             />
-
-        <SelectCheckBoxes
-            options={allCategories}
-            setOptions={setSelectedCategories}
+          <div style={sortSelectStyle}>
+            <Select
+              options={allCategories}
+              placeholder='Sort By'
+              onChange={selected => {}}
             />
+          </div>
         </div>
 
         <InfoTable 

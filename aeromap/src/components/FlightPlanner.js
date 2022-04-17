@@ -1,4 +1,4 @@
-import { useEffect, useState, forwardRef } from "react";
+import { useEffect, useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
 import Select from 'react-select';
@@ -6,9 +6,9 @@ import TextField from '@mui/material/TextField';
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import { inputLabelClasses } from "@mui/material/InputLabel";
 import { styled } from "@mui/material/styles";
-import CustomButton from "./customButton";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import CustomButton from "./CustomButton";
+import CustomAlert from "./CustomAlert";
+import Moment from "moment";
 
 import {
     flightPlannerTitleStyle, dividerStyle, inputStyle, 
@@ -46,10 +46,6 @@ const StyledTextField = styled(TextField)({
       color: "white"
     }
 });
-
-const Alert = forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
   
 
 const FlightPlanner = (props) => {
@@ -65,6 +61,7 @@ const FlightPlanner = (props) => {
     const [notes, setNotes] = useState('');
     const [alert, setAlert] = useState(false);
     const [alertType, setAlertType] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
 
     useEffect(() => {
         fetch(`${path}get-sites`)
@@ -73,19 +70,26 @@ const FlightPlanner = (props) => {
                 const options = sites.map(site => ({ value: site.name, label: site.name }))
                 setSiteOptions(options)
             })
-            fetch(`${path}get-drones`)
-            .then(res => res.json())
-            .then(drones => {
-                const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
-                setDroneOptions(options)
-            })
+            
+        fetch(`${path}get-drones`)
+        .then(res => res.json())
+        .then(drones => {
+            const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
+            setDroneOptions(options)
+        })
       }, []);
     
     const handleSubmit = event => {
         event.preventDefault();
-
-        if (!(time && site && drone) || pilots.find(name => name === '')) {
+        
+        if (!(time && site && drone) || pilots.includes('') ) {
             setAlertType('warning')
+            setAlertMessage('Missing field values, time, site, drone, and pilot names must be included.')
+            setAlert(true)
+            return
+        } else if ( !Moment(time).isValid() ) {
+            setAlertType('warning')
+            setAlertMessage('Malformatted time')
             setAlert(true)
             return
         }
@@ -96,21 +100,23 @@ const FlightPlanner = (props) => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({date: time, sitename: site, pilot: pilots, drone: drone, notes: notes})
+            body: JSON.stringify({
+                date: Moment(time).format('YYYY-MM-DD ha'), 
+                sitename: site, 
+                pilot: pilots, 
+                drone: drone, 
+                notes: notes})
         })
         .then(response=>response.text())
         .then(data=>{ 
             if (data === 'success') {
-                setTime('');
-                setSite('');
-                setPilots([]);
-                setDrone('');
-                setNotes('');
                 setAlertType('success')
+                setAlertMessage('Submission Successful, Flight Saved.')
                 setAlert(true)
             }
             else {
                 setAlertType('error')
+                setAlertMessage('Server Error, Flight Could Not Be Saved.')
                 setAlert(true)
             }
         })
@@ -128,12 +134,6 @@ const FlightPlanner = (props) => {
     const handleNameChange = index => ({target}) => {
         const nameChangedPilotsList = pilots.slice(0, index).concat(target.value).concat(pilots.slice(index + 1))
         setPilots(nameChangedPilotsList)
-    }
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') return
-
-        setAlert(false);
     }
 
     const generatePilots = () => {
@@ -156,43 +156,6 @@ const FlightPlanner = (props) => {
         })
     }
 
-    const generateAlert = type => {
-        if (type === 'success') {
-            return (
-                <Snackbar 
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-                    open={alert} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                    Submission Successful, Flight Saved.
-                    </Alert>
-                </Snackbar>
-            )
-        } else if (type === 'warning') {
-            return (
-                <Snackbar 
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-                    open={alert} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-                    Missing field values, must input time, site, drone, and pilot names. 
-                    </Alert>
-                </Snackbar>
-            )
-        } else if (type === 'Error') {
-            return(
-                <Snackbar 
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-                    open={alert} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                    Server Error, Flight Could Not Be Saved.
-                    </Alert>
-                </Snackbar>
-            )
-        } else {
-            return null
-        }
-
-    }
-
     return(
         <div style={pageStyle}> 
             <div style={flightPlannerTitleStyle}>
@@ -207,7 +170,13 @@ const FlightPlanner = (props) => {
 
                 <div style={containerStyle}>
                     <div style={textStyle}>Schedule Flight Time:</div>
-                    <Datetime onChange={setTime} value={time} inputProps={{style: inputStyle}}/>
+                    <Datetime 
+                        onChange={setTime} 
+                        value={time} 
+                        inputProps={{style: inputStyle}}
+                        dateFormat='YYYY-MM-DD'
+                        timeFormat='ha'
+                        />
                 </div>
 
                 <div style={containerStyle}>
@@ -264,7 +233,7 @@ const FlightPlanner = (props) => {
                 </div>
             </div>
 
-            {generateAlert(alertType)}
+            <CustomAlert type={alertType} message={alertMessage} alert={alert} setAlert={setAlert} />
 
         </div>
     );
