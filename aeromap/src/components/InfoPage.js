@@ -23,7 +23,6 @@ const InfoPage = ({path}) => {
             return { value: key, label: label };
           })
         )
-      console.log('logs', logs)
     }
           
     useEffect(() => {
@@ -38,7 +37,7 @@ const InfoPage = ({path}) => {
     return (
       <div style={pageStyle}>
         <div style={titleStyle}>
-          <strong><em>Flight History</em></strong>
+          <strong>Flight History</strong>
         </div>
 
         <hr style={dividerStyle} />
