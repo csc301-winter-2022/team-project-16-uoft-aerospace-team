@@ -31,10 +31,10 @@ class DBHelper {
     static read_flight_manager() {
         let flightManager;
         const flightData = DBHelper.read('flightManager.json');
-        if (Object.keys(flightData).length === 0) {
+        if (Object.keys(flightData).length === 0) {  // no data, write blank flightManager
             flightManager = new FlightManager();
             DBHelper.write_flight_manager(flightManager);
-        } else {
+        } else {  // has data, construct flight manager from data
             flightManager = new FlightManager(flightData.flightManager.flights);
         }
         return flightManager;
@@ -44,7 +44,7 @@ class DBHelper {
         DBHelper.write('flightManager.json', { 'flightManager': flightManager });
     }
 
-    static read_site_manager() {
+    static read_site_manager() {  // same format as read_flight_manager()
         let siteManager;
         const siteData = DBHelper.read('siteManager.json');
         if (Object.keys(siteData).length === 0) {
@@ -77,8 +77,59 @@ class DBHelper {
     }
 
     static parse_csv(filename) {
-        return fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n').slice(1).map(line => line.trim().replaceAll(/\"(.*?)\"/g, m => m.replaceAll(',', 'COMMA')).split(',').map(x => x.replaceAll(/COMMA/g, ',')));
+        const lines = fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n');
+        const headers = lines[0].split(',').map(header => eval(header));
+        const return_list = [];
+
+        const values = lines.slice(1).map(line => line.trim().replaceAll(/\"(.*?)\"/g, m => m.replaceAll(',', 'COMMA')).split(',').map(x => x.replaceAll(/COMMA/g, ',')));
+        for (let line of values) {
+            const new_object = {};
+            for (let index in line) {
+                new_object[headers[index]] = line[index];
+            }
+            return_list.push(new_object);
+        }
+
+        return return_list;
+    }
+
+    static parse_txt(filename) {
+        let airspaceLines = fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n').map(line => line.trim()).filter(line => line.charAt(0) != '*');
+        let start = [];
+        let end = [];
+        for (let index in airspaceLines) {
+            const regex = new RegExp('AC [A-Z]');
+            if (regex.test(airspaceLines[index])) {
+                start.push(parseInt(index));
+                let endIndex = index;
+                while (airspaceLines[endIndex] != '') {
+                    endIndex++;
+                }
+                end.push(endIndex);
+            } 
+        }
+        let airspaces = [];
+        for (let index in start) {
+            airspaces.push(airspaceLines.slice(start[index], end[index]));
+        }
+        
+        airspaces = airspaces.filter(airspace => {
+            const regex = new RegExp('AL (.*)');
+            for (let line in airspace) {
+                if (regex.test(airspace[line])) {
+                    const match = airspace[line].match(regex);
+                    const al = parseInt(match[1]);
+                    if (isNaN(al) || al < 700) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        })
+        return airspaces;
     }
 }
+
+// DBHelper.parse_txt();
 
 module.exports = DBHelper;
