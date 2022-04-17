@@ -11,8 +11,8 @@ const InfoPage = ({path}) => {
 
     const [logs, setLogs] = useState([]);
     const [page, setPage] = useState('flight');
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [sortFunction, setSortFunction] = useState();
+    const [selectedCategories, setSelectedCategories] = useState(['date','sitename']);
+    const [sortFunction, setSortFunction] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
 
     const declareAllCategories = () => {
@@ -42,10 +42,17 @@ const InfoPage = ({path}) => {
 
         <hr style={dividerStyle} />
 
+        <div >
         <SelectCheckBoxes
             options={allCategories}
             setOptions={setSelectedCategories}
             />
+
+        <SelectCheckBoxes
+            options={allCategories}
+            setOptions={setSelectedCategories}
+            />
+        </div>
 
         <InfoTable 
           headers={selectedCategories} 
