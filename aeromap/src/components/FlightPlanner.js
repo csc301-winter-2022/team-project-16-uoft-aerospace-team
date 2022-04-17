@@ -56,6 +56,7 @@ const FlightPlanner = (props) => {
     
     const path = props.path
     
+    const [droneOptions, setDroneOptions] = useState([]);
     const [siteOptions, setSiteOptions] = useState([]);
     const [time, setTime] = useState(new Date());
     const [site, setSite] = useState('');
@@ -71,6 +72,12 @@ const FlightPlanner = (props) => {
             .then(sites => {
                 const options = sites.map(site => ({ value: site.name, label: site.name }))
                 setSiteOptions(options)
+            })
+            fetch(`${path}get-drones`)
+            .then(res => res.json())
+            .then(drones => {
+                const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
+                setDroneOptions(options)
             })
       }, []);
     
@@ -230,7 +237,9 @@ const FlightPlanner = (props) => {
                     <div style={textStyle}>Select Drone:</div>
                     <div style={selectWrapperStyle}>
                         <Select
+                            options={droneOptions}
                             placeholder='Select Drone...'
+                            onChange={selected => setDrone(selected.value)}
                         />
                     </div>
                 </div>

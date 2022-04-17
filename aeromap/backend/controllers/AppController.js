@@ -1,5 +1,6 @@
 const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require('../usecases/SiteManager.js');
+const DroneManager = require('../usecases/DroneManager.js');
 const AerodromeHelper = require('./AerodromeHelper.js');
 const DBHelper = require('./DBHelper.js')
 
@@ -7,7 +8,9 @@ class AppController {
     constructor() {
         this.flightManager = new FlightManager();
         this.siteManager = new SiteManager();
+        this.droneManager = new DroneManager();
         this.dbHelper = new DBHelper();
+        this.aerodromeHelper = new AerodromeHelper();
     }
     
     login(username, password) {
@@ -16,6 +19,7 @@ class AppController {
         
         this.flightManager = DBHelper.read_flight_manager();
         this.siteManager = DBHelper.read_site_manager();
+        this.droneManager = DBHelper.read_drone_manager();
     }
 
     get_flight_schedule() {
@@ -48,7 +52,7 @@ class AppController {
 
     get_nearby_aerodromes(pins) {
         // use api on pins[0] or ideally geographic center of pins
-        return AerodromeHelper.get_nearby_aerodromes(pins);
+        return this.aerodromeHelper.get_nearby_aerodromes(pins, 4);
     }
 
     get_count() {
@@ -77,6 +81,25 @@ class AppController {
     create_flight(date, sitename, pilot, drone, notes) {
         this.flightManager.add_flight(date, sitename, pilot, drone, notes);
         DBHelper.write_flight_manager(this.flightManager);
+    }
+
+    create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
+        this.droneManager.add_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+        DBHelper.write_drone_manager(this.droneManager)
+    }
+
+    edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
+        let val = this.droneManager.edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+        DBHelper.write_drone_manager(this.droneManager)
+        return val
+    }
+
+    get_drones() {
+        return this.droneManager.get_drones()
+    }
+
+    get_drone(droneid) {
+        return this.droneManager.get_drone(droneid)
     }
 }
 
