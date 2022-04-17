@@ -5,8 +5,8 @@ const titleStyle = {
 };
 
 const dividerStyle = {
-    margin: 15, 
-    width: "91%", 
+    margin: 20, 
+    width: "90%", 
     borderTop: "3px solid orange",
 }
 
@@ -52,8 +52,21 @@ const cellDataStyle = {
     padding: '5px 10px',
 }
 
+const optionsContainerStyle = {
+    display: 'flex',
+    justifyContent: 'row',
+    margin: '0px 0px 5px 20px',
+}
+
+const sortSelectStyle = {
+    width: 120,
+    marginLeft: 20
+}
+
 export { 
     titleStyle, dividerStyle,
     tableContainerStyle, tableStyle, 
     headerStyle, headerRowStyle, headerCellStyle,
-    tableBodyStyle, rowDataStyle, cellDataStyle };
+    tableBodyStyle, rowDataStyle, cellDataStyle,
+    optionsContainerStyle, sortSelectStyle
+ };

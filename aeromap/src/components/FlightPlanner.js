@@ -129,6 +129,12 @@ const FlightPlanner = (props) => {
         setAlert(false);
     }
 
+    const handleTimeChange = moment => {
+        console.log(moment)
+        console.log('moment', moment.format('YYYY-MM-DD, ha'));
+        setTime(moment.format('YYYY-MM-DD, ha'))
+    }
+
     const generatePilots = () => {
         let index = 0
         return pilots.slice(1).map(() => {
@@ -200,7 +206,13 @@ const FlightPlanner = (props) => {
 
                 <div style={containerStyle}>
                     <div style={textStyle}>Schedule Flight Time:</div>
-                    <Datetime onChange={setTime} value={time} inputProps={{style: inputStyle}}/>
+                    <Datetime 
+                        onChange={handleTimeChange} 
+                        value={time} 
+                        inputProps={{style: inputStyle}}
+                        dateFormat='YYYY-MM-DD,'
+                        timeFormat='ha'
+                        />
                 </div>
 
                 <div style={containerStyle}>
