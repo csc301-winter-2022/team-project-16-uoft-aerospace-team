@@ -60,7 +60,7 @@ class DBHelper {
         DBHelper.write('siteManager.json', { 'siteManager': siteManager });
     }
 
-    static read_drone_manager() {
+    static read_drone_manager() { // same format as read_flight_manager
         let droneManager;
         const droneData = DBHelper.read('droneManager.json');
         if (Object.keys(droneData).length === 0) {
@@ -77,11 +77,12 @@ class DBHelper {
     }
 
     static parse_csv(filename) {
-        const lines = fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n');
-        const headers = lines[0].split(',').map(header => eval(header));
-        const return_list = [];
+        const lines = fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n');  // split by line
+        const headers = lines[0].split(',').map(header => eval(header));  // get header values
+        const return_list = [];  // list of each line in the csv file as an object with header values as keys and line values as values
 
-        const values = lines.slice(1).map(line => line.trim().replaceAll(/\"(.*?)\"/g, m => m.replaceAll(',', 'COMMA')).split(',').map(x => x.replaceAll(/COMMA/g, ',')));
+        const values = lines.slice(1).map(line => line.trim().replaceAll(/\"(.*?)\"/g, m => m.replaceAll(',', 'COMMA')).split(',').map(x => x.replaceAll(/COMMA/g, ',')));  // replace commas in strings with temp var COMMA to split csv line by comma, then replace it back
+
         for (let line of values) {
             const new_object = {};
             for (let index in line) {

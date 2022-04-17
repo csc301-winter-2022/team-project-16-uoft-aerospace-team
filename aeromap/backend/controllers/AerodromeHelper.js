@@ -1,10 +1,10 @@
 const DBHelper = require('./DBHelper');
 
-function deg2rad(deg) {
+function deg2rad(deg) {  // helper
     return deg * (Math.PI/180)
 }
 
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {  // helper
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
     var dLon = deg2rad(lon2-lon1); 
@@ -20,17 +20,17 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 
 class AerodromeHelper {
     constructor() {
-        this.aerodromes = DBHelper.parse_csv("airports.csv");
-        this.aerodromes_frequencies = DBHelper.parse_csv("airport-frequencies.csv");
+        this.aerodromes = DBHelper.parse_csv("airports.csv");  //all aerodromes
+        this.aerodromes_frequencies = DBHelper.parse_csv("airport-frequencies.csv");  // all frequencies
     }
 
     get_nearby_aerodromes(pins, num) {
         // use api on pins[0] or ideally geographic center of pins
         const lat = pins[0].lat;
         const lng = pins[0].lng;
-        let nearest_aerodromes = [];
+        let nearest_aerodromes = [];  // list of aerodromes, their distances, and their comms
 
-        for (let aerodrome of this.aerodromes) {
+        for (let aerodrome of this.aerodromes) {  // get all aerodrome distances from pins[0]
             const distance = getDistanceFromLatLonInKm(lat, lng, aerodrome.latitude_deg, aerodrome.longitude_deg);
             nearest_aerodromes.push({
                 aerodrome: aerodrome,
@@ -38,7 +38,7 @@ class AerodromeHelper {
             })
         }
 
-        nearest_aerodromes.sort((a, b) => {
+        nearest_aerodromes.sort((a, b) => {  // sort them by smallest distance
             if (a.distance < b.distance) {
                 return -1;
             } else if (a.distance > b.distance) {
@@ -48,12 +48,11 @@ class AerodromeHelper {
             }
         })
 
-        nearest_aerodromes = nearest_aerodromes.slice(0, num);
+        nearest_aerodromes = nearest_aerodromes.slice(0, num);  // get the num nearest aerodromes
 
-        for (let index in nearest_aerodromes) {
-            let comm = this.aerodromes_frequencies.filter(frequency => {
-                return nearest_aerodromes[index].aerodrome.ident === frequency.airport_ident});
-            nearest_aerodromes[index].comm = comm.length === 0 ? '0' : comm[0].frequency_mhz;
+        for (let index in nearest_aerodromes) {  // get the num nearest aerodromes' frequencies
+            let comm = this.aerodromes_frequencies.filter(frequency => nearest_aerodromes[index].aerodrome.ident === frequency.airport_ident);
+            nearest_aerodromes[index].comm = comm.length === 0 ? '0' : comm[0].frequency_mhz;  // if there are no comms then comm is 0
         }
 
         return nearest_aerodromes.map(nearest => { 
