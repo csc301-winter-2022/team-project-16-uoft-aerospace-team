@@ -10,6 +10,7 @@ class AppController {
         this.siteManager = new SiteManager();
         this.droneManager = new DroneManager();
         this.dbHelper = new DBHelper();
+        this.aerodromeHelper = new AerodromeHelper();
     }
     
     login(username, password) {
@@ -51,7 +52,7 @@ class AppController {
 
     get_nearby_aerodromes(pins) {
         // use api on pins[0] or ideally geographic center of pins
-        return AerodromeHelper.get_nearby_aerodromes(pins);
+        return this.aerodromeHelper.get_nearby_aerodromes(pins, 4);
     }
 
     get_count() {

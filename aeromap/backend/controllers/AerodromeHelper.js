@@ -1,10 +1,10 @@
 const DBHelper = require('./DBHelper');
 
-function deg2rad(deg) {
+function deg2rad(deg) {  // helper
     return deg * (Math.PI/180)
 }
 
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {  // helper
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
     var dLon = deg2rad(lon2-lon1); 
@@ -19,47 +19,49 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 class AerodromeHelper {
-    static get_nearest_aerodrome(airports, pin, avoid=[]) {
-        console.log(pin);
-        let aerodrome;
-        let shortest_dist = getDistanceFromLatLonInKm(pin.lat, pin.lng, airports[0][4], airports[0][5]);
-        for (let i in airports) {
-            if (!avoid.includes(airports[i])) {
-                const dist = getDistanceFromLatLonInKm(pin.lat, pin.lng, airports[i][4], airports[i][5]);
-                if (dist < shortest_dist) {
-                    shortest_dist = dist;
-                    aerodrome = airports[i];
-                }
-            }
-        }
-        return aerodrome;
+    constructor() {
+        this.aerodromes = DBHelper.parse_csv("airports.csv");  //all aerodromes
+        this.aerodromes_frequencies = DBHelper.parse_csv("airport-frequencies.csv");  // all frequencies
     }
 
-    static get_nearby_aerodromes(pins) {
+    get_nearby_aerodromes(pins, num) {
         // use api on pins[0] or ideally geographic center of pins
-        let airports = DBHelper.parse_csv("airports.csv");
-        let airports_frequencies = DBHelper.parse_csv("airport-frequencies.csv");
-        airports = airports.map(line => line.slice(0, 6));
-        const nearest_aerodromes = []
-        for (let i = 0; i < 4; i++) {
-            const aerodrome = AerodromeHelper.get_nearest_aerodrome(airports, pins[0], nearest_aerodromes);
-            nearest_aerodromes.push(aerodrome);
+        const lat = pins[0].lat;
+        const lng = pins[0].lng;
+        let nearest_aerodromes = [];  // list of aerodromes, their distances, and their comms
+
+        for (let aerodrome of this.aerodromes) {  // get all aerodrome distances from pins[0]
+            const distance = getDistanceFromLatLonInKm(lat, lng, aerodrome.latitude_deg, aerodrome.longitude_deg);
+            nearest_aerodromes.push({
+                aerodrome: aerodrome,
+                distance: distance,
+            })
         }
-        const nearest_frequencies = nearest_aerodromes.map(a => {
-            let comm = airports_frequencies.filter(f => f[2] == a[1])
-            if (comm.length != 1) {
-                return '0';
+
+        nearest_aerodromes.sort((a, b) => {  // sort them by smallest distance
+            if (a.distance < b.distance) {
+                return -1;
+            } else if (a.distance > b.distance) {
+                return 1;
             } else {
-                return comm[0][5]
+                return 0;
             }
         })
-        return (nearest_aerodromes.map((a, index) => {
-            return { name: a[3], distance: getDistanceFromLatLonInKm(pins[0].lat, pins[0].lng, a[4], a[5]), comm: nearest_frequencies[index] }
-        }));
-        // return '[{"name": "cool airport", "distance": "5"}, {"name": "not cool airport", "distance": "1"}]';
-    }
 
-    // console.log(get_nearby_aerodromes([{ lat: 43.917833, long: -79.229028 }]));
+        nearest_aerodromes = nearest_aerodromes.slice(0, num);  // get the num nearest aerodromes
+
+        for (let index in nearest_aerodromes) {  // get the num nearest aerodromes' frequencies
+            let comm = this.aerodromes_frequencies.filter(frequency => nearest_aerodromes[index].aerodrome.ident === frequency.airport_ident);
+            nearest_aerodromes[index].comm = comm.length === 0 ? '0' : comm[0].frequency_mhz;  // if there are no comms then comm is 0
+        }
+
+        return nearest_aerodromes.map(nearest => { 
+            return { name: nearest.aerodrome.name, distance: nearest.distance, comm: nearest.comm }
+        });
+    }
 }
+
+// const aerodromeHelper = new AerodromeHelper();
+// console.log(aerodromeHelper.get_nearby_aerodromes([{ lat: 43.917833, long: -79.229028 }], 4));
 
 module.exports = AerodromeHelper;
