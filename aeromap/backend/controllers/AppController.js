@@ -1,5 +1,6 @@
 const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require('../usecases/SiteManager.js');
+const DroneManager = require('../usecases/DroneManager.js');
 const AerodromeHelper = require('./AerodromeHelper.js');
 const DBHelper = require('./DBHelper.js')
 
@@ -7,6 +8,7 @@ class AppController {
     constructor() {
         this.flightManager = new FlightManager();
         this.siteManager = new SiteManager();
+        this.droneManager = new DroneManager();
         this.dbHelper = new DBHelper();
     }
     
@@ -77,6 +79,10 @@ class AppController {
     create_flight(date, sitename, pilot, drone, notes) {
         this.flightManager.add_flight(date, sitename, pilot, drone, notes);
         DBHelper.write_flight_manager(this.flightManager);
+    }
+
+    create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
+        this.droneManager.add_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
     }
 }
 
