@@ -29,7 +29,7 @@ const Dashboard = (props) => {
 
     return(
         <div style={pageStyle}>
-            <div style={{color:"white"}}> Total flight Count: <CountUp end={count} duration={3}/> </div>
+            <div style={{color:"white"}}> Total flight Count: <CountUp end={count} duration={2}/> </div>
             
             <div style={containerStyle}>
                 <div style={headerStyle}>
