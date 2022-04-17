@@ -55,4 +55,54 @@ router.post('/create-flight', (req, res) => {
     res.send('success');
 })
 
+router.post('/create-drone', (req, res) => {
+    let name = req.body.name
+    let MTOW = req.body.MTOW
+    let type = req.body.type
+    let endurance = req.body.endurance
+    let range = req.body.range
+    let tempLimits = req.body.tempLimits
+    let maxAirspeed = req.body.maxAirspeed
+    let pilots = req.body.pilots
+    let buildDate = req.body.buildDate
+    let flightCycles = req.body.flightCycles
+    let lastMaintenance = req.body.lastMaintenance
+
+    appController.create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance);
+    res.send('success');
+})
+
+router.post('/edit-drone', (req, res) => {
+    let droneid = req.body.droneid
+    let name = req.body.name
+    let MTOW = req.body.MTOW
+    let type = req.body.type
+    let endurance = req.body.endurance
+    let range = req.body.range
+    let tempLimits = req.body.tempLimits
+    let maxAirspeed = req.body.maxAirspeed
+    let pilots = req.body.pilots
+    let buildDate = req.body.buildDate
+    let flightCycles = req.body.flightCycles
+    let lastMaintenance = req.body.lastMaintenance
+
+    let val = appController.edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance);
+    
+    if (val) {
+        res.send('success');
+    }
+    else {
+        res.send('drone not found')
+    }
+    
+})
+
+router.get('/get-drones', (req, res) => {
+    res.json(appController.get_drones());
+})
+
+router.get('/get-drone/:droneid', (req, res) => {
+    res.json(appController.get_drone(req.params.droneid));
+})
+
 module.exports = router;

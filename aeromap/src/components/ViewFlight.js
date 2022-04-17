@@ -82,6 +82,7 @@ const ViewFlight = (props) => {
     const { fid } = useParams();
 
     const [flight, setFlight] = useState({});
+    const [drone, setDrone] = useState({ name: {}, pilots: [], tempLimits: [] });
     const [site, setSite] = useState({ nearby_aerodromes: [], emergency_contacts: [] });
     const [lat, setLat] = useState('43.6532');
     const [lng, setLng] = useState('-79.3832');
@@ -105,8 +106,11 @@ const ViewFlight = (props) => {
                         setSite(site)
                         setLat(`${site.pins[0].lat}`);
                         setLng(`${site.pins[0].lng}`);
-                        setMarkers(`${site.pins}`);
-                        setPaths(`${site.polygon}`);
+                    })
+                fetch(`${path}get-drone/${flight.drone}`)
+                    .then(res => res.json())
+                    .then(drone => {
+                        setDrone(drone)
                     })
             });
     }, []);
@@ -132,9 +136,32 @@ const ViewFlight = (props) => {
             <div style={{ color: "white" }}>
                 Flight Id: {flight.fid} <br></br>
                 Date: {flight.date} <br></br>
-                Drone: {flight.drone} <br></br>
                 Pilot: {flight.pilot} <br></br>
                 Notes: {flight.notes} <br></br><br></br>
+
+                Droneid: {flight.drone} <br></br>
+                {console.log(drone)}
+                Full Name: {drone.name.fullName}<br></br>
+                Short Name: {drone.name.shortName}<br></br>
+                Version Number: {drone.name.versionNum}<br></br>
+                MTWO: {drone.MTOW}<br></br>
+                Type: {drone.type}<br></br>
+                Endurance: {drone.endurance}<br></br>
+                Range: {drone.range}<br></br>
+                Temperature Limits: min {drone.tempLimits[0]}; max {drone.tempLimits[1]}<br></br>
+                Maximum Airspeed: {drone.maxAirspeed}<br></br><br></br>
+                Pilots:<br></br>
+                {drone.pilots.map(pilot => {
+                    return (
+                        <div>
+                            {pilot} <br></br>
+                        </div>
+                    )
+                })}
+                <br></br>
+                Build Date: {drone.buildDate}<br></br>
+                Flight Cycles: {drone.flightCycles}<br></br>
+                lastMaintenance: {drone.lastMaintenance}<br></br><br></br>
 
                 Sitename: {site.name} <br></br>
                 Margin: {site.margin} <br></br>
@@ -185,6 +212,8 @@ const ViewFlight = (props) => {
                     />
                 ))}
             </GoogleMap>
+
+            <br></br><br></br><br></br><br></br>
 
         </div>
     );
