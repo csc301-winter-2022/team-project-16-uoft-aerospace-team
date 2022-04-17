@@ -55,7 +55,6 @@ const FlightPlanner = (props) => {
     const [drone, setDrone] = useState('');
     const [pilots, setPilots] = useState(['']);
     const [notes, setNotes] = useState('');
-    const [status, setStatus] = useState('');
 
     useEffect(() => {
         fetch(`${path}get-sites`)
