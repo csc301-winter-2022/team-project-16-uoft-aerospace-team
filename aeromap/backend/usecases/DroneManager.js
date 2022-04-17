@@ -1,4 +1,5 @@
 const Drone = require('../entities/Drone.js')
+var uuid = require('uuid');
 
 class DroneManager {
     constructor(drones = []) {
@@ -9,19 +10,33 @@ class DroneManager {
         return this.drones;
     }
 
-    get_drone(dronename) {
-        return this.drones.find(drone => drone.name === dronename);
+    get_drone(droneid) {
+        let x = this.drones.findIndex(drone => drone.droneid === droneid);
+        if (x === -1) {
+            return new Drone()
+        }
+        else {
+            return this.drones[x];
+        }
+        
     }
 
     add_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
-        
-        let x = this.drones.findIndex(drone => drone.name === dronename);
+        // add ID to drones
+        const temp = uuid.v1();
+        const new_droneid = temp.slice(0,8)
+        this.drones.push(new Drone(new_droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance))
+    }
 
+    edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
+        let x = this.drones.findIndex(drone => drone.droneid === droneid);
+        
         if (x === -1) {
-            this.drones.push(new Drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance));
+            return false
         }
         else {
-            this.drones[x].update_info(MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+            this.drones[x] = new Drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+            return true
         }
     }
 }

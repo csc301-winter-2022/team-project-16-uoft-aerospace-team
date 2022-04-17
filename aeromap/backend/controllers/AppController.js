@@ -18,6 +18,7 @@ class AppController {
         
         this.flightManager = DBHelper.read_flight_manager();
         this.siteManager = DBHelper.read_site_manager();
+        this.droneManager = DBHelper.read_drone_manager();
     }
 
     get_flight_schedule() {
@@ -83,6 +84,21 @@ class AppController {
 
     create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
         this.droneManager.add_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+        DBHelper.write_drone_manager(this.droneManager)
+    }
+
+    edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
+        let val = this.droneManager.edit_drone(droneid, name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance)
+        DBHelper.write_drone_manager(this.droneManager)
+        return val
+    }
+
+    get_drones() {
+        return this.droneManager.get_drones()
+    }
+
+    get_drone(droneid) {
+        return this.droneManager.get_drone(droneid)
     }
 }
 

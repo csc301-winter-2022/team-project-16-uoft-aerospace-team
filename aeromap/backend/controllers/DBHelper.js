@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require("../usecases/SiteManager.js");
+const DroneManager = require("../usecases/DroneManager.js")
 
 class DBHelper {
 
@@ -57,6 +58,22 @@ class DBHelper {
 
     static write_site_manager(siteManager) {
         DBHelper.write('siteManager.json', { 'siteManager': siteManager });
+    }
+
+    static read_drone_manager() {
+        let droneManager;
+        const droneData = DBHelper.read('droneManager.json');
+        if (Object.keys(droneData).length === 0) {
+            droneManager = new DroneManager();
+            DBHelper.write_drone_manager(droneManager);
+        } else {
+            droneManager = new DroneManager(droneData.droneManager.drones);
+        }
+        return droneManager;
+    }
+
+    static write_drone_manager(droneManager) {
+        DBHelper.write('droneManager.json', { 'droneManager': droneManager });
     }
 
     static parse_csv(filename) {
