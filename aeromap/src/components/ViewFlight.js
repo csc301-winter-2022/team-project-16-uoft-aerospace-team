@@ -13,8 +13,11 @@ import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/ap
 // map options
 
 const containerStyle = {
-    width: '300px',
-    height: '300px'
+    width: '580px',
+    height: '500px',
+    position: "absolute",
+    top: 440,
+    left: 550
 };
 
 const options = {
@@ -58,9 +61,6 @@ const ViewFlight = (props) => {
     // map things
     const [siteName, setSiteName] = useState('');
     const [margin, setMargin] = useState('');
-    const [markers, setMarkers] = useState([]);
-    const [paths, setPaths] = useState([]);
-
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: "AIzaSyCj4HxBE7pnCqgYM_t4F7OnrThS8w_4hUc"
@@ -83,7 +83,7 @@ const ViewFlight = (props) => {
 
     const [flight, setFlight] = useState({});
     const [drone, setDrone] = useState({ name: {}, pilots: [], tempLimits: [] });
-    const [site, setSite] = useState({ nearby_aerodromes: [], emergency_contacts: [] });
+    const [site, setSite] = useState({ pins: [], nearby_aerodromes: [], emergency_contacts: [] });
     const [lat, setLat] = useState('43.6532');
     const [lng, setLng] = useState('-79.3832');
 
@@ -133,7 +133,7 @@ const ViewFlight = (props) => {
             />
             <br></br>
 
-            <div style={{ color: "white" }}>
+            <div style={{ color: "white", zIndex: 0 }}>
                 Flight Id: {flight.fid} <br></br>
                 Date: {flight.date} <br></br>
                 Pilot: {flight.pilot} <br></br>
@@ -191,23 +191,29 @@ const ViewFlight = (props) => {
             </div>
             <GoogleMap
                 mapContainerStyle={containerStyle}
-                defaultCenter={{ lat: lat, lng: lng }}
-                center={{ lat: lat, lng: lng }}
+                defaultCenter={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+                center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
                 zoom={8}
                 onLoad={onMapLoad}
             >
-                {markers.map((marker) => (
+                {console.log(site.pins)}
+                {(site.pins).map((marker) => (
                     <Marker
-                        key={marker.time.toISOString()}
-                        position={{ lat: marker.lat, lng: marker.lng }}
 
+                        position={{ lat: marker.lat, lng: marker.lng }}
+                        icon={{
+                            url: "/marker.png",
+                            scaledSize: new window.google.maps.Size(30, 45),
+                            origin: new window.google.maps.Point(0, 0),
+                            anchor: new window.google.maps.Point(15, 45)
+                        }}
                     />
                 ))}
 
-                {paths.map(() => (
+                {(site.pins).map(() => (
                     <Polygon
                         onLoad={onLoad}
-                        paths={paths}
+                        paths={(site.pins)}
                         options={options}
                     />
                 ))}

@@ -5,7 +5,8 @@ import pageStyle from "../styles/pageStyle";
 
 const containerStyle = {
   width: '900px',
-  height: '700px'
+  height: '700px',
+  zIndex: 0
 };
 
 const center = {
@@ -57,7 +58,7 @@ const AddSite = (props) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ sitename: siteName, pins: markers, polygon: paths, margin: margin })
+      body: JSON.stringify({ sitename: siteName, pins: markers, margin: margin })
     }).then(response => response.text())
       .then(data => {
         if (data === 'success') {
@@ -81,7 +82,6 @@ const AddSite = (props) => {
   });
 
   const [inputPos, setPos] = useState();
-  const [paths, setPaths] = useState([]);
 
   const onMapClick = useCallback((event) => {
 
@@ -93,14 +93,6 @@ const AddSite = (props) => {
         time: new Date()
       },
     ]);
-    setPaths(current => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      },
-    ]);
-    fetchInfo(event);
 
   }, [])
 
@@ -124,14 +116,12 @@ const AddSite = (props) => {
   function clearMarkers(e) {
     e.preventDefault();
     setMarkers([]);
-    setPaths([]);
     setInfo([])
   }
 
   function clearLastMarker(e) {
     e.preventDefault();
     setMarkers(markers.slice(0, -1));
-    setPaths(paths.slice(0, -1));
   }
 
   const coordinateForm = (e) => {
@@ -152,13 +142,6 @@ const AddSite = (props) => {
           time: new Date()
         },
         ]);
-      setPaths(
-        [...paths,
-        {
-          lat: inputLat,
-          lng: inputLong
-        }]
-      )
     }
 
   }
@@ -276,10 +259,9 @@ const AddSite = (props) => {
         mapContainerStyle={containerStyle}
         defaultCenter={center}
         center={center}
-        zoom={8}
+        zoom={7}
         onLoad={onMapLoad}
         onClick={onMapClick}
-        zIndex={0}
       >
 
 
@@ -297,10 +279,10 @@ const AddSite = (props) => {
           />
         ))}
 
-        {paths.map(() => (
+        {markers.map(() => (
           <Polygon
             onLoad={onLoad}
-            paths={paths}
+            paths={markers}
             options={options}
           />
         ))}

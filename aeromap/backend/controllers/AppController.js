@@ -12,11 +12,11 @@ class AppController {
         this.dbHelper = new DBHelper();
         this.aerodromeHelper = new AerodromeHelper();
     }
-    
+
     login(username, password) {
         // this part is gonna retrieve user info from database if login successful
         // for now, just using blank data
-        
+
         this.flightManager = DBHelper.read_flight_manager();
         this.siteManager = DBHelper.read_site_manager();
         this.droneManager = DBHelper.read_drone_manager();
@@ -37,7 +37,7 @@ class AppController {
     get_sites() {
         return this.siteManager.get_sites();
     }
-    
+
     get_site(sitename) {
         return this.siteManager.get_site(sitename);
     }
@@ -61,21 +61,21 @@ class AppController {
 
     get_emergency_contacts(pins) {
         // use api on pins[0] or ideally geographic center of pins
-        return [{name: "Ronald", number: "613-828-0011"}, {name: "Donald", number: "613-333-4521"}];
+        return [{ name: "Ronald", number: "613-828-0011" }, { name: "Donald", number: "613-333-4521" }];
     }
 
-    create_site(sitename, pins, margin) {
+    create_site(sitename, pins, margin, polygon) {
         this.siteManager.add_site(sitename, pins, margin, this.get_airspace(pins), this.get_nearby_aerodromes(pins), this.get_emergency_contacts(pins));
         // siteManager.add_site(sitename, pins, margin, get_airspace(pins), [], get_emergency_contacts(pins));
         DBHelper.write_site_manager(this.siteManager);
     }
-    
+
     get_weather(date, sitename) {
         var location = this.siteManager.get_site_center(sitename);
-    
+
         // use weather api with location and date
-        
-        return {temp: "14", windspeed: "30"};
+
+        return { temp: "14", windspeed: "30" };
     }
 
     create_flight(date, sitename, pilot, drone, notes) {
