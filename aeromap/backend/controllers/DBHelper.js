@@ -93,44 +93,6 @@ class DBHelper {
 
         return return_list;
     }
-
-    static parse_txt(filename) {
-        let airspaceLines = fs.readFileSync(path.resolve(__dirname, "../database/" + filename)).toString().split('\n').map(line => line.trim()).filter(line => line.charAt(0) != '*');
-        let start = [];
-        let end = [];
-        for (let index in airspaceLines) {
-            const regex = new RegExp('AC [A-Z]');
-            if (regex.test(airspaceLines[index])) {
-                start.push(parseInt(index));
-                let endIndex = index;
-                while (airspaceLines[endIndex] != '') {
-                    endIndex++;
-                }
-                end.push(endIndex);
-            } 
-        }
-        let airspaces = [];
-        for (let index in start) {
-            airspaces.push(airspaceLines.slice(start[index], end[index]));
-        }
-        
-        airspaces = airspaces.filter(airspace => {
-            const regex = new RegExp('AL (.*)');
-            for (let line in airspace) {
-                if (regex.test(airspace[line])) {
-                    const match = airspace[line].match(regex);
-                    const al = parseInt(match[1]);
-                    if (isNaN(al) || al < 700) {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        })
-        return airspaces;
-    }
 }
-
-// DBHelper.parse_txt();
 
 module.exports = DBHelper;

@@ -61,59 +61,12 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {  // helper
 
 class AirspaceHelper {
     constructor() {
-        this.airspace_centers = AirspaceHelper.get_airspace_centers();
         const airspaceLoader = new AirspaceLoader(path.resolve(__dirname, "../../database/CanAirspace291all.txt"), 'utf-8');
         const loadAirspaces = airspaceLoader.getAllAirspaces().then(airspaces => {
             return airspaces.filter(airspace => 
                 airspace.lowAltitude <= 700);
         });
         loadAirspaces.then(airspaces => this.airspaces = List(airspaces).groupBy(airspace => airspace.airspaceClass));
-    }
-
-    static get_airspace_centers() {
-        const airspaces = DBHelper.parse_txt('CanAirspace291all.txt');
-
-        const center_regex = new RegExp('V X= (.*N .*W)');
-        const ac_regex = new RegExp('AC ([A-Z])');
-        const point_regex = new RegExp('DP (.*N .*W)');
-        const radius_regex = new RegExp('DC (.*)');
-
-        let airspace_centers = airspaces.filter(airspace => {
-            for (let line in airspace) {
-                if (center_regex.test(airspace[line])) {
-                    return true;
-                }
-            }
-            return false;
-        }).map(airspace => {
-            const airspace_class = {};
-            for (let line in airspace) {
-                if (ac_regex.test(airspace[line])) {
-                    const match = airspace[line].match(ac_regex)
-                    airspace_class.ac = match[1];
-                }
-                if (center_regex.test(airspace[line])) {
-                    const match = airspace[line].match(center_regex);
-                    airspace_class.center = ParseDMS(match[1]);
-                }
-                if (radius_regex.test(airspace[line])) {
-                    const match = airspace[line].match(radius_regex);
-                    airspace_class.radius = parseInt(match[1]) * 1.6;
-                }
-            }
-
-            if (airspace_class.radius === undefined) {
-                for (let line in airspace) {
-                    if (point_regex.test(airspace[line])) {
-                        const match = airspace[line].match(point_regex);
-                        const { lat, lng } = ParseDMS(match[1]);
-                        airspace_class.radius = getDistanceFromLatLonInKm(airspace_class.center.lat, airspace_class.center.lng, lat, lng);
-                    }
-                }
-            }
-            return airspace_class;
-        })
-        return airspace_centers;
     }
 
     get_airspace_class(pins) {

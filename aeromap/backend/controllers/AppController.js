@@ -7,24 +7,17 @@ const DBHelper = require('./DBHelper.js')
 
 class AppController {
     constructor() {
-        this.flightManager = new FlightManager();
-        this.siteManager = new SiteManager();
-        this.droneManager = new DroneManager();
+        // this part is gonna retrieve info from database
+        this.flightManager = DBHelper.read_flight_manager();
+        this.siteManager = DBHelper.read_site_manager();
+        this.droneManager = DBHelper.read_drone_manager();
         this.dbHelper = new DBHelper();
         this.aerodromeHelper = new AerodromeHelper();
         this.airspaceHelper = new AirspaceHelper();
     }
 
-    login(username, password) {
-        // this part is gonna retrieve user info from database if login successful
-        // for now, just using blank data
-
-        this.flightManager = DBHelper.read_flight_manager();
-        this.siteManager = DBHelper.read_site_manager();
-        this.droneManager = DBHelper.read_drone_manager();
-    }
-
     get_flight_schedule() {
+        console.log(this.flightManager);
         return this.flightManager.get_upcoming();
     }
 
@@ -79,6 +72,7 @@ class AppController {
     create_flight(date, sitename, pilot, drone, notes) {
         this.flightManager.add_flight(date, sitename, pilot, drone, notes);
         DBHelper.write_flight_manager(this.flightManager);
+        console.log(this.flightManager);
     }
 
     create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {
