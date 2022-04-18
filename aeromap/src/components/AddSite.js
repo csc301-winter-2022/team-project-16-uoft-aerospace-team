@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, Component } from "react";
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
 
 import pageStyle from "../styles/pageStyle";
@@ -45,11 +45,11 @@ const AddSite = (props) => {
   const [margin, setMargin] = useState('');
   const [markers, setMarkers] = useState([]);
   const [status, setStatus] = useState('');
+  const [info, setInfo] = useState([]);
 
   const handleSubmit = async event => {
     event.preventDefault()
 
-    console.log(markers);
 
     await fetch(`${path}create-site`, {
       method: 'POST',
@@ -57,7 +57,7 @@ const AddSite = (props) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ sitename: siteName, pins: markers, margin: margin })
+      body: JSON.stringify({ sitename: siteName, pins: markers, polygon: paths, margin: margin })
     }).then(response => response.text())
       .then(data => {
         if (data === 'success') {
@@ -81,10 +81,10 @@ const AddSite = (props) => {
   });
 
   const [inputPos, setPos] = useState();
-  const [selected, setSelected] = useState(null);
   const [paths, setPaths] = useState([]);
 
   const onMapClick = useCallback((event) => {
+
     setMarkers(current => [
       ...current,
       {
@@ -100,7 +100,16 @@ const AddSite = (props) => {
         lng: event.latLng.lng(),
       },
     ]);
+    fetchInfo(event);
+
   }, [])
+
+  function fetchInfo(e) {
+    e.preventDefault()
+    fetch(`${path}get-aerodromes/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
+      .then(res => res.json())
+      .then(data => setInfo(data))
+  }
 
   const mapRef = useRef();
 
@@ -116,6 +125,7 @@ const AddSite = (props) => {
     e.preventDefault();
     setMarkers([]);
     setPaths([]);
+    setInfo([])
   }
 
   function clearLastMarker(e) {
@@ -130,23 +140,27 @@ const AddSite = (props) => {
 
   const handleAddMarker = (e) => {
     e.preventDefault();
-    const inputLat = parseFloat(inputPos.split(',')[0]);
-    const inputLong = parseFloat(inputPos.split(',')[1]);
-    setMarkers(
-      [...markers,
-      {
-        lat: inputLat,
-        lng: inputLong,
-        time: new Date()
-      },
-      ]);
-    setPaths(
-      [...paths,
-      {
-        lat: inputLat,
-        lng: inputLong
-      }]
-    )
+    const input = inputPos.split(',');
+    if (input.length === 2 && !isNaN(parseFloat(input[0])) && !isNaN(parseFloat(input[1]))) {
+      const inputLat = parseFloat(inputPos.split(',')[0]);
+      const inputLong = parseFloat(inputPos.split(',')[1]);
+      setMarkers(
+        [...markers,
+        {
+          lat: inputLat,
+          lng: inputLong,
+          time: new Date()
+        },
+        ]);
+      setPaths(
+        [...paths,
+        {
+          lat: inputLat,
+          lng: inputLong
+        }]
+      )
+    }
+
   }
 
   if (loadError) return "Error loading map";
@@ -159,13 +173,13 @@ const AddSite = (props) => {
         style={{
           zIndex: 1,
           position: "absolute",
-          top: 120,
+          top: 155,
           left: 188,
           opacity: .75,
           padding: "5px",
           backgroundColor: "white",
           width: "180px", // or you can use width: any_number
-          height: "500px" // or you can use height: any_number
+          height: "475px" // or you can use height: any_number
         }}
       >
       </div>
@@ -174,13 +188,13 @@ const AddSite = (props) => {
         style={{
           zIndex: 1,
           position: "absolute",
-          top: 120,
+          top: 155,
           left: 188,
           opacity: 1,
           padding: "5px",
           wordBreak: "break-word",
           width: "180px", // or you can use width: any_number
-          height: "500px" // or you can use height: any_number
+          height: "400px" // or you can use height: any_number
         }}
       >
         <form onSubmit={handleAddMarker}>
@@ -213,7 +227,50 @@ const AddSite = (props) => {
             Clear Last Marker
           </button>
         </form>
+        <form onSubmit={fetchInfo}>
+          <button
+            style={buttonStyle}
+            type="submit">
+            Show Local Data
+          </button>
+        </form>
+        {info.map((aerodrome) => (
+          <div style={{ padding: "", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 14 }}><br></br>{aerodrome.name.replace(/['"]+/g, '')}<br></br>{aerodrome.distance.toFixed(2)}km</div>
+        ))}
+
       </div>
+
+      <div
+        style={{
+          zIndex: 1,
+          position: "absolute",
+          top: 560,
+          left: 188,
+          opacity: 1,
+          padding: "5px",
+          wordBreak: "break-word",
+          width: "180px", // or you can use width: any_number
+          height: "400px" // or you can use height: any_number
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <input style={{
+            width: "176px",
+            height: "20px",
+            border: "none",
+          }}
+            value={siteName} placeholder='Site Name' onChange={({ target }) => setSiteName(target.value)} />
+          <input style={{
+            width: "176px",
+            height: "20px",
+            border: "none",
+          }}
+            value={margin} placeholder='Margin' onChange={({ target }) => setMargin(target.value)} />
+          <button style={buttonStyle} >Submit</button>
+        </form>
+      </div>
+
+
 
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -237,9 +294,6 @@ const AddSite = (props) => {
               origin: new window.google.maps.Point(0, 0),
               anchor: new window.google.maps.Point(15, 45)
             }}
-            onCLick={() => {
-              setSelected(marker);
-            }}
           />
         ))}
 
@@ -253,11 +307,7 @@ const AddSite = (props) => {
 
       </GoogleMap>
 
-      <form onSubmit={handleSubmit}>
-        <input value={siteName} placeholder='Site Name' onChange={({ target }) => setSiteName(target.value)} />
-        <input value={margin} placeholder='Margin' onChange={({ target }) => setMargin(target.value)} />
-        <button>submit</button>
-      </form>
+
       <div>{status}</div>
     </div>
   );
