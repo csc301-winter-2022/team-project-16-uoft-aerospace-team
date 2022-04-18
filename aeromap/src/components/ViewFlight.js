@@ -193,7 +193,7 @@ const ViewFlight = (props) => {
                 mapContainerStyle={containerStyle}
                 defaultCenter={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
                 center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-                zoom={8}
+                zoom={7.5}
                 onLoad={onMapLoad}
             >
                 {console.log(site.pins)}
