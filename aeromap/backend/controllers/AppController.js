@@ -2,6 +2,7 @@ const FlightManager = require('../usecases/FlightManager.js');
 const SiteManager = require('../usecases/SiteManager.js');
 const DroneManager = require('../usecases/DroneManager.js');
 const AerodromeHelper = require('./AerodromeHelper.js');
+const AirspaceHelper = require('./AirspaceHelpers/AirspaceHelper.js')
 const DBHelper = require('./DBHelper.js')
 
 class AppController {
@@ -11,6 +12,7 @@ class AppController {
         this.droneManager = new DroneManager();
         this.dbHelper = new DBHelper();
         this.aerodromeHelper = new AerodromeHelper();
+        this.airspaceHelper = new AirspaceHelper();
     }
     
     login(username, password) {
@@ -43,11 +45,7 @@ class AppController {
     }
 
     get_airspace(pins) {
-        for (let i = 0; i < pins.length; i++) {
-            // use api on pins[i]
-            // keep track of most restrictive
-        }
-        return 'G';
+        return this.airspaceHelper.get_airspace_class(pins);
     }
 
     get_nearby_aerodromes(pins) {
