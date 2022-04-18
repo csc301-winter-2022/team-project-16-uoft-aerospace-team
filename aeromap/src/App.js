@@ -8,8 +8,6 @@ import ViewFlight from './components/ViewFlight';
 
 import appStyle from './styles/appStyle';
 
-const path = 'http://localhost:3001/api/'
-
 const App = () => {
 
   return(
@@ -17,11 +15,11 @@ const App = () => {
         <NavBar />
 
         <Routes> 
-          <Route path="/" exact element={<Dashboard path={path}/> }/>
-          <Route path="/add-site" exact element={<AddSite path={path}/>}/>
+          <Route path="/" exact element={<Dashboard /> }/>
+          <Route path="/add-site" exact element={<AddSite />}/>
           <Route path="/add-flight" exact element={<FlightPlanner />}/>
           <Route path="/info" exact element={<InfoPage />} />
-          <Route path="/view-flight/:fid" exact element={<ViewFlight path={path}/>} />
+          <Route path="/view-flight/:fid" exact element={<ViewFlight />} />
         </Routes>
       </div>
   )

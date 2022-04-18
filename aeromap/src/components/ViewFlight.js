@@ -26,7 +26,9 @@ const options = {
     zIndex: 1
 };
 
-const ViewFlight = (props) => {
+const path = 'http://localhost:3001/api/'
+
+const ViewFlight = () => {
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: "AIzaSyCj4HxBE7pnCqgYM_t4F7OnrThS8w_4hUc"
@@ -42,9 +44,6 @@ const ViewFlight = (props) => {
         mapRef.current = map;
     }, [])
 
-
-
-    const path = props.path;
     const { fid } = useParams();
 
     const [flight, setFlight] = useState({});

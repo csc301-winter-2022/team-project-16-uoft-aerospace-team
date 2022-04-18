@@ -12,9 +12,7 @@ import {
     dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
 
 
-const Dashboard = (props) => {
-
-    const path = props.path
+const Dashboard = () => {
 
     const [schedule, setSchedule] = useState([]);
     const [count, setCount] = useState(0);
@@ -32,14 +30,12 @@ const Dashboard = (props) => {
     return(
         <div style={pageStyle}>
             <Header text='Home' />
-
-            <div style={{color:"white"}}> Total flight Count: <CountUp end={count} duration={1}/> </div>
             
             <div style={containerStyle}>
                 <div style={headerStyle}>
-                    <h2><strong>Upcoming Flights</strong></h2>
+                    <h2><strong> <CountUp end={count} duration={1}/> Upcoming Flights</strong></h2>
                 </div>
-                <div className="scrollable" style={contentStyle}>
+                <div style={contentStyle}>
                     {schedule.map(flight => {
                         return (
                             <div>

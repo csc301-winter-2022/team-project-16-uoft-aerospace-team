@@ -1,6 +1,8 @@
 import { useState, useCallback, useRef } from "react";
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
 
+import * as service from "../services/service";
+
 import pageStyle from "../styles/pageStyle";
 
 const containerStyle = {
@@ -36,11 +38,7 @@ const buttonStyle = {
   height: "25px"
 }
 
-
-
-const AddSite = (props) => {
-
-  const path = props.path;
+const AddSite = () => {
 
   const [siteName, setSiteName] = useState('');
   const [margin, setMargin] = useState('');
@@ -51,15 +49,8 @@ const AddSite = (props) => {
   const handleSubmit = async event => {
     event.preventDefault()
 
-
-    await fetch(`${path}create-site`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ sitename: siteName, pins: markers, margin: margin })
-    }).then(response => response.text())
+    service
+      .create_site(siteName, markers, margin)
       .then(data => {
         if (data === 'success') {
           setSiteName('');
@@ -96,10 +87,10 @@ const AddSite = (props) => {
 
   }, [])
 
-  function fetchInfo(e) {
+  const fetchInfo = (e) => {
     e.preventDefault()
-    fetch(`${path}get-aerodromes/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
-      .then(res => res.json())
+    service
+      .get_aerodronmes(markers)
       .then(data => setInfo(data))
   }
 

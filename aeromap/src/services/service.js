@@ -2,10 +2,6 @@ import Moment from "moment";
 
 const path = 'http://localhost:3001/api/'
 
-const initialize_backend = () => {
-    fetch(`${path}login`)
-}
-
 const get_sites = async () => {
     const res = await fetch(`${path}get-sites`);
     return await res.json();
@@ -31,6 +27,23 @@ const get_count = async () => {
     return await res.json();
 }
 
+const get_aerodronmes = async (markers) => {
+    const res = await fetch(`${path}get-aerodromes/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`);
+    return await res.json();
+}
+
+const create_site = async (siteName, markers, margin) => {
+    const response = await fetch(`${path}create-site`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ sitename: siteName, pins: markers, margin: margin })
+    });
+    return await response.text();
+}
+
 const create_flight = async (time, site, pilots, drone, notes) => {
     const response = await fetch(`${path}create-flight`, {
         method: 'POST',
@@ -50,8 +63,8 @@ const create_flight = async (time, site, pilots, drone, notes) => {
 }
 
 export {
-    initialize_backend,
     get_logs, get_sites, get_drones,
     get_flight_schedule, get_count,
-    create_flight
+    get_aerodronmes,
+    create_site, create_flight,
 }
