@@ -1,3 +1,5 @@
+import { cardClasses } from '@mui/material';
+
 const titleStyle = {
     marginLeft: 25,
     fontSize: 50,
@@ -14,7 +16,7 @@ const tableContainerStyle = {
     backgroundColor: 'white',
     marginLeft: '20px',
     padding: '5px',
-    width: '90%',
+    width: 'calc(90% - 10px)',
     height: '600px',
     overflow: 'auto',
 }
@@ -54,7 +56,7 @@ const cellDataStyle = {
 
 const optionsContainerStyle = {
     display: 'flex',
-    justifyContent: 'row',
+    flexDirection: 'row',
     margin: '0px 0px 5px 20px',
 }
 
@@ -63,10 +65,27 @@ const sortSelectStyle = {
     marginLeft: 20
 }
 
+const imgStyle = {
+    margin: '7px 5px',
+    height: 25,
+    width: 20,
+    filter: 'invert(100%)',
+    cursor: 'pointer'
+}
+
+const searchFieldStyle = {
+    marginLeft: 310,
+    height: 50,
+}
+
 export { 
     titleStyle, dividerStyle,
     tableContainerStyle, tableStyle, 
     headerStyle, headerRowStyle, headerCellStyle,
     tableBodyStyle, rowDataStyle, cellDataStyle,
-    optionsContainerStyle, sortSelectStyle
+    optionsContainerStyle, sortSelectStyle,
+    imgStyle, searchFieldStyle
  };
+
+ export { default as upArrowImg } from './Images/upArrow.png';
+ export { default as downArrowImg } from './Images/downArrow.png';

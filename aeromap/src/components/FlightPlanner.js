@@ -2,51 +2,18 @@ import { useEffect, useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
 import Select from 'react-select';
-import TextField from '@mui/material/TextField';
-import { outlinedInputClasses } from "@mui/material/OutlinedInput";
-import { inputLabelClasses } from "@mui/material/InputLabel";
-import { styled } from "@mui/material/styles";
 import CustomButton from "./CustomButton";
 import CustomAlert from "./CustomAlert";
+import StyledTextField from "./StyledTextField";
 import Moment from "moment";
 
 import {
     flightPlannerTitleStyle, dividerStyle, inputStyle, 
     formStyle, containerStyle, textStyle, selectWrapperStyle,
-    addImg, removeImg, imgStyle, pilotsContainerStyle, initialPilotContainerStyle, removeContainerStyle, textAreaStyle, buttonContainerStyle,
+    addImg, removeImg, imgStyle, pilotsContainerStyle, initialPilotContainerStyle, 
+    removeContainerStyle, textAreaStyle, buttonContainerStyle,
 } from "../styles/flightPlannerStyle";
 import pageStyle from "../styles/pageStyle";
-
-const StyledTextField = styled(TextField)({
-    [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
-    },
-    [`&:hover .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
-    },
-    [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.notchedOutline}`]: {
-      borderColor: "white"
-    },
-    [`& .${outlinedInputClasses.input}`]: {
-      color: "white"
-    },
-    [`&:hover .${outlinedInputClasses.input}`]: {
-      color: "white"
-    },
-    [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.input}`]: {
-      color: "white"
-    },
-    [`& .${inputLabelClasses.outlined}`]: {
-      color: "white"
-    },
-    [`&:hover .${inputLabelClasses.outlined}`]: {
-      color: "white"
-    },
-    [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
-      color: "white"
-    }
-});
-  
 
 const FlightPlanner = (props) => {
     
@@ -81,7 +48,7 @@ const FlightPlanner = (props) => {
     
     const handleSubmit = event => {
         event.preventDefault();
-        
+
         if (!(time && site && drone) || pilots.includes('') ) {
             setAlertType('warning')
             setAlertMessage('Missing field values, time, site, drone, and pilot names must be included.')
@@ -142,7 +109,7 @@ const FlightPlanner = (props) => {
             index++
             return(
                 <div style={pilotsContainerStyle} key={index}>
-                    <StyledTextField 
+                    <StyledTextField
                         label={`Pilot ${index + 1}`} 
                         variant="outlined"
                         value={pilots[index]}

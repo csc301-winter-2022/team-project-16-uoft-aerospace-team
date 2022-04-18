@@ -84,5 +84,5 @@ export {
     buttonContainerStyle
 };
 
-export { default as addImg} from './Images/add.svg';
+export { default as addImg } from './Images/add.svg';
 export { default as removeImg } from './Images/remove.svg';
