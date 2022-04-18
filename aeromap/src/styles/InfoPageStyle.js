@@ -1,17 +1,3 @@
-import { cardClasses } from '@mui/material';
-
-const titleStyle = {
-    marginLeft: 25,
-    fontSize: 50,
-    color: "white",
-};
-
-const dividerStyle = {
-    margin: 20, 
-    width: "90%", 
-    borderTop: "3px solid orange",
-}
-
 const tableContainerStyle = {
     backgroundColor: 'white',
     marginLeft: '20px',
@@ -74,12 +60,11 @@ const imgStyle = {
 }
 
 const searchFieldStyle = {
-    marginLeft: 310,
+    marginLeft: 320,
     height: 50,
 }
 
 export { 
-    titleStyle, dividerStyle,
     tableContainerStyle, tableStyle, 
     headerStyle, headerRowStyle, headerCellStyle,
     tableBodyStyle, rowDataStyle, cellDataStyle,

@@ -6,19 +6,12 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
+import { containerStyle, customStyles } from "../styles/viewFlightStyle";
 //Optional include of the default css styles
 //import 'react-open-weather/lib/css/ReactWeather.css';
 
 
 // map options
-
-const containerStyle = {
-    width: '580px',
-    height: '500px',
-    position: "absolute",
-    top: 440,
-    left: 550
-};
 
 const options = {
     fillColor: "lightblue",
@@ -33,34 +26,7 @@ const options = {
     zIndex: 1
 };
 
-
-
-
-const customStyles = {
-    fontFamily: 'Helvetica, sans-serif',
-    gradientStart: '#000030',
-    gradientMid: '#000030',
-    gradientEnd: '#000030',
-    locationFontColor: '#FFF',
-    todayTempFontColor: '#FFF',
-    todayDateFontColor: '#B5DEF4',
-    todayRangeFontColor: '#B5DEF4',
-    todayDescFontColor: '#B5DEF4',
-    todayInfoFontColor: '#B5DEF4',
-    todayIconColor: '#FFF',
-    forecastBackgroundColor: '#FFF',
-    forecastSeparatorColor: '#DDD',
-    forecastDateColor: '#777',
-    forecastDescColor: '#777',
-    forecastRangeColor: '#777',
-    forecastIconColor: '#4BC4F7',
-};
-
 const ViewFlight = (props) => {
-
-    // map things
-    const [siteName, setSiteName] = useState('');
-    const [margin, setMargin] = useState('');
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: "AIzaSyCj4HxBE7pnCqgYM_t4F7OnrThS8w_4hUc"
@@ -140,7 +106,6 @@ const ViewFlight = (props) => {
                 Notes: {flight.notes} <br></br><br></br>
 
                 Droneid: {flight.drone} <br></br>
-                {console.log(drone)}
                 Full Name: {drone.name.fullName}<br></br>
                 Short Name: {drone.name.shortName}<br></br>
                 Version Number: {drone.name.versionNum}<br></br>
@@ -169,7 +134,6 @@ const ViewFlight = (props) => {
                 <br></br>
 
                 Nearby Aerodromes:
-                {console.log(typeof (site.nearby_aerodromes))}
                 {site.nearby_aerodromes.map(aerodrome => {
                     return (
                         <div>
@@ -196,7 +160,6 @@ const ViewFlight = (props) => {
                 zoom={7.5}
                 onLoad={onMapLoad}
             >
-                {console.log(site.pins)}
                 {(site.pins).map((marker) => (
                     <Marker
 

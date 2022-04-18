@@ -1,13 +1,15 @@
-// import * as services from '../backend/controllers/services'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import CountUp from 'react-countup';
+import Header from './widgets/Header';
+
+import * as service from "../services/service";
+
 import pageStyle from "../styles/pageStyle";
 import { 
     dashFlightsContainerStyle as containerStyle, 
     dashFlightsHeaderStyle as headerStyle,
     dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
-import { nanoid } from 'nanoid';
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import CountUp from 'react-countup';
 
 
 const Dashboard = (props) => {
@@ -18,22 +20,24 @@ const Dashboard = (props) => {
     const [count, setCount] = useState(0);
     
     useEffect(() => {
-        fetch(`${path}get-flight-schedule`)
-        .then(res => res.json())
+        service
+        .get_flight_schedule()
         .then(data => setSchedule(data));
 
-        fetch(`${path}get-count`)
-        .then(res => res.json())
+        service
+        .get_count()
         .then(data => setCount(data.count));
     }, []);
 
     return(
         <div style={pageStyle}>
-            <div style={{color:"white"}}> Total flight Count: <CountUp end={count} duration={2}/> </div>
+            <Header text='Home' />
+
+            <div style={{color:"white"}}> Total flight Count: <CountUp end={count} duration={1}/> </div>
             
             <div style={containerStyle}>
                 <div style={headerStyle}>
-                    <h2><strong><em>Upcoming Flights</em></strong></h2>
+                    <h2><strong>Upcoming Flights</strong></h2>
                 </div>
                 <div className="scrollable" style={contentStyle}>
                     {schedule.map(flight => {

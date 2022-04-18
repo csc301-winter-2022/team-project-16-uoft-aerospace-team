@@ -2,22 +2,24 @@ import { useEffect, useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import Datetime from "react-datetime";
 import Select from 'react-select';
-import CustomButton from "./CustomButton";
-import CustomAlert from "./CustomAlert";
-import StyledTextField from "./StyledTextField";
+import CustomButton from "./widgets/CustomButton";
+import CustomAlert from "./widgets/CustomAlert";
+import StyledTextField from "./widgets/StyledTextField";
+import Header from "./widgets/Header";
 import Moment from "moment";
 
+import * as service from "../services/service";
+
 import {
-    flightPlannerTitleStyle, dividerStyle, inputStyle,
-    formStyle, containerStyle, textStyle, selectWrapperStyle,
-    addImg, removeImg, imgStyle, pilotsContainerStyle, initialPilotContainerStyle, 
-    removeContainerStyle, textAreaStyle, buttonContainerStyle,
+    inputStyle, formStyle, containerStyle,
+    textStyle, selectWrapperStyle, addImg, 
+    removeImg, imgStyle, pilotsContainerStyle,
+    initialPilotContainerStyle, removeContainerStyle,
+    textAreaStyle, buttonContainerStyle,
 } from "../styles/flightPlannerStyle";
 import pageStyle from "../styles/pageStyle";
 
-const FlightPlanner = (props) => {
-
-    const path = props.path
+const FlightPlanner = () => {
 
     const [droneOptions, setDroneOptions] = useState([]);
     const [siteOptions, setSiteOptions] = useState([]);
@@ -31,15 +33,15 @@ const FlightPlanner = (props) => {
     const [alertMessage, setAlertMessage] = useState('');
 
     useEffect(() => {
-        fetch(`${path}get-sites`)
-            .then(res => res.json())
+        service
+            .get_sites()
             .then(sites => {
                 const options = sites.map(site => ({ value: site.name, label: site.name }))
                 setSiteOptions(options)
             })
 
-        fetch(`${path}get-drones`)
-            .then(res => res.json())
+        service
+            .get_drones()
             .then(drones => {
                 const options = drones.map(drone => ({ value: drone.droneid, label: drone.name.shortName }))
                 setDroneOptions(options)
@@ -60,34 +62,19 @@ const FlightPlanner = (props) => {
             setAlert(true)
             return
         }
-
-        fetch(`${path}create-flight`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                date: Moment(time).format('YYYY-MM-DD ha'),
-                sitename: site,
-                pilot: pilots,
-                drone: drone,
-                notes: notes
-            })
-        })
-            .then(response => response.text())
-            .then(data => {
-                if (data === 'success') {
+        
+        service
+            .create_flight(time, site, pilots, drone, notes)
+            .then(() => {
                     setAlertType('success')
                     setAlertMessage('Submission Successful, Flight Saved.')
                     setAlert(true)
-                }
-                else {
-                    setAlertType('error')
-                    setAlertMessage('Server Error, Flight Could Not Be Saved.')
-                    setAlert(true)
-                }
-            })
+                })
+            .catch(() => {
+                setAlertType('error')
+                setAlertMessage('Server Error, Flight Could Not Be Saved.')
+                setAlert(true)
+                })            
     }
 
     const handleChange = setInput => ({ target }) => setInput(target.value);
@@ -126,13 +113,7 @@ const FlightPlanner = (props) => {
 
     return (
         <div style={pageStyle}>
-            <div style={flightPlannerTitleStyle}>
-                <strong>
-                    Schedule Flight
-                </strong>
-            </div>
-
-            <hr style={dividerStyle} />
+            <Header text='Schedule Flight' />
 
             <div style={formStyle}>
 
@@ -154,6 +135,9 @@ const FlightPlanner = (props) => {
                             options={siteOptions}
                             placeholder='Select Site...'
                             onChange={selected => setSite(selected.value)}
+                            //https://stackoverflow.com/questions/55830799/how-to-change-zindex-in-react-select-drowpdown
+                            menuPortalTarget={document.body} 
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                         />
                     </div>
                 </div>
@@ -165,6 +149,9 @@ const FlightPlanner = (props) => {
                             options={droneOptions}
                             placeholder='Select Drone...'
                             onChange={selected => setDrone(selected.value)}
+
+                            menuPortalTarget={document.body} 
+                            styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                         />
                     </div>
                 </div>

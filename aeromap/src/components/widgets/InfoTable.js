@@ -9,7 +9,7 @@ import {
     tableBodyStyle,
     rowDataStyle,
     cellDataStyle,
-} from "../styles/InfoPageStyle";
+} from "../../styles/InfoPageStyle";
 
 const generateHeader = (tableHeaders) => (
   <thead style={headerStyle}><tr style={headerRowStyle}>

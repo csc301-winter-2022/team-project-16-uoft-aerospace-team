@@ -1,11 +1,11 @@
-import { useState, useCallback, useRef, Component } from "react";
+import { useState, useCallback, useRef } from "react";
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
 
 import pageStyle from "../styles/pageStyle";
 
 const containerStyle = {
-  width: '900px',
-  height: '700px',
+  width: '1000px',
+  height: '750px',
   zIndex: 0
 };
 
@@ -233,7 +233,6 @@ const AddSite = (props) => {
           padding: "5px",
           wordBreak: "break-word",
           width: "180px", // or you can use width: any_number
-          height: "400px" // or you can use height: any_number
         }}
       >
         <form onSubmit={handleSubmit}>

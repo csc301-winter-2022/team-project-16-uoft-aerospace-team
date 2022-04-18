@@ -1,6 +1,6 @@
 import Select from 'react-select';
 
-import { selectContainerStyle } from '../styles/SelectCheckBoxesStyle';
+import { selectContainerStyle } from '../../styles/SelectCheckBoxesStyle';
 
 const SelectCheckBoxes = ({options, setOptions}) => {
 

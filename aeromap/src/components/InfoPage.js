@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
 import Select from 'react-select';
-import StyledTextField from "./StyledTextField";
+import StyledTextField from "./widgets/StyledTextField";
+import Header from "./widgets/Header";
+import SelectCheckBoxes from "./widgets/SelectCheckBoxes";
+import InfoTable from "./widgets/InfoTable";
 
-import SelectCheckBoxes from "./SelectCheckBoxes";
-import InfoTable from "./InfoTable";
+import * as service from "../services/service"
+
 import pageStyle from "../styles/pageStyle";
 import { 
-  dividerStyle, optionsContainerStyle, sortSelectStyle, 
-  titleStyle, upArrowImg, imgStyle, downArrowImg,
+  optionsContainerStyle, sortSelectStyle, 
+  upArrowImg, imgStyle, downArrowImg,
   searchFieldStyle
 } from "../styles/InfoPageStyle";
 
 
 
-const InfoPage = ({path}) => {
+const InfoPage = () => {
 
   const [logs, setLogs] = useState([]);
   const [page, setPage] = useState('flight');
@@ -34,9 +37,9 @@ const InfoPage = ({path}) => {
   }
         
   useEffect(() => {
-    fetch(`${path}get-logs`)
-      .then(res => res.json())
-      .then(initialLogs => setLogs(initialLogs));
+    service
+      .get_logs()
+      .then(initialLogs => setLogs(initialLogs))
   }, []);
 
   useEffect(declareAllCategories, [logs])
@@ -63,7 +66,7 @@ const InfoPage = ({path}) => {
               })
 
     setFilteredLogs(filtered)
-}, [searchParam, logs])
+  }, [searchParam, logs, sortOrder])
 
   const onSelectSortParams = param => {
     const sortParam = param.value
@@ -100,11 +103,8 @@ const InfoPage = ({path}) => {
 
   return (
     <div style={pageStyle}>
-      <div style={titleStyle}>
-        <strong>Flight History</strong>
-      </div>
-
-      <hr style={dividerStyle} />
+      
+    <Header text='Flight History' />
 
       <div style={optionsContainerStyle}>
         <SelectCheckBoxes

@@ -1,15 +1,3 @@
-const flightPlannerTitleStyle = {
-    marginLeft: 25,
-    fontSize: 50,
-    color: "white",
-};
-
-const dividerStyle = {
-    margin: 20, 
-    width: "90%", 
-    borderTop: "3px solid orange",
-}
-
 const formStyle = {
     margin: '50px',
     marginLeft: '100px',
@@ -64,8 +52,7 @@ const removeContainerStyle = {
 }
 
 const textAreaStyle = {
-    marginLeft: 30,
-    width: 590,
+    width: 620,
     height: 100,
     fontWeight: 'bold',
     fontSize: 16
@@ -78,7 +65,7 @@ const buttonContainerStyle = {
 
 
 export {
-    flightPlannerTitleStyle, dividerStyle, formStyle, containerStyle, 
+    formStyle, containerStyle, 
     textStyle, inputStyle, selectWrapperStyle, initialPilotContainerStyle, 
     pilotsContainerStyle, imgStyle, removeContainerStyle, textAreaStyle,
     buttonContainerStyle

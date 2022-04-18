@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import App from './App';
-import { setIndexStyle } from './styles/indexStyle'
+import { initialize_backend } from './services/service';
+import './styles/App.css';
 
-setIndexStyle();
+initialize_backend()
 
 ReactDOM.render(
   <HashRouter> 
