@@ -1,12 +1,5 @@
 const dashFlightsContainerStyle = {
-    margin: 'auto',
-    marginTop: 200,
     backgroundColor: 'white',
-    height: 400,
-    width: 700,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderRadius: 12,
 }
 
 const dashFlightsHeaderStyle = {
