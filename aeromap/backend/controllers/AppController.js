@@ -17,7 +17,6 @@ class AppController {
     }
 
     get_flight_schedule() {
-        console.log(this.flightManager);
         return this.flightManager.get_upcoming();
     }
 
@@ -72,7 +71,6 @@ class AppController {
     create_flight(date, sitename, pilot, drone, notes) {
         this.flightManager.add_flight(date, sitename, pilot, drone, notes);
         DBHelper.write_flight_manager(this.flightManager);
-        console.log(this.flightManager);
     }
 
     create_drone(name, MTOW, type, endurance, range, tempLimits, maxAirspeed, pilots, buildDate, flightCycles, lastMaintenance) {

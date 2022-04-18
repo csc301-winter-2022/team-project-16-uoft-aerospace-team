@@ -28,6 +28,10 @@ router.get('/get-aerodromes/:lat/:lng', (req, res) => {
     res.json(appController.get_nearby_aerodromes([{lat:req.params.lat, lng:req.params.lng}]));
 })
 
+router.get('/get-airspace/:lat/:lng', (req, res) => {
+    res.json(appController.get_airspace([{ lat: req.params.lat, lng: req.params.lng }]));
+})
+
 router.get('/get-count', (req, res) => {
     res.json({count: appController.get_count()});
 })

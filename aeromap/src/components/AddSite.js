@@ -47,6 +47,7 @@ const AddSite = (props) => {
   const [markers, setMarkers] = useState([]);
   const [status, setStatus] = useState('');
   const [info, setInfo] = useState([]);
+  const [airspace, setAirspace] = useState('');
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -101,6 +102,10 @@ const AddSite = (props) => {
     fetch(`${path}get-aerodromes/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
       .then(res => res.json())
       .then(data => setInfo(data))
+
+    fetch(`${path}get-airspace/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
+      .then(res => res.json())
+      .then(data => setAirspace(data));
   }
 
   const mapRef = useRef();
@@ -117,6 +122,7 @@ const AddSite = (props) => {
     e.preventDefault();
     setMarkers([]);
     setInfo([])
+    setAirspace('');
   }
 
   function clearLastMarker(e) {
@@ -217,9 +223,11 @@ const AddSite = (props) => {
             Show Local Data
           </button>
         </form>
+        {airspace !== '' ? <div style={{ padding: "", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 14}}>Class of Airspace: {airspace}</div> : null}
         {info.map((aerodrome) => (
           <div style={{ padding: "", fontFamily: "Arial, Helvetica, sans-serif", fontSize: 14 }}><br></br>{aerodrome.name.replace(/['"]+/g, '')}<br></br>{aerodrome.distance.toFixed(2)}km</div>
         ))}
+        <br></br>
 
       </div>
 

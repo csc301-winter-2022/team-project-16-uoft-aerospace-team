@@ -79,7 +79,6 @@ class AirspaceHelper {
                 for (let j = 0; j < airspaces.size; j++) {
                     const airspace = airspaces.get(j);
                     if (airspace.contains(coordinate)) {
-                        console.log(airspace);
                         airspace_classes.push(airspaceClass);           
                     } 
                 }
@@ -87,7 +86,7 @@ class AirspaceHelper {
         }
         airspace_classes.push(AirspaceClass.G);
         airspace_classes.sort();
-        return airspace_classes[0];
+        return airspace_classes[0].letter;
     }
 }
 
