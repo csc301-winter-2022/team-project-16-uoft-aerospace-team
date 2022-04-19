@@ -46,7 +46,7 @@ const ViewFlight = () => {
 
     const [flight, setFlight] = useState({});
     const [drone, setDrone] = useState({ name: {}, pilots: [], tempLimits: [] });
-    const [site, setSite] = useState({ pins: [], nearby_aerodromes: [], emergency_contacts: [] });
+    const [site, setSite] = useState({ pins: [], nearby_aerodromes: [], emergency_contacts: [], airspace_class:{} });
     const [lat, setLat] = useState('43.6532');
     const [lng, setLng] = useState('-79.3832');
 
