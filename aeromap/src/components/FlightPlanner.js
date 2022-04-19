@@ -16,8 +16,8 @@ import {
     removeImg, imgStyle, pilotsContainerStyle,
     initialPilotContainerStyle, removeContainerStyle,
     textAreaStyle, buttonContainerStyle,
-} from "../styles/flightPlannerStyle";
-import pageStyle from "../styles/pageStyle";
+} from "../styles/FlightPlanner";
+import pageStyle from "../styles/Page";
 
 const FlightPlanner = () => {
 

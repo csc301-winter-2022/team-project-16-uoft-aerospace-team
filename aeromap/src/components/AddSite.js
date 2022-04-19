@@ -3,7 +3,7 @@ import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/ap
 
 import * as service from "../services/service";
 
-import pageStyle from "../styles/pageStyle";
+import pageStyle from "../styles/Page";
 
 const containerStyle = {
   width: '1000px',
@@ -94,7 +94,7 @@ const AddSite = () => {
       .get_aerodronmes(markers)
       .then(data => setInfo(data))
 
-    fetch(`${path}get-airspace/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
+    fetch(`http://localhost:3001/api/get-airspace/${markers[markers.length - 1].lat}/${markers[markers.length - 1].lng}`)
       .then(res => res.json())
       .then(data => setAirspace(data));
   }

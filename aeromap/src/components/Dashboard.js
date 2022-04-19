@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import CountUp from 'react-countup';
 import Header from './widgets/Header';
+import InfoBar from './widgets/InfoBar';
 
 import * as service from "../services/service";
 
-import pageStyle from "../styles/pageStyle";
+import pageStyle from "../styles/Page";
 import { 
-    dashFlightsContainerStyle as containerStyle, 
-    dashFlightsHeaderStyle as headerStyle,
-    dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
-
+    containerStyle, 
+    headerStyle,
+    contentStyle
+} from "../styles/Dashboard";
 
 const Dashboard = () => {
 
@@ -33,17 +33,16 @@ const Dashboard = () => {
             
             <div style={containerStyle}>
                 <div style={headerStyle}>
-                    <h2><strong> <CountUp end={count} duration={1}/> Upcoming Flights</strong></h2>
+                    <h2>
+                        <CountUp end={count} duration={1}/>
+                        &nbsp;&nbsp;Upcoming Flight
+                    </h2>
                 </div>
+
                 <div style={contentStyle}>
-                    {schedule.map(flight => {
-                        return (
-                            <div>
-                                <div>{flight.date} {flight.sitename}</div>
-                                <Link to={`/view-flight/${flight.fid}`}> View Details </Link>
-                            </div>                         
-                        )
-                    })}
+                    {schedule.map(flight => (
+                        <InfoBar flight={flight}/>
+                    ))}
                 </div>
             </div>
         </div>

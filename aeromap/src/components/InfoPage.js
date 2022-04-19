@@ -7,12 +7,12 @@ import InfoTable from "./widgets/InfoTable";
 
 import * as service from "../services/service"
 
-import pageStyle from "../styles/pageStyle";
+import pageStyle from "../styles/Page";
 import { 
   optionsContainerStyle, sortSelectStyle, 
   upArrowImg, imgStyle, downArrowImg,
   searchFieldStyle
-} from "../styles/InfoPageStyle";
+} from "../styles/InfoPage";
 
 
 

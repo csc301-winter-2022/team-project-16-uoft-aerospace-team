@@ -1,12 +1,12 @@
-
-
-import pageStyle from "../styles/pageStyle";
+import pageStyle from "../styles/Page";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
+import * as service from "../services/service";
+
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
-import { containerStyle, customStyles } from "../styles/viewFlightStyle";
+import { containerStyle, customStyles } from "../styles/ViewFlight";
 //Optional include of the default css styles
 //import 'react-open-weather/lib/css/ReactWeather.css';
 
@@ -25,8 +25,6 @@ const options = {
     geodesic: false,
     zIndex: 1
 };
-
-const path = 'http://localhost:3001/api/'
 
 const ViewFlight = () => {
 
@@ -61,24 +59,16 @@ const ViewFlight = () => {
     });
 
     useEffect(() => {
-        fetch(`${path}get-flight/${fid}`)
-            .then(res => res.json())
-            .then(flight => {
-                setFlight(flight)
-                fetch(`${path}get-site/${flight.sitename}`)
-                    .then(res => res.json())
-                    .then(site => {
-                        setSite(site)
-                        setLat(`${site.pins[0].lat}`);
-                        setLng(`${site.pins[0].lng}`);
-                    })
-                fetch(`${path}get-drone/${flight.drone}`)
-                    .then(res => res.json())
-                    .then(drone => {
-                        setDrone(drone)
-                    })
-            });
-    }, []);
+        service
+            .get_flight_details(fid)
+            .then(({flight, site, drone}) => {
+                setFlight(flight);
+                setSite(site);
+                setLat(`${site.pins[0].lat}`);
+                setLng(`${site.pins[0].lng}`);
+                setDrone(drone);
+            })
+    }, [fid]);
 
     if (loadError) return "Error loading map";
     if (!isLoaded) return "loading maps";

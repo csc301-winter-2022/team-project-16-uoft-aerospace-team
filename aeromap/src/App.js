@@ -6,7 +6,7 @@ import FlightPlanner from './components/FlightPlanner';
 import AddSite from './components/AddSite';
 import ViewFlight from './components/ViewFlight';
 
-import appStyle from './styles/appStyle';
+import appStyle from './styles/App';
 
 const App = () => {
 
