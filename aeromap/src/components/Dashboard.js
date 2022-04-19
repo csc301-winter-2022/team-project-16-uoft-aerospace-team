@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CountUp from 'react-countup';
 import Header from './widgets/Header';
-import InfoBar from './widgets/InfoBar';
+import FlightInfoBar from './widgets/FlightInfoBar';
 
 import * as service from "../services/service";
 
@@ -14,18 +14,23 @@ import {
 
 const Dashboard = () => {
 
-    const [schedule, setSchedule] = useState([]);
+    const [flights, setFlights] = useState([]);
     const [count, setCount] = useState(0);
     
     useEffect(() => {
         service
         .get_flight_schedule()
-        .then(data => setSchedule(data));
+        .then(data => setFlights(data));
 
         service
         .get_count()
         .then(data => setCount(data.count));
     }, []);
+
+    const handleRemoveFlight = index => () => {
+        const newFlights = flights.slice(0, index).concat(flights.slice(index + 1, flights.length))
+        setFlights(newFlights)
+    }
 
     return(
         <div style={pageStyle}>
@@ -40,8 +45,8 @@ const Dashboard = () => {
                 </div>
 
                 <div style={contentStyle}>
-                    {schedule.map(flight => (
-                        <InfoBar flight={flight}/>
+                    {flights.map((flight, index) => (
+                        <FlightInfoBar flight={flight} handleRemove={handleRemoveFlight(index)}/>
                     ))}
                 </div>
             </div>

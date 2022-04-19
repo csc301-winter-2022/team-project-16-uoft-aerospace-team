@@ -42,7 +42,7 @@ const detailsTextContainerStyle = {
     justifyContent: 'center',
     alignContent: 'center',
     flexDirection: 'column',
-    width: 610,
+    width: 600,
     height: 100,
     color: 'coral',
     fontSize: 40,
@@ -82,6 +82,20 @@ const underlineStyle = {
     borderRadius: 30,
 }
 
+const buttonStyle = {
+    backgroundColor: 'transparent',
+    color: 'coral',
+    marginTop: 15,
+    width: 100,
+    height: 30,
+    border: '1px solid coral',
+    cursor: 'pointer',
+    fontStyle: 'italic',
+    fontWeight: 600,
+    fontSize: 15,
+    fontFamily: 'Times New Roman'
+}
+
 export {
     barContainerStyle,
     contentContainerStyle,
@@ -95,4 +109,5 @@ export {
     detailsLinkStyle,
     underlineContainerStyle,
     underlineStyle,
+    buttonStyle,
 }

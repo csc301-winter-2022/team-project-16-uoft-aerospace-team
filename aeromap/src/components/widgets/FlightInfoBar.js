@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 
 import {
-    barContainerStyle, contentContainerStyle, dateContainerStyle,
+    barContainerStyle, buttonStyle, contentContainerStyle, dateContainerStyle,
     detailsContainerStyle, detailsLinkStyle, detailsTextContainerStyle, 
-    hourContainerStyle, linkContainerStyle, timeContainerStyle, toolsContainerStyle, underlineContainerStyle,
+    hourContainerStyle, linkContainerStyle, timeContainerStyle,
+    toolsContainerStyle, underlineContainerStyle,
     underlineStyle,
 } from '../../styles/widgets/FlightInfoBar';
 
-const InfoBar = ({flight}) => {
+const FlightInfoBar = ({flight, handleRemove}) => {
     return(
         <div style={barContainerStyle}>
 
@@ -26,7 +27,12 @@ const InfoBar = ({flight}) => {
                     </div>
                     <div style={toolsContainerStyle}>
                         <div style={linkContainerStyle}>
-                            <Link style={detailsLinkStyle} to={`/view-flight/${flight.fid}`}> View Details </Link>
+                            <Link style={detailsLinkStyle} to={`/view-flight/${flight.fid}`}> 
+                                View Details 
+                            </Link>
+                        </div>
+                        <div>
+                            <button style={buttonStyle} onClick={handleRemove}> Remove  </button>
                         </div>
                     </div>
                 </div>
@@ -39,4 +45,4 @@ const InfoBar = ({flight}) => {
     )
 }
 
-export default InfoBar
+export default FlightInfoBar
