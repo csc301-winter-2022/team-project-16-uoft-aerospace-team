@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
 import CountUp from 'react-countup';
 import Header from './widgets/Header';
 import FlightInfoBar from './widgets/FlightInfoBar';
@@ -46,7 +47,7 @@ const Dashboard = () => {
 
                 <div style={contentStyle}>
                     {flights.map((flight, index) => (
-                        <FlightInfoBar flight={flight} handleRemove={handleRemoveFlight(index)}/>
+                        <FlightInfoBar key={nanoid()} flight={flight} handleRemove={handleRemoveFlight(index)}/>
                     ))}
                 </div>
             </div>
