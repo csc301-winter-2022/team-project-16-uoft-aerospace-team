@@ -4,6 +4,7 @@ import StyledTextField from "./widgets/StyledTextField";
 import Header from "./widgets/Header";
 import SelectCheckBoxes from "./widgets/SelectCheckBoxes";
 import InfoTable from "./widgets/InfoTable";
+import CustomToggleButton from "./widgets/CustomToggleButton";
 
 import * as service from "../services/service"
 
@@ -11,7 +12,8 @@ import pageStyle from "../styles/Page";
 import { 
   optionsContainerStyle, sortSelectStyle, 
   upArrowImg, imgStyle, downArrowImg,
-  searchFieldStyle
+  searchFieldStyle,
+  toggleContainerStyle
 } from "../styles/InfoPage";
 
 
@@ -20,7 +22,7 @@ const InfoPage = () => {
 
   const [logs, setLogs] = useState([]);
   const [page, setPage] = useState('flight');
-  const [selectedCategories, setSelectedCategories] = useState(['date','sitename']);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState(false)
   const [searchParam, setSearchParam] = useState('')
@@ -37,12 +39,46 @@ const InfoPage = () => {
   }
         
   useEffect(() => {
-    service
+    setSelectedCategories([])
+    setSortOrder(false)
+    setSearchParam('')
+
+    if (page === 'flight') {
+      service
       .get_logs()
       .then(initialLogs => setLogs(initialLogs))
-  }, []);
+    } else if (page === 'site') {
+      service
+      .get_sites()
+      .then(initialLogs => {
+        const transformedLogs = initialLogs.map(log => {
+          log['Class of Airspace'] = log.airspace_class.letter
+          delete log.airspace_class
+          delete log.emergency_contacts
+          delete log.nearby_aerodromes
+          delete log.pins
+          return log
+        })
+        setLogs(transformedLogs)
+      })
+    } else if (page === 'drone') {
+      service
+      .get_drones()
+      .then(initialLogs => {
+        const transformedLogs = initialLogs.map(log => {
+          log['Full Name'] = log.name.fullName
+          log['Short Name'] = log.name.shortName
+          log['Version Number'] = log.name.versionNum
+          delete log.name
+          return log
+        })
+        setLogs(transformedLogs)
+      })
+    }
+    
+  }, [page]);
 
-  useEffect(declareAllCategories, [logs])
+  useEffect(declareAllCategories, [logs, page])
 
   useEffect(() => {
     const keyword = searchParam.toLowerCase();
@@ -50,7 +86,13 @@ const InfoPage = () => {
         searchParam === '' 
             ? logs
             : logs.filter(log => {
-                for (const property in log) {
+                for (let property in log) {
+                  if (typeof log[property] === 'object' || typeof log[property] === 'undefined') {
+                    return false;
+                  }
+                  if (!isNaN(log[property])) {
+                    log[property] = String(log[property])
+                  }
 
                   if (log[property] instanceof Array) {
                     for (const elem of log[property]) {
@@ -103,8 +145,12 @@ const InfoPage = () => {
 
   return (
     <div style={pageStyle}>
+
+    <div style={toggleContainerStyle}>
+      <CustomToggleButton page={page} setPage={setPage}/>
+    </div>
       
-    <Header text='Flight History' />
+    <Header text='Information' />
 
       <div style={optionsContainerStyle}>
         <SelectCheckBoxes

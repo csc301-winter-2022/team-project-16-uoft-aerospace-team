@@ -62,6 +62,7 @@ const ViewFlight = () => {
         service
             .get_flight_details(fid)
             .then(({flight, site, drone}) => {
+                console.log(flight, site, drone);
                 setFlight(flight);
                 setSite(site);
                 setLat(`${site.pins[0].lat}`);
@@ -112,16 +113,16 @@ const ViewFlight = () => {
                         </div>
                     )
                 })}
+
                 <br></br>
                 Build Date: {drone.buildDate}<br></br>
                 Flight Cycles: {drone.flightCycles}<br></br>
                 lastMaintenance: {drone.lastMaintenance}<br></br><br></br>
-
                 Sitename: {site.name} <br></br>
                 Margin: {site.margin} <br></br>
-                Class of Airspace: {site.airspace_class} <br></br>
+                Class of Airspace: {site.airspace_class.letter} <br></br>
                 <br></br>
-
+                
                 Nearby Aerodromes:
                 {site.nearby_aerodromes.map(aerodrome => {
                     return (

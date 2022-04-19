@@ -1,3 +1,9 @@
+const toggleContainerStyle = {
+    position: 'absolute',
+    left: 865,
+    top: 50,
+}
+
 const optionsContainerStyle = {
     display: 'flex',
     flexDirection: 'row',
@@ -5,7 +11,7 @@ const optionsContainerStyle = {
 }
 
 const sortSelectStyle = {
-    width: 120,
+    width: 200,
     marginLeft: 20
 }
 
@@ -18,11 +24,12 @@ const imgStyle = {
 }
 
 const searchFieldStyle = {
-    marginLeft: 320,
+    marginLeft: 230,
     height: 50,
 }
 
 export {
+    toggleContainerStyle,
     optionsContainerStyle, sortSelectStyle,
     imgStyle, searchFieldStyle
  };

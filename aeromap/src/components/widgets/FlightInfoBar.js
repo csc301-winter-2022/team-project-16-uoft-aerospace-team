@@ -32,7 +32,7 @@ const FlightInfoBar = ({flight, handleRemove}) => {
                             </Link>
                         </div>
                         <div>
-                            <button style={buttonStyle} onClick={handleRemove}> Remove  </button>
+                            <button style={buttonStyle} onClick={handleRemove}> Remove </button>
                         </div>
                     </div>
                 </div>
