@@ -179,6 +179,7 @@ const InfoPage = () => {
       <InfoTable 
         headers={selectedCategories} 
         data={filteredLogs}
+        page={page}
         />
 
     </div>

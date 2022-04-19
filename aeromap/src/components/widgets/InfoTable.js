@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
 
 import {
     tableContainerStyle,
@@ -21,7 +22,7 @@ const generateHeader = (tableHeaders) => (
     </tr></thead>
 );
 
-const generateBody = (tableHeaders, tableBodyData) => 
+const generateBody = (tableHeaders, tableBodyData, navigate) => 
     <tbody style={tableBodyStyle}>
         {tableBodyData.map(rowData => {
             const tableData = [];
@@ -32,17 +33,22 @@ const generateBody = (tableHeaders, tableBodyData) =>
                     : data
                 tableData.push(<td key={nanoid()} style={cellDataStyle}>{data}</td>)});
 
-            return(<tr key={nanoid()} onClick={() => console.log('bruh')} style={rowDataStyle}>{tableData}</tr>);
+            return(<tr key={nanoid()} onClick={navigate ?  () => navigate(`/view-flight/${rowData.fid}`) : null} style={rowDataStyle}>{tableData}</tr>);
         })}
     </tbody>;
 
-const InfoTable = ({ headers, data }) => {
+const InfoTable = ({ headers, data, page }) => {
+    const navigate = useNavigate();
 
     return(
         <div style={tableContainerStyle}>
             <table style={tableStyle}>
                 {generateHeader(headers)}
-                {generateBody(headers, data)}
+                {
+                    page === 'flight'
+                    ? generateBody(headers, data, navigate)
+                    : generateBody(headers, data)
+                }
             </table>
         </div>
         
