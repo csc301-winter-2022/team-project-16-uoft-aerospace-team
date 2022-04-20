@@ -2,6 +2,7 @@ import pageStyle from "../styles/Page";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import { nanoid } from "nanoid";
 
 import * as service from "../services/service";
 
@@ -33,7 +34,7 @@ const ViewFlight = () => {
     });
 
     const onLoad = polygon => {
-        console.log("polygon: ", polygon)
+        //console.log("polygon: ", polygon)
     }
 
     const mapRef = useRef();
@@ -46,7 +47,7 @@ const ViewFlight = () => {
 
     const [flight, setFlight] = useState({});
     const [drone, setDrone] = useState({ name: {}, pilots: [], tempLimits: [] });
-    const [site, setSite] = useState({ pins: [], nearby_aerodromes: [], emergency_contacts: [], airspace_class:{} });
+    const [site, setSite] = useState({ pins: [], nearby_aerodromes: [], emergency_contacts: []});
     const [lat, setLat] = useState('43.6532');
     const [lng, setLng] = useState('-79.3832');
 
@@ -62,7 +63,6 @@ const ViewFlight = () => {
         service
             .get_flight_details(fid)
             .then(({flight, site, drone}) => {
-                console.log(flight, site, drone);
                 setFlight(flight);
                 setSite(site);
                 setLat(`${site.pins[0].lat}`);
@@ -92,7 +92,7 @@ const ViewFlight = () => {
             <div style={{ color: "white", zIndex: 0 }}>
                 Flight Id: {flight.fid} <br></br>
                 Date: {flight.date} <br></br>
-                Pilot: {flight.pilot} <br></br>
+                Pilot: {flight.pilot?.join(', ')} <br></br>
                 Notes: {flight.notes} <br></br><br></br>
 
                 Droneid: {flight.drone} <br></br>
@@ -108,7 +108,7 @@ const ViewFlight = () => {
                 Pilots:<br></br>
                 {drone.pilots.map(pilot => {
                     return (
-                        <div>
+                        <div key={nanoid()}>
                             {pilot} <br></br>
                         </div>
                     )
@@ -120,13 +120,13 @@ const ViewFlight = () => {
                 lastMaintenance: {drone.lastMaintenance}<br></br><br></br>
                 Sitename: {site.name} <br></br>
                 Margin: {site.margin} <br></br>
-                Class of Airspace: {site.airspace_class.letter} <br></br>
+                Class of Airspace: {site.airspace_class} <br></br>
                 <br></br>
                 
                 Nearby Aerodromes:
                 {site.nearby_aerodromes.map(aerodrome => {
                     return (
-                        <div>
+                        <div key={nanoid()}>
                             name: {aerodrome.name}, distance: {aerodrome.distance}, comm: {aerodrome.comm} <br></br>
                         </div>
                     )
@@ -137,7 +137,7 @@ const ViewFlight = () => {
 
                 {site.emergency_contacts.map(contact => {
                     return (
-                        <div>
+                        <div key={nanoid()}>
                             name: {contact.name}, number: {contact.number} <br></br>
                         </div>
                     )
@@ -152,7 +152,7 @@ const ViewFlight = () => {
             >
                 {(site.pins).map((marker) => (
                     <Marker
-
+                        key={nanoid()}
                         position={{ lat: marker.lat, lng: marker.lng }}
                         icon={{
                             url: "/marker.png",
@@ -165,6 +165,7 @@ const ViewFlight = () => {
 
                 {(site.pins).map(() => (
                     <Polygon
+                        key={nanoid()}
                         onLoad={onLoad}
                         paths={(site.pins)}
                         options={options}
