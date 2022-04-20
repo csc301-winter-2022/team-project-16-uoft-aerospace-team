@@ -1,6 +1,6 @@
 import Moment from "moment";
 
-const path = '/api/'
+const path = 'http://localhost:3001/api/'
 
 const get_sites = async () => {
     const res = await fetch(`${path}get-sites`);

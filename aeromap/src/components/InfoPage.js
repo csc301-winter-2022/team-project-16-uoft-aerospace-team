@@ -52,7 +52,7 @@ const InfoPage = () => {
       .get_sites()
       .then(initialLogs => {
         const transformedLogs = initialLogs.map(log => {
-          log['Class of Airspace'] = log.airspace_class.letter
+          log['Class of Airspace'] = log.airspace_class
           delete log.airspace_class
           delete log.emergency_contacts
           delete log.nearby_aerodromes
@@ -114,12 +114,17 @@ const InfoPage = () => {
     const sortParam = param.value
     const logsCopy = logs.slice()
 
-    // eslint-disable-next-line array-callback-return
-    logsCopy.sort((a, b) => {
-      if (a[sortParam] > b[sortParam]) return 1;
-      if (a[sortParam] === b[sortParam]) return 0;
-      if (a[sortParam] < b[sortParam]) return -1;
-    })
+    // cheat for numerical comparison, should look to generalize
+    if (param.value === 'margin') {
+      logsCopy.sort((a,b) => +a[sortParam] - +b[sortParam])
+    } else {
+      // eslint-disable-next-line array-callback-return
+      logsCopy.sort((a, b) => {
+        if (a[sortParam] > b[sortParam]) return 1;
+        if (a[sortParam] === b[sortParam]) return 0;
+        if (a[sortParam] < b[sortParam]) return -1;
+      })
+    }
 
     setSortOrder(true)
     setLogs(logsCopy)

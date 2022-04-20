@@ -9,6 +9,8 @@ const headerStyle = {
 }
 
 const contentStyle = {
+    maxHeight: 600,
+    overflow: 'auto',
 }
 
 export { containerStyle, headerStyle, contentStyle };

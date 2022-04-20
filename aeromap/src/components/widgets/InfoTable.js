@@ -28,8 +28,8 @@ const generateBody = (tableHeaders, tableBodyData, navigate) =>
             const tableData = [];
             tableHeaders.forEach(category => {
                 let data = rowData[category];
-                data = data instanceof Date
-                    ? data.toISOString().split('T')[0]
+                data = data instanceof Array
+                    ? data.join(', ')
                     : data
                 tableData.push(<td key={nanoid()} style={cellDataStyle}>{data}</td>)});
 

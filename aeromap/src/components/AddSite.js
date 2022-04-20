@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { GoogleMap, useLoadScript, Marker, Polygon } from '@react-google-maps/api';
+import CustomAlert from "./widgets/CustomAlert";
 
 import * as service from "../services/service";
 
@@ -43,12 +44,26 @@ const AddSite = () => {
   const [siteName, setSiteName] = useState('');
   const [margin, setMargin] = useState('');
   const [markers, setMarkers] = useState([]);
-  const [status, setStatus] = useState('');
   const [info, setInfo] = useState([]);
   const [airspace, setAirspace] = useState('');
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('')
 
   const handleSubmit = async event => {
     event.preventDefault()
+
+    if (markers.length < 3) {
+      setAlertType('warning');
+      setAlertMessage('Invalid area');
+      setAlert(true)
+      return
+    } else if (siteName === '' || margin === '') {
+      setAlertType('warning');
+      setAlertMessage('Missing field values: site name and margin must have values.');
+      setAlert(true)
+      return
+    }
 
     service
       .create_site(siteName, markers, margin)
@@ -56,10 +71,14 @@ const AddSite = () => {
         if (data === 'success') {
           setSiteName('');
           setMargin('');
-          setStatus('Successfully added');
+          setAlertType('success');
+          setAlertMessage('Successfully added');
+          setAlert(true)
         }
         else {
-          setStatus('Error adding flight');
+          setAlertType('error');
+          setAlertMessage('Error adding flight');
+          setAlert(true)
         }
       })
 
@@ -288,7 +307,7 @@ const AddSite = () => {
       </GoogleMap>
 
 
-      <div>{status}</div>
+      <CustomAlert type={alertType} message={alertMessage} alert={alert} setAlert={setAlert} />
     </div>
   );
 }
