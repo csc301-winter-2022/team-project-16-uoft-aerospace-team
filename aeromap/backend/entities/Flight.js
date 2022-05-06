@@ -1,5 +1,6 @@
 class Flight {
-    constructor(date, sitename, pilot, drone, notes) {
+    constructor(fid, date, sitename, pilot, drone, notes) {
+        this.fid = fid;
         this.date = date;
         this.sitename = sitename;
         this.pilot = pilot;

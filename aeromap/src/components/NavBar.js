@@ -4,7 +4,7 @@ import {
     navBarStyle, activeNavLinkStyle, inactiveNavLinkStyle,
     dashboardImg, logImg, siteImg, flightImg, 
     DashboardImgStyle, siteImgStyle, flightImgStyle, logImgStyle,
-    } from '../styles/navStyle';
+    } from '../styles/NavBar';
 
 const NavBar = () => {
     const navLinkStyle = ({ isActive }) => 
