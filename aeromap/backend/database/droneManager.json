@@ -1,0 +1,1 @@
+{"data":{"droneManager":{"drones":[{"droneid":"44777fa0","name":{"fullName":"Test UAV","shortName":"TUAV","versionNum":1},"MTOW":6.9,"type":"quadrotor","endurance":15,"range":6,"tempLimits":[0,40],"maxAirspeed":32.2,"pilots":["Pilot One","Pilot Two","Pilot Three"],"buildDate":"2022-03-05","flightCycles":3,"lastMaintenance":"2022-03-05"}]}}}

@@ -1,48 +1,54 @@
-// import * as services from '../backend/controllers/services'
-import pageStyle from "../styles/pageStyle";
-import { 
-    dashFlightsContainerStyle as containerStyle, 
-    dashFlightsHeaderStyle as headerStyle,
-    dashFlightContentStyle as contentStyle } from "../styles/dashboardStyle";
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
-import React, {useState} from 'react';
+import CountUp from 'react-countup';
+import Header from './widgets/Header';
+import FlightInfoBar from './widgets/FlightInfoBar';
 
+import * as service from "../services/service";
 
-const Dashboard = (props) => {
+import pageStyle from "../styles/Page";
+import { 
+    containerStyle, 
+    headerStyle,
+    contentStyle
+} from "../styles/Dashboard";
 
-    const path = props.path
+const Dashboard = () => {
 
-    const [schedule, setSchedule] = useState([]);
-
-    // Dashboard will show upcoming flights
-    // Make get request for flight data
-
-    const get_flight_schedule = async () => {
-        await fetch(`${path}get-flight-schedule`)
-        .then(res => res.json())
-        .then(data => {
-            setSchedule(JSON.parse(data));
-        })
-    }
+    const [flights, setFlights] = useState([]);
+    const [count, setCount] = useState(0);
     
-    get_flight_schedule();
+    useEffect(() => {
+        service
+        .get_flight_schedule()
+        .then(data => setFlights(data));
+
+        service
+        .get_count()
+        .then(data => setCount(data.count));
+    }, []);
+
+    const handleRemoveFlight = index => () => {
+        const newFlights = flights.slice(0, index).concat(flights.slice(index + 1, flights.length))
+        setFlights(newFlights)
+    }
 
     return(
         <div style={pageStyle}>
+            <Header text='Home' />
+            
             <div style={containerStyle}>
                 <div style={headerStyle}>
-                    <h2><strong><em>Upcoming Flights</em></strong></h2>
+                    <h2>
+                        <CountUp end={count} duration={1}/>
+                        &nbsp;&nbsp;Upcoming Flight
+                    </h2>
                 </div>
-                <div className="scrollable" style={contentStyle}>
-                    {schedule.map(flight => {
-                        return (
-                            <div key={nanoid()}>
-                                <button id="flight_button" type="button">
-                                <p>{flight.date} {flight.sitename}</p>
-                                </button>
-                            </div>
-                        )
-                    })}
+
+                <div style={contentStyle}>
+                    {flights.map((flight, index) => (
+                        <FlightInfoBar key={nanoid()} flight={flight} handleRemove={handleRemoveFlight(index)}/>
+                    ))}
                 </div>
             </div>
         </div>
