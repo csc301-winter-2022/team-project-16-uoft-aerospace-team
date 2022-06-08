@@ -1,26 +1,24 @@
 const { app, BrowserWindow, Menu } = require("electron");
 
-const path = require('path');
-const isDev = require('electron-is-dev');
+if (require('electron-squirrel-startup')) app.quit();
+
+const path = require('path')
 
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1200,
     height: 900,
     resizable: false,
+    webPreferences: {
+      frame: false,
+      nodeIntegration: true,
+      enableRemoteModule: true, //this must be true
+      preload: path.join(__dirname, '/backend/')
+    }
   });
 
-  // win.loadURL(
-  //     isDev
-  //       ? 'http://localhost:3000'
-  //       : `file://${path.join(__dirname, '../build/index.html')}`
-  // );
+  win.loadFile('build/index.html');
 
-  win.loadURL(isDev ? 'http://localhost:3000' : `file://${__dirname}/../build/index.html`);
-
-  //win.webContents.openDevTools()
-
-  // build menu from template
   const mainMenu = Menu.buildFromTemplate([]);
   Menu.setApplicationMenu(mainMenu);
 };
