@@ -1,6 +1,8 @@
 {
-  "name": "aeromap-2",
+  "name": "aeromap",
   "version": "0.1.0",
+  "authors": "Boolean Boys",
+  "description": "Application as per UofT Aerospace team's specification",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
@@ -13,6 +15,7 @@
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "immutable": "^4.0.0",
     "nanoid": "^3.3.1",
     "react": "^17.0.2",
@@ -26,16 +29,18 @@
     "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
   },
-  "main": "public/main.js",
+  "main": "main.js",
   "homepage": ".",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "electron-forge start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\" \"cd backend && npm install && node index.js\"",
     "electron:build": "npm run build && electron-builder -c.extraMetadata.main=build/main.js",
-    "electron:start": "wait-on tcp:3000 && electron ."
+    "electron:start": "wait-on tcp:3000 && electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "build": {
     "extends": null,
@@ -48,7 +53,8 @@
     ],
     "directories": {
       "buildResources": "assets"
-    }
+    },
+    "extraResources": ["./backend/**"]
   },
   "eslintConfig": {
     "extends": [
@@ -69,7 +75,38 @@
     ]
   },
   "devDependencies": {
-    "electron": "^17.1.0",
-    "electron-builder": "^22.14.13"
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "electron": "^17.1.0"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "aeromap_2"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
